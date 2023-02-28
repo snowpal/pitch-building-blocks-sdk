@@ -2,9 +2,11 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 )
 
 type HeaderKeys struct {
@@ -47,9 +49,9 @@ type Key struct {
 	Name string `json:"keyName"`
 }
 
-func newRequest(route string, method MethodType) (*http.Request, error) {
+func newRequest(route string, method MethodType, body io.Reader) (*http.Request, error) {
 	url := fmt.Sprintf("%s/%s", BaseUrl, route)
-	req, err := http.NewRequest(Method[method], url, nil)
+	req, err := http.NewRequest(Method[method], url, body)
 	if err != nil {
 		fmt.Println(err)
 		return nil, err
@@ -58,8 +60,8 @@ func newRequest(route string, method MethodType) (*http.Request, error) {
 	return req, err
 }
 
-func newRequestWithAuth(route string, method MethodType, userAuth string) (*http.Request, error) {
-	req, err := newRequest(route, method)
+func newRequestWithAuth(route string, method MethodType, userAuth string, body io.Reader) (*http.Request, error) {
+	req, err := newRequest(route, method, body)
 	if err != nil {
 		fmt.Println(err)
 		return nil, err
@@ -68,38 +70,50 @@ func newRequestWithAuth(route string, method MethodType, userAuth string) (*http
 	return req, err
 }
 
-func makeRequest(req *http.Request) json.RawMessage {
+func makeRequest(req *http.Request) (json.RawMessage, error) {
 	client := &http.Client{}
 	res, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return nil
+		return nil, err
 	}
-
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
+	if res.StatusCode == 200 || res.StatusCode == 201 {
+		defer func(Body io.ReadCloser) {
+			err := Body.Close()
+			if err != nil {
+				fmt.Println(err)
+			}
+		}(res.Body)
+		body, err := io.ReadAll(res.Body)
 		if err != nil {
 			fmt.Println(err)
+			return nil, err
 		}
-	}(res.Body)
-
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		fmt.Println(err)
-		return nil
+		return body, err
+	} else if res.StatusCode == 204 {
+		return nil, nil
 	}
-	return body
+	return nil, errors.New(res.Status)
 }
 
 func registerUser() User {
 	var user User
-	req, err := newRequest("/app/users/sign-up", POST)
+	body := strings.NewReader(`{
+		"email": "apiuser4@gmail.com",
+		"password": "Welcome1!",
+		"confirmPassword": "Welcome1!"
+	}`)
+	req, err := newRequest("/app/users/sign-up", POST, body)
 	if err != nil {
 		fmt.Println(err)
 		return user
 	}
-	response := makeRequest(req)
-	err = json.Unmarshal(response, &user)
+	res, err := makeRequest(req)
+	if err != nil {
+		fmt.Println(err)
+		return user
+	}
+	err = json.Unmarshal(res, &user)
 	if err != nil {
 		fmt.Println(err)
 		return user
@@ -109,25 +123,37 @@ func registerUser() User {
 }
 
 func activateUser(userId string) bool {
-	req, err := newRequest(fmt.Sprintf("/app/user-verified/%s", userId), PATCH)
+	req, err := newRequest(fmt.Sprintf("/app/user-verified/%s", userId), PATCH, nil)
 	if err != nil {
 		fmt.Println(err)
 		return false
 	}
-	makeRequest(req)
+	_, err = makeRequest(req)
+	if err != nil {
+		fmt.Println(err)
+		return false
+	}
 	fmt.Println("User is activated")
 	return true
 }
 
 func loginUser() User {
+	body := strings.NewReader(`{
+		"email": "apiuser4@gmail.com",
+		"password": "Welcome1!"
+	}`)
 	var user User
-	req, err := newRequest("/app/users/sign-in", POST)
+	req, err := newRequest("/app/users/sign-in", POST, body)
 	if err != nil {
 		fmt.Println(err)
 		return user
 	}
-	response := makeRequest(req)
-	err = json.Unmarshal(response, &user)
+	res, err := makeRequest(req)
+	if err != nil {
+		fmt.Println(err)
+		return user
+	}
+	err = json.Unmarshal(res, &user)
 	if err != nil {
 		fmt.Println(err)
 		return user
@@ -137,14 +163,18 @@ func loginUser() User {
 }
 
 func getAllKeys(userAuth string) []Key {
-	req, err := newRequestWithAuth("/keys", GET, userAuth)
+	req, err := newRequestWithAuth("/keys", GET, userAuth, nil)
 	if err != nil {
 		fmt.Println(err)
 		return nil
 	}
-	response := makeRequest(req)
+	res, err := makeRequest(req)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
 	keysResponse := map[string][]Key{}
-	err = json.Unmarshal(response, &keysResponse)
+	err = json.Unmarshal(res, &keysResponse)
 	if err != nil {
 		fmt.Println(err)
 		return nil
@@ -160,13 +190,17 @@ func printKeys(keys []Key) {
 
 func addNewKey(userAuth string) Key {
 	var key Key
-	req, err := newRequestWithAuth("/keys", POST, userAuth)
+	req, err := newRequestWithAuth("/keys", POST, userAuth, nil)
 	if err != nil {
 		fmt.Println(err)
 		return key
 	}
-	response := makeRequest(req)
-	err = json.Unmarshal(response, &key)
+	res, err := makeRequest(req)
+	if err != nil {
+		fmt.Println(err)
+		return key
+	}
+	err = json.Unmarshal(res, &key)
 	if err != nil {
 		fmt.Println(err)
 		return key
@@ -177,13 +211,17 @@ func addNewKey(userAuth string) Key {
 
 func getProfile(userAuth string) User {
 	var user User
-	req, err := newRequestWithAuth("/profiles", GET, userAuth)
+	req, err := newRequestWithAuth("/profiles", GET, userAuth, nil)
 	if err != nil {
 		fmt.Println(err)
 		return user
 	}
-	response := makeRequest(req)
-	err = json.Unmarshal(response, &user)
+	res, err := makeRequest(req)
+	if err != nil {
+		fmt.Println(err)
+		return user
+	}
+	err = json.Unmarshal(res, &user)
 	if err != nil {
 		fmt.Println(err)
 		return user
@@ -193,39 +231,77 @@ func getProfile(userAuth string) User {
 }
 
 func updateUsername(userAuth string, username string) bool {
-	req, err := newRequestWithAuth(fmt.Sprintf("/profiles/username/%s", username), PATCH, userAuth)
+	req, err := newRequestWithAuth(fmt.Sprintf("/profiles/username/%s", username), PATCH, userAuth, nil)
 	if err != nil {
 		fmt.Println(err)
 		return false
 	}
-	makeRequest(req)
+	_, err = makeRequest(req)
+	if err != nil {
+		fmt.Println(err)
+		return false
+	}
 	fmt.Println("Username is updated")
 	return true
 }
 
-func main() {
+func createRecipe1() {
 	fmt.Println("Recipe1")
 	user := registerUser()
-	activateUser(user.ID)
+	if user.ID == "" {
+		return
+	}
+	succeed := activateUser(user.ID)
+	if !succeed {
+		return
+	}
 	user = loginUser()
+	if user.JwtToken == "" {
+		return
+	}
 	keys := getAllKeys(user.JwtToken)
 	if keys != nil {
 		printKeys(keys)
 	}
+}
 
+func createRecipe2() {
 	fmt.Println("Recipe2")
-	user = loginUser()
-	addNewKey(user.JwtToken)
-	keys = getAllKeys(user.JwtToken)
+	user := loginUser()
+	if user.JwtToken == "" {
+		return
+	}
+	key := addNewKey(user.JwtToken)
+	if key.ID == "" {
+		return
+	}
+	keys := getAllKeys(user.JwtToken)
 	if keys != nil {
 		printKeys(keys)
 	}
+}
 
+func createRecipe3() {
 	fmt.Println("Recipe3")
-	user = loginUser()
+	user := loginUser()
+	if user.JwtToken == "" {
+		return
+	}
 	user = getProfile(user.JwtToken)
+	if user.Username == "" {
+		return
+	}
 	fmt.Println(fmt.Sprintf("Username: %s", user.Username))
-	updateUsername(user.JwtToken, "unique_username")
+	succeed := updateUsername(user.JwtToken, "unique_username")
+	if !succeed {
+		return
+	}
 	user = getProfile(user.JwtToken)
-	fmt.Println(fmt.Sprintf("Username: %s", user.Username))
+	fmt.Println(fmt.Sprintf("After update Username: %s", user.Username))
+}
+
+func main() {
+	createRecipe1()
+	createRecipe2()
+	createRecipe3()
 }
