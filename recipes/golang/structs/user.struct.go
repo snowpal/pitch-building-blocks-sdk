@@ -1,7 +1,11 @@
 package structs
 
-type UserRegistration struct {
+type User struct {
+	Registration UserSignIn `json:"user"`
+}
+
+type UserSignIn struct {
 	ID       string `json:"id"`
-	Username string `json:"username"`
+	Inactive bool   `json:"inactive"`
 	JwtToken string `json:"jwtToken"`
 }

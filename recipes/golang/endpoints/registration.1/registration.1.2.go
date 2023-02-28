@@ -1,13 +1,16 @@
 package registration_1
 
 import (
+	"development/go/recipies/structs"
+	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strings"
 )
 
-func SignIn() {
+func SignIn() (structs.User, error) {
+	var userRegistration structs.User
 
 	url := "https://gateway-dev.snowpal.com/app/users/sign-in"
 	method := "POST"
@@ -22,22 +25,33 @@ func SignIn() {
 
 	if err != nil {
 		fmt.Println(err)
-		return
+		return userRegistration, err
 	}
 	req.Header.Add("x-api-key", "wf8sHELzWp9MGizZME5Zsjk4IntZS0e8mdYMYjjg")
 	req.Header.Add("Content-Type", "application/json")
 
-	res, err := client.Do(req)
+	res, _ := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return userRegistration, err
 	}
-	defer res.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			return
+		}
+	}(res.Body)
 
-	body, err := ioutil.ReadAll(res.Body)
+	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return userRegistration, err
 	}
-	fmt.Println(string(body))
+
+	err = json.Unmarshal(body, &userRegistration)
+	if err != nil {
+		return userRegistration, err
+	}
+
+	return userRegistration, nil
 }
