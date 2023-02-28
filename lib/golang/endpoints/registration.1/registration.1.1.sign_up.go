@@ -2,7 +2,7 @@ package registration_1
 
 import (
 	"development/go/recipes/lib/golang"
-	"development/go/recipes/lib/golang/endpoints/structs"
+	"development/go/recipes/lib/golang/structs"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -46,7 +46,6 @@ func Signup(email string) (structs.UserSignedUp, error) {
 		return userSignedUp, err
 	}
 
-	fmt.Println(string(body))
 	err = json.Unmarshal(body, &userSignedUp)
 	if err != nil {
 		return userSignedUp, err
