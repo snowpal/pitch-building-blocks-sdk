@@ -19,8 +19,8 @@ var headerKeys = HeaderKeys{
 	UserAuth: "User-Authorization",
 }
 
-const AwsXApiKey = "xANSs9CMtP24cMh2eNUeG2qh5PMlh46u6hceHEDW"
-const BaseUrl = "https://gateway.snowpal.com"
+const AwsXApiKey = "wf8sHELzWp9MGizZME5Zsjk4IntZS0e8mdYMYjjg"
+const BaseUrl = "https://gateway-dev.snowpal.com"
 
 type MethodType int
 
@@ -57,6 +57,7 @@ func newRequest(route string, method MethodType, body io.Reader) (*http.Request,
 		return nil, err
 	}
 	req.Header.Add(headerKeys.ApiKey, AwsXApiKey)
+	req.Header.Add("Content-Type", "application/json")
 	return req, err
 }
 
@@ -90,36 +91,40 @@ func makeRequest(req *http.Request) (json.RawMessage, error) {
 			return nil, err
 		}
 		return body, err
-	} else if res.StatusCode == 204 {
+	}
+	if res.StatusCode == 204 {
 		return nil, nil
 	}
 	return nil, errors.New(res.Status)
 }
 
-func registerUser() User {
+func registerUser() (User, error) {
 	var user User
 	body := strings.NewReader(`{
-		"email": "apiuser4@gmail.com",
+		"email": "apiuser_code1@gmail.com",
 		"password": "Welcome1!",
 		"confirmPassword": "Welcome1!"
 	}`)
 	req, err := newRequest("/app/users/sign-up", POST, body)
 	if err != nil {
 		fmt.Println(err)
-		return user
+		return user, err
 	}
 	res, err := makeRequest(req)
 	if err != nil {
 		fmt.Println(err)
-		return user
+		return user, err
 	}
-	err = json.Unmarshal(res, &user)
+	fmt.Println(string(res))
+	userResponse := map[string]User{}
+	err = json.Unmarshal(res, &userResponse)
 	if err != nil {
 		fmt.Println(err)
-		return user
+		return user, err
 	}
+	user = userResponse["user"]
 	fmt.Println(fmt.Sprintf("User is registered, and id is %s", user.ID))
-	return user
+	return user, err
 }
 
 func activateUser(userId string) bool {
@@ -139,7 +144,7 @@ func activateUser(userId string) bool {
 
 func loginUser() User {
 	body := strings.NewReader(`{
-		"email": "apiuser4@gmail.com",
+		"email": "apiuser_code1@gmail.com",
 		"password": "Welcome1!"
 	}`)
 	var user User
@@ -153,11 +158,13 @@ func loginUser() User {
 		fmt.Println(err)
 		return user
 	}
-	err = json.Unmarshal(res, &user)
+	userResponse := map[string]User{}
+	err = json.Unmarshal(res, &userResponse)
 	if err != nil {
 		fmt.Println(err)
 		return user
 	}
+	user = userResponse["user"]
 	fmt.Println("User is logged in")
 	return user
 }
@@ -247,8 +254,8 @@ func updateUsername(userAuth string, username string) bool {
 
 func createRecipe1() {
 	fmt.Println("Recipe1")
-	user := registerUser()
-	if user.ID == "" {
+	user, err := registerUser()
+	if err != nil {
 		return
 	}
 	succeed := activateUser(user.ID)
