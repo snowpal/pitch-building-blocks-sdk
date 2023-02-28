@@ -34,5 +34,6 @@ func Activate(userId string) {
 		fmt.Println(err)
 		return
 	}
-	fmt.Println(string(body))
+
+	fmt.Println("..activated user", string(body))
 }

@@ -9,7 +9,7 @@ import (
 
 func GetAllKeys(jwtToken string) {
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodGet, constants.UrlSignUp, nil)
+	req, err := http.NewRequest(http.MethodGet, constants.UrlGeyKeys, nil)
 
 	if err != nil {
 		fmt.Println(err)

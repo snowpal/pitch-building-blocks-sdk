@@ -10,8 +10,8 @@ import (
 	"strings"
 )
 
-func SignIn(email string) (structs.User, error) {
-	var userRegistration structs.User
+func SignIn(email string) (structs.UserSignedIn, error) {
+	var userRegistration structs.UserSignedIn
 	payload := strings.NewReader(fmt.Sprintf(`{
 		"email": "%s",
 		"password": "Welcome1!"
