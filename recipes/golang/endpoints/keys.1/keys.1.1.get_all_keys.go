@@ -3,7 +3,7 @@ package keys_1
 import (
 	constants "development/go/recipes/endpoints"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 )
 
@@ -18,14 +18,19 @@ func GetAllKeys(jwtToken string) {
 	req.Header.Add("User-Authorization", jwtToken)
 	req.Header.Add("x-api-key", constants.XApiKey)
 
-	res, err := client.Do(req)
+	res, _ := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	defer res.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			return
+		}
+	}(res.Body)
 
-	body, err := ioutil.ReadAll(res.Body)
+	body, _ := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
 		return
