@@ -1,15 +1,12 @@
 package registration_1
 
 import (
+	"development/go/recipes/endpoints"
 	"fmt"
 	"io"
 	"net/http"
 	"strings"
 )
-
-const Url = "https://gateway-dev.snowpal.com/app/users/sign-up"
-const ApiKey = "wf8sHELzWp9MGizZME5Zsjk4IntZS0e8mdYMYjjg"
-const method = "POST"
 
 func Signup(email string) {
 	payload := strings.NewReader(fmt.Sprintf(`{
@@ -19,16 +16,16 @@ func Signup(email string) {
 	}`, email))
 
 	client := &http.Client{}
-	req, err := http.NewRequest(method, Url, payload)
+	req, err := http.NewRequest(http.MethodPost, endpoints.Url, payload)
 
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	req.Header.Add("x-api-key", ApiKey)
+	req.Header.Add("x-api-key", endpoints.ApiKey)
 	req.Header.Add("Content-Type", "application/json")
 
-	res, err := client.Do(req)
+	res, _ := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -36,7 +33,7 @@ func Signup(email string) {
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
 		if err != nil {
-
+			return
 		}
 	}(res.Body)
 

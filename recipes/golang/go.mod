@@ -1,4 +1,4 @@
-module development/go/recipies
+module development/go/recipes
 
 go 1.19
 

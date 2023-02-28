@@ -1,7 +1,8 @@
 package registration_1
 
 import (
-	"development/go/recipies/structs"
+	"development/go/recipes/endpoints"
+	"development/go/recipes/structs"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -9,25 +10,21 @@ import (
 	"strings"
 )
 
-func SignIn() (structs.User, error) {
+func SignIn(email string) (structs.User, error) {
 	var userRegistration structs.User
-
-	url := "https://gateway-dev.snowpal.com/app/users/sign-in"
-	method := "POST"
-
-	payload := strings.NewReader(`{
-		"email": "apiuser3@gmail.com",
+	payload := strings.NewReader(fmt.Sprintf(`{
+		"email": "%s",
 		"password": "Welcome1!"
-	}`)
+	}`, email))
 
 	client := &http.Client{}
-	req, err := http.NewRequest(method, url, payload)
+	req, err := http.NewRequest(http.MethodPost, endpoints.Url, payload)
 
 	if err != nil {
 		fmt.Println(err)
 		return userRegistration, err
 	}
-	req.Header.Add("x-api-key", "wf8sHELzWp9MGizZME5Zsjk4IntZS0e8mdYMYjjg")
+	req.Header.Add("x-api-key", endpoints.ApiKey)
 	req.Header.Add("Content-Type", "application/json")
 
 	res, _ := client.Do(req)
@@ -42,7 +39,7 @@ func SignIn() (structs.User, error) {
 		}
 	}(res.Body)
 
-	body, err := io.ReadAll(res.Body)
+	body, _ := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
 		return userRegistration, err
