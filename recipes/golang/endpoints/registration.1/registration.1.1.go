@@ -2,30 +2,30 @@ package registration_1
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strings"
 )
 
+const Url = "https://gateway-dev.snowpal.com/app/users/sign-up"
+const ApiKey = "wf8sHELzWp9MGizZME5Zsjk4IntZS0e8mdYMYjjg"
+const method = "POST"
+
 func Signup(email string) {
-
-	url := "https://gateway-dev.snowpal.com/app/users/sign-up"
-	method := "POST"
-
-	payload := strings.NewReader(`{
-		"email": "apiuser_code4@yopmail.com",
+	payload := strings.NewReader(fmt.Sprintf(`{
+		"email": %s,
 		"password": "Welcome1!",
 		"confirmPassword": "Welcome1!"
-	}`)
+	}`, email))
 
 	client := &http.Client{}
-	req, err := http.NewRequest(method, url, payload)
+	req, err := http.NewRequest(method, Url, payload)
 
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	req.Header.Add("x-api-key", "wf8sHELzWp9MGizZME5Zsjk4IntZS0e8mdYMYjjg")
+	req.Header.Add("x-api-key", ApiKey)
 	req.Header.Add("Content-Type", "application/json")
 
 	res, err := client.Do(req)
@@ -33,9 +33,14 @@ func Signup(email string) {
 		fmt.Println(err)
 		return
 	}
-	defer res.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
 
-	body, err := ioutil.ReadAll(res.Body)
+		}
+	}(res.Body)
+
+	body, _ := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
 		return
