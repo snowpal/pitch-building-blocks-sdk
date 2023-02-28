@@ -15,7 +15,7 @@ func Activate(userId string) {
 		fmt.Println(err)
 		return
 	}
-	req.Header.Add("x-api-key", endpoints.ApiKey)
+	req.Header.Add("x-api-key", endpoints.XApiKey)
 
 	res, _ := client.Do(req)
 	if err != nil {

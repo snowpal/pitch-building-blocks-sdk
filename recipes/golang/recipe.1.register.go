@@ -9,7 +9,7 @@ import (
 	"fmt"
 )
 
-const Email = "api_krish_13@yopmail.com"
+const Email = "api_krish_16@yopmail.com"
 
 func main() {
 	log.Info(".sign up user with email: ", Email)

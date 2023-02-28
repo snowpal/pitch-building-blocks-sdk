@@ -16,7 +16,7 @@ func GetAllKeys(jwtToken string) {
 		return
 	}
 	req.Header.Add("User-Authorization", jwtToken)
-	req.Header.Add("x-api-key", constants.ApiKey)
+	req.Header.Add("x-api-key", constants.XApiKey)
 
 	res, err := client.Do(req)
 	if err != nil {

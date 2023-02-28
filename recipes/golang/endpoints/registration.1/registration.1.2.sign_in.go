@@ -24,7 +24,7 @@ func SignIn(email string) (structs.UserSignedIn, error) {
 		fmt.Println(err)
 		return userRegistration, err
 	}
-	req.Header.Add("x-api-key", endpoints.ApiKey)
+	req.Header.Add("x-api-key", endpoints.XApiKey)
 	req.Header.Add("Content-Type", "application/json")
 
 	res, _ := client.Do(req)
