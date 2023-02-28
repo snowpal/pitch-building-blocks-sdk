@@ -4,9 +4,9 @@ import (
 	"development/go/recipes/lib/golang"
 	keys "development/go/recipes/lib/golang/endpoints/keys.1"
 	registration "development/go/recipes/lib/golang/endpoints/registration.1"
+	"development/go/recipes/lib/golang/structs"
 	log "github.com/sirupsen/logrus"
 
-	"development/go/recipes/lib/golang/endpoints/structs"
 	"fmt"
 )
 

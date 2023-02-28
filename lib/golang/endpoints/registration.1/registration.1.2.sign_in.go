@@ -2,7 +2,7 @@ package registration_1
 
 import (
 	"development/go/recipes/lib/golang"
-	"development/go/recipes/lib/golang/endpoints/structs"
+	"development/go/recipes/lib/golang/structs"
 
 	"encoding/json"
 	"fmt"
