@@ -18,7 +18,7 @@ func SignIn(email string) (structs.User, error) {
 	}`, email))
 
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodPost, endpoints.Url, payload)
+	req, err := http.NewRequest(http.MethodPost, endpoints.UrlSignIn, payload)
 
 	if err != nil {
 		fmt.Println(err)

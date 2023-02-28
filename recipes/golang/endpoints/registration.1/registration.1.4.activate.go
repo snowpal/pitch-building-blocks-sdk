@@ -7,9 +7,9 @@ import (
 	"net/http"
 )
 
-func Activate() {
+func Activate(userId string) {
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodPatch, endpoints.Url, nil)
+	req, err := http.NewRequest(http.MethodPatch, fmt.Sprintf(endpoints.UrlActivate, userId), nil)
 
 	if err != nil {
 		fmt.Println(err)
