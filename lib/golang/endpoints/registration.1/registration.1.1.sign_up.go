@@ -46,7 +46,6 @@ func Signup(email string) (structs.UserSignedUp, error) {
 		return userSignedUp, err
 	}
 
-	fmt.Println(string(body))
 	err = json.Unmarshal(body, &userSignedUp)
 	if err != nil {
 		return userSignedUp, err
