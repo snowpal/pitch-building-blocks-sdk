@@ -1,8 +1,8 @@
 package registration_1
 
 import (
-	"development/go/recipes/endpoints"
-	"development/go/recipes/structs"
+	"development/go/recipes/lib/golang"
+	"development/go/recipes/lib/golang/endpoints/structs"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -19,13 +19,13 @@ func Signup(email string) (structs.UserSignedUp, error) {
 	}`, email))
 
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodPost, endpoints.UrlSignUp, payload)
+	req, err := http.NewRequest(http.MethodPost, golang.UrlSignUp, payload)
 
 	if err != nil {
 		fmt.Println(err)
 		return userSignedUp, err
 	}
-	req.Header.Add("x-api-key", endpoints.XApiKey)
+	req.Header.Add("x-api-key", golang.XApiKey)
 	req.Header.Add("Content-Type", "application/json")
 
 	res, _ := client.Do(req)

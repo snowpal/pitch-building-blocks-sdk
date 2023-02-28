@@ -1,4 +1,4 @@
-package endpoints
+package golang
 
 const Host = "https://gateway-dev.snowpal.com/"
 const XApiKey = "wf8sHELzWp9MGizZME5Zsjk4IntZS0e8mdYMYjjg"
