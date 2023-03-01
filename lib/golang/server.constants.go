@@ -28,3 +28,7 @@ const (
 	RouteAddBlock              = "keys/%s/blocks"
 	RouteGetBlocksLinkedToPods = "pods/%s/linked-to/blocks?keyId=%s"
 )
+
+const (
+	RouteGetBlockPods = "blocks/%s/pods?batchIndex=%s&keyId=%s"
+)
