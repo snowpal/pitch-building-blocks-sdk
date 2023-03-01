@@ -11,6 +11,8 @@ const (
 )
 
 const (
-	UrlGetAttributes       = Host + "app/resource/attributes"
-	UrlUpdateKeyAttributes = Host + "keys/%s/attributes"
+	UrlGetAttributes         = Host + "app/resource/attributes"
+	UrlUpdateKeyAttributes   = Host + "keys/%s/attributes"
+	UrlUpdateBlockAttributes = Host + "blocks/%s/attributes"
+	UrlUpdatePodAttributes   = Host + "pods/%s/attributes"
 )

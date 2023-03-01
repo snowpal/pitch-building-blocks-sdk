@@ -18,4 +18,10 @@ func main() {
 
 	log.Info(".TODO(): get a key, and use it below")
 	attributes.UpdateKeyAttrs(userSignIn.Registration.JwtToken, "")
+
+	log.Info(".TODO(): get a block, and use it below")
+	attributes.UpdateBlockAttrs(userSignIn.Registration.JwtToken, "")
+
+	log.Info(".TODO(): get a pod, and use it below")
+	attributes.UpdatePodAttrs(userSignIn.Registration.JwtToken, "")
 }
