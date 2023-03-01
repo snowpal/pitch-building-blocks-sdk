@@ -2,49 +2,41 @@ package attributes_1
 
 import (
 	"development/go/recipes/lib/golang"
-	"development/go/recipes/lib/golang/structs"
-	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 )
 
-func GetResourceAttrs(jwtToken string) (structs.ResourceAttributes, error) {
-	var resourceAttrs structs.ResourceAttributes
-
+func UpdateKeyAttrs(jwtToken string, keyId string) {
+	payload := strings.NewReader(`{"showAttribute":"show_attribute","attributeNames":"view[attribute_names]"}`)
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodGet, golang.UrlGetAttributes, nil)
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf(golang.UrlUpdateKeyAttributes, keyId), payload)
 
 	if err != nil {
 		fmt.Println(err)
-		return resourceAttrs, err
+		return
 	}
 	req.Header.Add("User-Authorization", jwtToken)
 	req.Header.Add("x-api-key", golang.XApiKey)
+	req.Header.Add("Content-Type", "application/json")
 
 	res, _ := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return resourceAttrs, err
+		return
 	}
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
 		if err != nil {
-			return
+
 		}
 	}(res.Body)
 
 	body, _ := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return resourceAttrs, err
+		return
 	}
 	fmt.Println(string(body))
-
-	err = json.Unmarshal(body, &resourceAttrs)
-	if err != nil {
-		return resourceAttrs, err
-	}
-
-	return resourceAttrs, nil
 }

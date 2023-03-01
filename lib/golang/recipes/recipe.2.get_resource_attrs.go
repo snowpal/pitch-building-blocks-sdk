@@ -17,7 +17,7 @@ func main() {
 	}
 
 	log.Info(".get all keys: ", userSignIn.Registration.ID)
-	resourceAttrs, _ := attributes.GetResourceAttributes(userSignIn.Registration.JwtToken)
+	resourceAttrs, _ := attributes.GetResourceAttrs(userSignIn.Registration.JwtToken)
 	if err != nil {
 		return
 	}
