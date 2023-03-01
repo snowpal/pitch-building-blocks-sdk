@@ -12,6 +12,7 @@ import (
 
 func Signup(email string) (structs.UserSignedUp, error) {
 	var userSignedUp structs.UserSignedUp
+	fmt.Println("TODO: Replace with struct")
 	payload := strings.NewReader(fmt.Sprintf(`{
 		"email": "%s",
 		"password": "Welcome1!",
