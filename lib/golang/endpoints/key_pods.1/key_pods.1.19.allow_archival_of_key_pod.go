@@ -10,7 +10,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "pods/%s/allow-archival?keyId=67mnw82huw218472984b398h"
+	url := "pods/%s/allow-archival?keyId=%s"
 	method := "PATCH"
 
 	payload := strings.NewReader(`{"allowArchival":"allow_delete"}`)

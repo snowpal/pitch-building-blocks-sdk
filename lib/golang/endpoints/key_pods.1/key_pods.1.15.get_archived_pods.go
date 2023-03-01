@@ -9,7 +9,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "pods/archived?keyId=67mnw82huw218472984b398h&batchIndex=batchIndex"
+	url := "pods/archived?keyId=%s&batchIndex=%s"
 	method := "GET"
 
 	client := &http.Client{}

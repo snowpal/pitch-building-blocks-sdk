@@ -10,7 +10,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "block-pod-comments/%s?keyId=%s&blockId=%s&podId=33bwn23fje782486247d248h"
+	url := "block-pod-comments/%s?keyId=%s&blockId=%s&podId=%s"
 	method := "PATCH"
 
 	payload := strings.NewReader(`{"commentText":"comment[comment_text]","taggedUserIds":"comment[tagged_user_ids]"}`)

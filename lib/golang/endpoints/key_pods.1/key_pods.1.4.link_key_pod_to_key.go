@@ -10,7 +10,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "keys/%s/pods/:pod-id/link"
+	url := "keys/%s/pods/%s/link"
 	method := "PATCH"
 
 	payload := strings.NewReader(``)

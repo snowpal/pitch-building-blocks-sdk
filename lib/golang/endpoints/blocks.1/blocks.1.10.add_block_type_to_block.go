@@ -10,7 +10,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "blocks/%7B%7Bblocks.blockId%7D%7D/block-types/%7B%7BblockTypes.blockTypeId%7D%7D?keyId=%7B%7Bkeys.custom.keyId1%7D%7D"
+	url := "blocks/%s/block-types/%s?keyId=%s"
 	method := "PATCH"
 
 	payload := strings.NewReader(``)

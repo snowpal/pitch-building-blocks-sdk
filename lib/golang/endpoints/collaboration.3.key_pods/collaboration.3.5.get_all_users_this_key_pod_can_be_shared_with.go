@@ -9,7 +9,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "search/pods/%s/shareable/users?keyId=%s&token=token"
+	url := "search/pods/%s/shareable/users?keyId=%s&token=%s"
 	method := "GET"
 
 	client := &http.Client{}

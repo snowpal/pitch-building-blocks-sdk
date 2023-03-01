@@ -9,7 +9,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "key-pod-attachments/%s?keyId=%s&podId=33ceb29edb035900138d975d"
+	url := "key-pod-attachments/%s?keyId=%s&podId=%s"
 	method := "DELETE"
 
 	client := &http.Client{}

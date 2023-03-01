@@ -10,7 +10,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "blocks/%s/users/:user-id/acl?keyId=%s"
+	url := "blocks/%s/users/%s/acl?keyId=%s"
 	method := "PATCH"
 
 	payload := strings.NewReader(`{"blockAcl":"course[acl]"}`)

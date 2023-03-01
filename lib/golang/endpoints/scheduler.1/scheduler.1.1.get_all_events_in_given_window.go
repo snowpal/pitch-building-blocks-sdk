@@ -9,7 +9,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "scheduler/all-events?startDate=2023-01-01T14:29:52.934Z&endDate=2023-02-22T14:29:52.934Z"
+	url := "scheduler/all-events?startDate=%s&endDate=%s"
 	method := "GET"
 
 	client := &http.Client{}

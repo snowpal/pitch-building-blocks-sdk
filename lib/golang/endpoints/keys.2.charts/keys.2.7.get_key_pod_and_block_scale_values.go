@@ -9,7 +9,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "charts/keys/%s/scales/:scale-id/scale-values"
+	url := "charts/keys/%s/scales/%s/scale-values"
 	method := "GET"
 
 	client := &http.Client{}
