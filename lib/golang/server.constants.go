@@ -3,7 +3,9 @@ package golang
 const XApiKey = "wf8sHELzWp9MGizZME5Zsjk4IntZS0e8mdYMYjjg"
 
 const (
-	HostDev = "https://gateway-dev.snowpal.com/"
+	HostProd    = "https://gateway.snowpal.com/"
+	HostStaging = "https://gateway-staging.snowpal.com/"
+	HostDev     = "https://gateway-dev.snowpal.com/"
 )
 
 const (
