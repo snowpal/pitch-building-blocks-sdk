@@ -13,7 +13,7 @@ func UpdateKeyAttrs(jwtToken string, keyId string) {
 	fmt.Println("TODO: Replace with struct")
 	payload := strings.NewReader(`{"showAttribute":"show_attribute","attributeNames":"view[attribute_names]"}`)
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf(golang.RouteUpdateKeyAttributes, keyId), payload)
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf(golang.RouteAttributesUpdateKeyDisplayAttributes, keyId), payload)
 
 	if err != nil {
 		fmt.Println(err)

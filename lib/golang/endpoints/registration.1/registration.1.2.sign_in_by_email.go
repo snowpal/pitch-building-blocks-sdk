@@ -21,7 +21,7 @@ func SignIn(email string) (structs.UserSignedIn, error) {
 	}`, email))
 
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodPost, helpers.GetRoute(golang.RouteSignIn), payload)
+	req, err := http.NewRequest(http.MethodPost, helpers.GetRoute(golang.RouteRegistrationSignInByEmail), payload)
 
 	if err != nil {
 		fmt.Println(err)

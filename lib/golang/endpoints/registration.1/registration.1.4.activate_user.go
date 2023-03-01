@@ -10,7 +10,7 @@ import (
 
 func Activate(userId string) {
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodPatch, fmt.Sprintf(helpers.GetRoute(golang.RouteActivate), userId), nil)
+	req, err := http.NewRequest(http.MethodPatch, fmt.Sprintf(helpers.GetRoute(golang.RouteRegistrationActivateUser), userId), nil)
 
 	if err != nil {
 		fmt.Println(err)

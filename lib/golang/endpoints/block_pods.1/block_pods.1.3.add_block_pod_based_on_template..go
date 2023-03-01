@@ -1,6 +1,7 @@
 package block_pods
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
 	"fmt"
 	"io"
@@ -8,15 +9,10 @@ import (
 	"strings"
 )
 
-func main(jwtToken string) {
-
-	url := "https://gateway.snowpal.com/blocks/:id/pods/by-template?keyId=63ceb29edb035900138d975d&templateId=83yuz28ksn823022876m107v&excludeTasks"
-	method := "POST"
-
+func AddBlockPodBasedOnTemplate(jwtToken string) {
 	payload := strings.NewReader(`{"podName":"assessment[assessment_name]"}`)
-
 	client := &http.Client{}
-	req, err := http.NewRequest(method, url, payload)
+	req, err := http.NewRequest(http.MethodPost, helpers.GetRoute(fmt.Sprintf(golang.RouteBlockPodsAddBlockPodBasedOnTemplate, "", "", "", "")), payload)
 
 	if err != nil {
 		fmt.Println(err)

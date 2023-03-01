@@ -10,7 +10,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "https://gateway.snowpal.com/block-pod-tasks/:id/unassign?keyId=63ceb29edb035900138d975d&blockId=93bwn23fje782486247d248h&podId=67mnw82huw218472984b398h"
+	url := "block-pod-tasks/%s/unassign?keyId=%s&blockId=%s&podId=67mnw82huw218472984b398h"
 	method := "PATCH"
 
 	payload := strings.NewReader(`{"userIds":"user_ids"}`)

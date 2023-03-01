@@ -10,7 +10,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "https://gateway.snowpal.com/classroom-pods/students/63cabea69e9c500014d4f9b7/grades/publish?blockId=%7B%7Bblocks.teacherBlockId%7D%7D&keyId=%7B%7Bkeys.teacher.keyId1%7D%7D"
+	url := "classroom-pods/students/63cabea69e9c500014d4f9b7/grades/publish?blockId=%7B%7Bblocks.teacherBlockId%7D%7D&keyId=%7B%7Bkeys.teacher.keyId1%7D%7D"
 	method := "PATCH"
 
 	payload := strings.NewReader(`{"podIds":"63ec12a8f1a0b80010ec6889"}`)

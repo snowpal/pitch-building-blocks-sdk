@@ -10,7 +10,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "https://gateway.snowpal.com/blocks/:id/allow-archival?keyId=63ceb29edb035900138d975d"
+	url := "blocks/%s/allow-archival?keyId=%s"
 	method := "PATCH"
 
 	payload := strings.NewReader(`{"allowArchival":"allow_delete"}`)

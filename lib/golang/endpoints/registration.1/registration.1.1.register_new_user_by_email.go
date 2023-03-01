@@ -21,7 +21,7 @@ func Signup(email string) (structs.UserSignedUp, error) {
 	}`, email))
 
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodPost, helpers.GetRoute(golang.RouteSignUp), payload)
+	req, err := http.NewRequest(http.MethodPost, helpers.GetRoute(golang.RouteRegistrationRegisterNewUserByEmail), payload)
 
 	if err != nil {
 		fmt.Println(err)

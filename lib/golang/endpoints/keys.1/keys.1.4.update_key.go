@@ -10,7 +10,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "https://gateway.snowpal.com/keys/63f523e0decfef003782dad8"
+	url := "keys/63f523e0decfef003782dad8"
 	method := "PATCH"
 
 	payload := strings.NewReader(`{

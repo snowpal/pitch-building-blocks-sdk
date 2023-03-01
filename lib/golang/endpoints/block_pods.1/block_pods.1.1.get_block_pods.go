@@ -10,7 +10,7 @@ import (
 
 func GetBlockPods(jwtToken string) {
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf(golang.RouteGetBlockPods, "", "", ""), nil)
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf(golang.RouteBlockPodsGetBlockPods, "", "", ""), nil)
 
 	if err != nil {
 		fmt.Println(err)
