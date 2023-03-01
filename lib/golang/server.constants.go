@@ -11,8 +11,13 @@ const (
 )
 
 const (
-	UrlGetAttributes         = Host + "app/resource/attributes"
-	UrlUpdateKeyAttributes   = Host + "keys/%s/attributes"
-	UrlUpdateBlockAttributes = Host + "blocks/%s/attributes"
-	UrlUpdatePodAttributes   = Host + "pods/%s/attributes"
+	UrlGetAttributes            = Host + "app/resource/attributes"
+	UrlUpdateKeyAttributes      = Host + "keys/%s/attributes"
+	UrlUpdateBlockAttributes    = Host + "blocks/%s/attributes"
+	UrlUpdatePodAttributes      = Host + "pods/%s/attributes"
+	UrlUpdateBlockPodAttributes = Host + "block-pods/%s/attributes"
+)
+
+const (
+	UrlGetBlocks = Host + "keys/%s/blocks?filter=%s&batchIndex=%s&aclWriteOrHigher=%s"
 )

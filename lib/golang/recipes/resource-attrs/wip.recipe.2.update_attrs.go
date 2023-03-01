@@ -24,4 +24,7 @@ func main() {
 
 	log.Info(".TODO(): get a pod, and use it below")
 	attributes.UpdatePodAttrs(userSignIn.Registration.JwtToken, "")
+
+	log.Info(".TODO(): get a block pod, and use it below")
+	attributes.UpdateBlockPodAttrs(userSignIn.Registration.JwtToken, "")
 }
