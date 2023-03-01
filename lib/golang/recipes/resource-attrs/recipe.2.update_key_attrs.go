@@ -16,7 +16,6 @@ func main() {
 		fmt.Println(err)
 	}
 
-	log.Info(".get all keys: ", userSignIn.Registration.ID)
-
+	log.Info(".TODO(): get a key, and use it below")
 	attributes.UpdateKeyAttrs(userSignIn.Registration.JwtToken, "")
 }
