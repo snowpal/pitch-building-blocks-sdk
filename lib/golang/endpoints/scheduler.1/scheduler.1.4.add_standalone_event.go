@@ -10,7 +10,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "https://gateway.snowpal.com/scheduler/standalone-events"
+	url := "scheduler/standalone-events"
 	method := "POST"
 
 	payload := strings.NewReader(`{"description":"scheduler_event[description]","eventStartTime":"scheduler_event[event_start_time]","eventEndTime":"scheduler_event[event_end_time]"}`)

@@ -9,7 +9,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "https://gateway.snowpal.com/pods/%7B%7Bpods.podId%7D%7D/checklists/63d26a77a82d3900145ffb8a/checklist-items/63d95bd41610fe0014b7c4da?keyId=%7B%7Bkeys.custom.keyId1%7D%7D"
+	url := "pods/%7B%7Bpods.podId%7D%7D/checklists/63d26a77a82d3900145ffb8a/checklist-items/63d95bd41610fe0014b7c4da?keyId=%7B%7Bkeys.custom.keyId1%7D%7D"
 	method := "DELETE"
 
 	client := &http.Client{}

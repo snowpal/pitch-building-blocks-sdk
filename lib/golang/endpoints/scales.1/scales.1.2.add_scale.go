@@ -10,7 +10,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "https://gateway.snowpal.com/scales"
+	url := "scales"
 	method := "POST"
 
 	payload := strings.NewReader(`{"scaleName":"grading_system[grading_system_name]","scaleType":"grading_system[grading_system_type]","scaleValues":"grading_system[grades]"}`)

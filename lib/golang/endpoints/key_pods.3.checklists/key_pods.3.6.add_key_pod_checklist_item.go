@@ -10,7 +10,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "https://gateway.snowpal.com/pods/:id/checklists/:checklist-id/checklist-items?keyId="
+	url := "pods/%s/checklists/:checklist-id/checklist-items?keyId="
 	method := "POST"
 
 	payload := strings.NewReader(`{"checklistItemText":"checklist_item[checklist_item_title]","taggedUserIds":"checklist_item[tagged_user_ids]"}`)

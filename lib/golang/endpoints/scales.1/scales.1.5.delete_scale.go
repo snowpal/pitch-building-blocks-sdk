@@ -9,7 +9,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "https://gateway.snowpal.com/scales/:id"
+	url := "scales/%s"
 	method := "DELETE"
 
 	client := &http.Client{}

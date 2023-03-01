@@ -13,7 +13,7 @@ func UpdatePodAttrs(jwtToken string, keyId string) {
 	fmt.Println("TODO: Replace with struct")
 	payload := strings.NewReader(`{"showAttribute":"show_attribute","attributeNames":"assessment[attribute_names]"}`)
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf(golang.RouteUpdatePodAttributes, keyId), payload)
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf(golang.RouteAttributesUpdateKeyPodDisplayAttributes, keyId), payload)
 
 	if err != nil {
 		fmt.Println(err)

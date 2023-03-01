@@ -10,7 +10,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "https://gateway.snowpal.com/keys/%7B%7Bkeys.teacher.keyId1%7D%7D/pods/%7B%7Bpods.podId%7D%7D/relate?targetKeyId=%7B%7Bkeys.custom.keyId1%7D%7D"
+	url := "keys/%7B%7Bkeys.teacher.keyId1%7D%7D/pods/%7B%7Bpods.podId%7D%7D/relate?targetKeyId=%7B%7Bkeys.custom.keyId1%7D%7D"
 	method := "PATCH"
 
 	payload := strings.NewReader(``)

@@ -10,7 +10,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "https://gateway.snowpal.com/users/deactivate-account"
+	url := "users/deactivate-account"
 	method := "PATCH"
 
 	payload := strings.NewReader(``)

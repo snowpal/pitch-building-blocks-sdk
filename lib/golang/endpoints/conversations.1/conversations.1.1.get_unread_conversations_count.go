@@ -9,7 +9,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "https://gateway.snowpal.com/conversations/unread-status"
+	url := "conversations/unread-status"
 	method := "GET"
 
 	client := &http.Client{}

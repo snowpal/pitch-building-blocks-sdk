@@ -1,6 +1,7 @@
 package block_pods
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
 	"fmt"
 	"io"
@@ -8,15 +9,11 @@ import (
 	"strings"
 )
 
-func main(jwtToken string) {
-
-	url := "https://gateway.snowpal.com/blocks/%7B%7Bblocks.blockId%7D%7D/pods?keyId=%7B%7Bkeys.custom.keyId1%7D%7D"
-	method := "POST"
-
+func AddBlockPod(jwtToken string) {
+	fmt.Println("TODO: Replace with struct")
 	payload := strings.NewReader(`{"podName":"new block pod name 1 assessment[assessment_name]"}`)
-
 	client := &http.Client{}
-	req, err := http.NewRequest(method, url, payload)
+	req, err := http.NewRequest(http.MethodPost, helpers.GetRoute(fmt.Sprintf(golang.RouteBlockPodsAddBlockPod, "", "")), payload)
 
 	if err != nil {
 		fmt.Println(err)

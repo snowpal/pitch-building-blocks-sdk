@@ -9,7 +9,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "https://gateway.snowpal.com/search/blocks/%7B%7Bblocks.blockId%7D%7D/shareable/users?keyId=%7B%7Bkeys.custom.keyId1%7D%7D&token="
+	url := "search/blocks/%7B%7Bblocks.blockId%7D%7D/shareable/users?keyId=%7B%7Bkeys.custom.keyId1%7D%7D&token="
 	method := "GET"
 
 	client := &http.Client{}

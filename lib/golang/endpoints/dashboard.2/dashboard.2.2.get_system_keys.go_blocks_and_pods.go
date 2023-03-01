@@ -9,7 +9,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "https://gateway.snowpal.com/charts/dashboard/system-keys"
+	url := "charts/dashboard/system-keys"
 	method := "GET"
 
 	client := &http.Client{}

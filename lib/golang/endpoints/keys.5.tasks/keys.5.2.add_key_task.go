@@ -10,7 +10,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "https://gateway.snowpal.com/keys/:id/tasks"
+	url := "keys/%s/tasks"
 	method := "POST"
 
 	payload := strings.NewReader(`{"taskName":"task[task_name]"}`)

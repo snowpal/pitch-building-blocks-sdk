@@ -10,7 +10,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "https://gateway.snowpal.com/block-pods/:id/comments?keyId=63ceb29edb035900138d975d&blockId=93bwn23fje782486247d248h"
+	url := "block-pods/%s/comments?keyId=%s&blockId=%s"
 	method := "POST"
 
 	payload := strings.NewReader(`{"commentText":"comment[comment_text]","taggedUserIds":"comment[tagged_user_ids]"}`)

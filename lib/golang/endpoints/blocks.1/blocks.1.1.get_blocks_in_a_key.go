@@ -17,7 +17,7 @@ func GetBlocks(jwtToken string) (structs.ResourceAttributes, error) {
 
 	fmt.Println("TODO: Fix arguments")
 	req, err := http.NewRequest(http.MethodGet,
-		fmt.Sprintf(helpers.GetRoute(golang.RouteGetBlocks), "", "", "", ""), nil)
+		fmt.Sprintf(helpers.GetRoute(golang.RouteBlocksGetBlocksInAKey), "", "", "", ""), nil)
 
 	if err != nil {
 		fmt.Println(err)

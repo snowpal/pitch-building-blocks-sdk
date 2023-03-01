@@ -10,7 +10,7 @@ import (
 
 func GetAllKeys(jwtToken string) {
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodGet, helpers.GetRoute(golang.RouteGeyKeys), nil)
+	req, err := http.NewRequest(http.MethodGet, helpers.GetRoute(golang.RouteKeysGetAllKeys), nil)
 
 	if err != nil {
 		fmt.Println(err)
