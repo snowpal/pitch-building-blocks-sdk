@@ -2,11 +2,11 @@ package teacher_keys_1
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 )
 
-func main() {
+func main(jwtToken string) {
 
 	url := "https://gateway.snowpal.com/classroom-pods/63ec12a8f1a0b80010ec6889/submissions/comments/as-student?blockId=63cfd9321bff200012b0ec40&keyId=63ebe3f3c003770011dbec0a"
 	method := "GET"
@@ -26,9 +26,14 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	defer res.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			return
+		}
+	}(res.Body)
 
-	body, err := ioutil.ReadAll(res.Body)
+	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
 		return
