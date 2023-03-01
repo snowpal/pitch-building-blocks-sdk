@@ -2,6 +2,9 @@ package blocks_1
 
 import (
 	"development/go/recipes/lib/golang"
+	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -9,19 +12,22 @@ import (
 )
 
 func AddBlock(jwtToken string) {
-	fmt.Println("TODO: Replace with struct")
-	payload := strings.NewReader(`{"blockName":"a new block with course[course_name]"}`)
+	block := structs.Block{Name: "Block A"}
+	blockBody, err := json.Marshal(block)
+	if err != nil {
+		return
+	}
+	payload := strings.NewReader(string(blockBody))
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodPost, golang.UrlAddBlock, payload)
+	fmt.Println("TODO: Replace with Key ID")
+	req, _ := http.NewRequest(http.MethodPost, fmt.Sprintf(golang.UrlAddBlock, ""), payload)
 
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	req.Header.Add("User-Authorization", jwtToken)
-	req.Header.Add("x-api-key", golang.XApiKey)
-	req.Header.Add("Content-Type", "application/json")
 
+	helpers.AddUserHeaders(jwtToken, req)
 	res, _ := client.Do(req)
 	if err != nil {
 		fmt.Println(err)

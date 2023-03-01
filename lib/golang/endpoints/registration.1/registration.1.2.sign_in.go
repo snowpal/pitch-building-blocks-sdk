@@ -2,6 +2,7 @@ package registration_1
 
 import (
 	"development/go/recipes/lib/golang"
+	"development/go/recipes/lib/golang/helpers"
 	"development/go/recipes/lib/golang/structs"
 
 	"encoding/json"
@@ -26,9 +27,8 @@ func SignIn(email string) (structs.UserSignedIn, error) {
 		fmt.Println(err)
 		return userRegistration, err
 	}
-	req.Header.Add("x-api-key", golang.XApiKey)
-	req.Header.Add("Content-Type", "application/json")
 
+	helpers.AddAppHeaders(req)
 	res, _ := client.Do(req)
 	if err != nil {
 		fmt.Println(err)

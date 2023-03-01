@@ -2,6 +2,7 @@ package registration_1
 
 import (
 	"development/go/recipes/lib/golang"
+	"development/go/recipes/lib/golang/helpers"
 	"fmt"
 	"io"
 	"net/http"
@@ -15,8 +16,8 @@ func Activate(userId string) {
 		fmt.Println(err)
 		return
 	}
-	req.Header.Add("x-api-key", golang.XApiKey)
 
+	helpers.AddAppHeaders(req)
 	res, _ := client.Do(req)
 	if err != nil {
 		fmt.Println(err)

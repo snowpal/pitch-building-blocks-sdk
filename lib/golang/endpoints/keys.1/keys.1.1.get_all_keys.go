@@ -2,6 +2,7 @@ package keys_1
 
 import (
 	"development/go/recipes/lib/golang"
+	"development/go/recipes/lib/golang/helpers"
 	"fmt"
 	"io"
 	"net/http"
@@ -15,8 +16,8 @@ func GetAllKeys(jwtToken string) {
 		fmt.Println(err)
 		return
 	}
-	req.Header.Add("User-Authorization", jwtToken)
-	req.Header.Add("x-api-key", golang.XApiKey)
+
+	helpers.AddUserHeaders(jwtToken, req)
 
 	res, _ := client.Do(req)
 	if err != nil {

@@ -2,6 +2,7 @@ package blocks_1
 
 import (
 	"development/go/recipes/lib/golang"
+	"development/go/recipes/lib/golang/helpers"
 	"development/go/recipes/lib/golang/structs"
 	"encoding/json"
 	"fmt"
@@ -13,7 +14,7 @@ func GetBlocks(jwtToken string) (structs.ResourceAttributes, error) {
 	fmt.Println("TODO: Replace structs.ResourceAttributes with Blocks struct")
 	var resourceAttrs structs.ResourceAttributes
 	client := &http.Client{}
-	
+
 	fmt.Println("TODO: Fix arguments")
 	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf(golang.UrlGetBlocks, "", "", "", ""), nil)
 
@@ -21,9 +22,8 @@ func GetBlocks(jwtToken string) (structs.ResourceAttributes, error) {
 		fmt.Println(err)
 		return resourceAttrs, err
 	}
-	req.Header.Add("User-Authorization", jwtToken)
-	req.Header.Add("x-api-key", golang.XApiKey)
 
+	helpers.AddUserHeaders(jwtToken, req)
 	res, _ := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
