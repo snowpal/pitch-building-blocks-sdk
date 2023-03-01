@@ -1,4 +1,4 @@
-package attributes_1
+package blocks_1
 
 import (
 	"development/go/recipes/lib/golang"
@@ -10,9 +10,10 @@ import (
 )
 
 func GetBlocks(jwtToken string) (structs.ResourceAttributes, error) {
+	fmt.Println("TODO: Replace structs.ResourceAttributes with Blocks struct")
 	var resourceAttrs structs.ResourceAttributes
-
 	client := &http.Client{}
+	
 	fmt.Println("TODO: Fix arguments")
 	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf(golang.UrlGetBlocks, "", "", "", ""), nil)
 

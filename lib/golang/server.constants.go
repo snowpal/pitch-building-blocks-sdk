@@ -20,4 +20,5 @@ const (
 
 const (
 	UrlGetBlocks = Host + "keys/%s/blocks?filter=%s&batchIndex=%s&aclWriteOrHigher=%s"
+	UrlAddBlock  = Host + "keys/%s/blocks"
 )
