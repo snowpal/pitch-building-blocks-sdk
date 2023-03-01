@@ -10,6 +10,7 @@ import (
 	"fmt"
 )
 
+// Sign up, activate user, sign in, get all keys.
 func main() {
 	log.Info(".sign up user with email: ", golang.Email)
 	userSignUp, err := registration.Signup(golang.Email)

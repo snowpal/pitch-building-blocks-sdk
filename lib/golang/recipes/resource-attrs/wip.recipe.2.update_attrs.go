@@ -9,6 +9,8 @@ import (
 	"fmt"
 )
 
+// sign in, update key attributes, update block attributes, update pod attributes, update block pod attributes,
+// get resource attributes
 func main() {
 	log.Info(".sign in user email: ", golang.Email)
 	userSignIn, err := registration.SignIn(golang.Email)
@@ -27,4 +29,12 @@ func main() {
 
 	log.Info(".TODO(): get a block pod, and use it below")
 	attributes.UpdateBlockPodAttrs(userSignIn.Registration.JwtToken, "")
+
+	log.Info(".get resource attributes")
+	resourceAttrs, _ := attributes.GetResourceAttrs(userSignIn.Registration.JwtToken)
+	if err != nil {
+		return
+	}
+
+	fmt.Println(resourceAttrs)
 }

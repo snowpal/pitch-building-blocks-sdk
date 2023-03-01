@@ -9,6 +9,7 @@ import (
 	"fmt"
 )
 
+// sign in, get resource attributes
 func main() {
 	log.Info(".sign in user email: ", golang.Email)
 	userSignIn, err := registration.SignIn(golang.Email)
@@ -16,7 +17,7 @@ func main() {
 		fmt.Println(err)
 	}
 
-	log.Info(".get all keys: ", userSignIn.Registration.ID)
+	log.Info(".get resource attributes")
 	resourceAttrs, _ := attributes.GetResourceAttrs(userSignIn.Registration.JwtToken)
 	if err != nil {
 		return

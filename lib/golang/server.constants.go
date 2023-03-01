@@ -1,24 +1,28 @@
 package golang
 
-const Host = "https://gateway-dev.snowpal.com/"
 const XApiKey = "wf8sHELzWp9MGizZME5Zsjk4IntZS0e8mdYMYjjg"
 
 const (
-	UrlSignUp   = Host + "app/users/sign-up"
-	UrlSignIn   = Host + "app/users/sign-in"
-	UrlActivate = Host + "app/user-verified/%s"
-	UrlGeyKeys  = Host + "keys"
+	HostDev = "https://gateway-dev.snowpal.com/"
 )
 
 const (
-	UrlGetAttributes            = Host + "app/resource/attributes"
-	UrlUpdateKeyAttributes      = Host + "keys/%s/attributes"
-	UrlUpdateBlockAttributes    = Host + "blocks/%s/attributes"
-	UrlUpdatePodAttributes      = Host + "pods/%s/attributes"
-	UrlUpdateBlockPodAttributes = Host + "block-pods/%s/attributes"
+	RouteSignUp   = "app/users/sign-up"
+	RouteSignIn   = "app/users/sign-in"
+	RouteActivate = "app/user-verified/%s"
+	RouteGeyKeys  = "keys"
 )
 
 const (
-	UrlGetBlocks = Host + "keys/%s/blocks?filter=%s&batchIndex=%s&aclWriteOrHigher=%s"
-	UrlAddBlock  = Host + "keys/%s/blocks"
+	RouteGetAttributes            = "app/resource/attributes"
+	RouteUpdateKeyAttributes      = "keys/%s/attributes"
+	RouteUpdateBlockAttributes    = "blocks/%s/attributes"
+	RouteUpdatePodAttributes      = "pods/%s/attributes"
+	RouteUpdateBlockPodAttributes = "block-pods/%s/attributes"
+)
+
+const (
+	RouteGetBlocks             = "keys/%s/blocks?filter=%s&batchIndex=%s&aclWriteOrHigher=%s"
+	RouteAddBlock              = "keys/%s/blocks"
+	RouteGetBlocksLinkedToPods = "pods/%s/linked-to/blocks?keyId=%s"
 )

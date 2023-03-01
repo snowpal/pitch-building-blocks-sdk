@@ -18,3 +18,7 @@ func addHeaders(req *http.Request) {
 	req.Header.Add("x-api-key", golang.XApiKey)
 	req.Header.Add("Content-Type", "application/json")
 }
+
+func GetRoute(route string) string {
+	return golang.HostDev + route
+}

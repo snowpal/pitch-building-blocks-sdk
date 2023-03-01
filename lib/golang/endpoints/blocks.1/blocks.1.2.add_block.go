@@ -20,7 +20,7 @@ func AddBlock(jwtToken string) {
 	payload := strings.NewReader(string(blockBody))
 	client := &http.Client{}
 	fmt.Println("TODO: Replace with Key ID")
-	req, _ := http.NewRequest(http.MethodPost, fmt.Sprintf(golang.UrlAddBlock, ""), payload)
+	req, _ := http.NewRequest(http.MethodPost, fmt.Sprintf(helpers.GetRoute(golang.RouteAddBlock), ""), payload)
 
 	if err != nil {
 		fmt.Println(err)
