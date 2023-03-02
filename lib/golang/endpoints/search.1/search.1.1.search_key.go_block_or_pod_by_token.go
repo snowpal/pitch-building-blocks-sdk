@@ -9,7 +9,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "%7B%7BbaseUrl%7D%7D/search?token=blk"
+	url := "search?token=%s"
 	method := "GET"
 
 	client := &http.Client{}

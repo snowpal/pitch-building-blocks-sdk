@@ -9,7 +9,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "block-pods/%s/checklists/:checklist-id/checklist-items/:checklist-item-id?keyId=%s&blockId=43bwn23fje782486247d248h"
+	url := "block-pods/%s/checklists/%s/checklist-items/%s?keyId=%s&blockId=%s"
 	method := "DELETE"
 
 	client := &http.Client{}

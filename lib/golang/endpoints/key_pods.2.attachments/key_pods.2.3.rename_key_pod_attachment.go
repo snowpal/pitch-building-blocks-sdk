@@ -10,7 +10,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "key-pod-attachments/%s/rename?keyId=%s&podId=33ceb29edb035900138d975d"
+	url := "key-pod-attachments/%s/rename?keyId=%s&podId=%s"
 	method := "PATCH"
 
 	payload := strings.NewReader(`{"fileName":"file_name"}`)

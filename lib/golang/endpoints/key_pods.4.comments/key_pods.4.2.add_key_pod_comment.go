@@ -10,7 +10,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "pods/%7B%7Bpods.podId%7D%7D/comments?keyId=%7B%7Bkeys.custom.keyId1%7D%7D"
+	url := "pods/%s/comments?keyId=%s"
 	method := "POST"
 
 	payload := strings.NewReader(`{"commentText":"new pod com comment[comment_text]"}`)

@@ -9,7 +9,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "blocks/%7B%7Bblocks.blockId%7D%7D/acl?keyId=%s"
+	url := "blocks/%s/acl?keyId=%s"
 	method := "GET"
 
 	client := &http.Client{}

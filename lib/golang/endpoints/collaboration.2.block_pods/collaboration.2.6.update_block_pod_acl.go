@@ -10,7 +10,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "block-pods/%7B%7BblockPods.podId%7D%7D/users/63cabea69e9c500014d4f9b7/acl?keyId=%7B%7Bkeys.custom.keyId1%7D%7D&blockId=%7B%7Bblocks.blockId%7D%7D"
+	url := "block-pods/%s/users/%s/acl?keyId=%s&blockId=%s"
 	method := "PATCH"
 
 	payload := strings.NewReader(`{"podAcl":"write"}`)

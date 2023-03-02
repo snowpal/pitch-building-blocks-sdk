@@ -9,7 +9,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "charts/keys/%s/blocks/:block-id/task-status"
+	url := "charts/keys/%s/blocks/%s/task-status"
 	method := "GET"
 
 	client := &http.Client{}

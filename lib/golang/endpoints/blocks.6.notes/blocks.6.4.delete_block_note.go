@@ -9,7 +9,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "block-notes/%s?keyId=%s&blockId=43bwn23fje782486247d248h"
+	url := "block-notes/%s?keyId=%s&blockId=%s"
 	method := "DELETE"
 
 	client := &http.Client{}

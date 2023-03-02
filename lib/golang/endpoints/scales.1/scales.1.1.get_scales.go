@@ -9,7 +9,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "scales?includeCounts=&excludeEmpty="
+	url := "scales?includeCounts=%s&excludeEmpty=%s"
 	method := "GET"
 
 	client := &http.Client{}

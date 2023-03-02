@@ -10,7 +10,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "blocks/%s/checklists/:checklist-id/checklist-items/reorder?keyId="
+	url := "blocks/%s/checklists/%s/checklist-items/reorder?keyId=%s"
 	method := "PATCH"
 
 	payload := strings.NewReader(`{"checklistItemIds":"checklist_item_ids"}`)

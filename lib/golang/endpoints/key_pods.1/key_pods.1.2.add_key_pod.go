@@ -10,7 +10,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "keys/%7B%7Bkeys.custom.keyId1%7D%7D/pods"
+	url := "keys/%s/pods"
 	method := "POST"
 
 	payload := strings.NewReader(`{"podName":"trial assessment[assessment_name]"}`)

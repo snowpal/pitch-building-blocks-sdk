@@ -9,7 +9,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "conversations/by-usernames?userNames=user1,user2"
+	url := "conversations/by-usernames?userNames=%s"
 	method := "GET"
 
 	client := &http.Client{}

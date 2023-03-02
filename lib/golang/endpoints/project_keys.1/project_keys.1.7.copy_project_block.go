@@ -10,7 +10,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "blocks/%7B%7Bblocks.projectBlockId%7D%7D/project-pods/copy?keyId=%7B%7Bkeys.project.keyId1%7D%7D&targetKeyId=63ec1fe554d58e0010fc88d7&allPods=true&allTasks=true"
+	url := "blocks/%s/project-pods/copy?keyId=%s&targetKeyId=%s&allPods=%s&allTasks=%s"
 	method := "POST"
 
 	payload := strings.NewReader(``)

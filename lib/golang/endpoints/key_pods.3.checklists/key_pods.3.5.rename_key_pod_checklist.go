@@ -10,7 +10,7 @@ import (
 
 func main(jwtToken string) {
 
-	url := "pods/%s/checklists/:checklist-id?keyId=%s"
+	url := "pods/%s/checklists/%s?keyId=%s"
 	method := "PATCH"
 
 	payload := strings.NewReader(`{"checklistTitle":"checklist[checklist_title]"}`)
