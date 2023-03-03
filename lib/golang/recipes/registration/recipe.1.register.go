@@ -4,7 +4,7 @@ import (
 	"development/go/recipes/lib/golang"
 	keys "development/go/recipes/lib/golang/endpoints/keys.1"
 	registration "development/go/recipes/lib/golang/endpoints/registration.1"
-	"development/go/recipes/lib/golang/structs"
+	"development/go/recipes/lib/golang/structs/response"
 	log "github.com/sirupsen/logrus"
 
 	"fmt"
@@ -22,7 +22,7 @@ func main() {
 	registration.Activate(userSignUp.Registration.ID)
 
 	log.Info(".sign in user ID: ", userSignUp.Registration.ID)
-	var userSignIn structs.UserSignedIn
+	var userSignIn response.UserSignedIn
 	userSignIn, err = registration.SignIn(golang.Email)
 	if err != nil {
 		fmt.Println(err)

@@ -3,15 +3,15 @@ package attributes_1
 import (
 	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
-	"development/go/recipes/lib/golang/structs"
+	"development/go/recipes/lib/golang/structs/response"
 	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 )
 
-func GetResourceAttrs(jwtToken string) (structs.ResourceAttributes, error) {
-	var resourceAttrs structs.ResourceAttributes
+func GetResourceAttrs(jwtToken string) (response.ResourceAttributes, error) {
+	var resourceAttrs response.ResourceAttributes
 
 	client := &http.Client{}
 	req, err := http.NewRequest(http.MethodGet, golang.RouteAttributesGetDisplayableAttributesOfKey, nil)
