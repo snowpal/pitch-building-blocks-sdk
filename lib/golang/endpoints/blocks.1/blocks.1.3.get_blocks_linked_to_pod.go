@@ -12,7 +12,7 @@ import (
 )
 
 func GetBlocksLinkedToPods(jwtToken string) {
-	block := structs.Block{Name: "Block A"}
+	block := structs.SlimBlock{Name: "SlimBlock A"}
 	blockBody, err := json.Marshal(block)
 	if err != nil {
 		return
