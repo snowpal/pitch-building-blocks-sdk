@@ -8,27 +8,32 @@ import (
 	"strings"
 )
 
-func main(jwtToken string) {
+type Scale struct {
+	ScaleValue string `json:"scaleValue"`
+}
 
+func UpdateBlockPodScaleValue(jwtToken string, scale Scale) error {
 	url := "block-pods/%s/scale-value?keyId=%s&blockId=%s"
-	method := "PATCH"
+	requestBody, err := helpers.GetRequestBody(scale)
+	if err != nil {
+		return err
+	}
 
-	payload := strings.NewReader(`{"scaleValue":"70"}`)
-
+	payload := strings.NewReader(requestBody)
 	client := &http.Client{}
-	req, err := http.NewRequest(method, url, payload)
-
+	req, err := http.NewRequest(http.MethodPatch, url, payload)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
-	helpers.AddUserHeaders(jwtToken, req)
 
+	helpers.AddUserHeaders(jwtToken, req)
 	res, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
+
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
 		if err != nil {
@@ -39,7 +44,9 @@ func main(jwtToken string) {
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
+
 	fmt.Println(string(body))
+	return nil
 }
