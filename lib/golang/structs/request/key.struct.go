@@ -1,6 +1,12 @@
 package response
 
-type Key struct {
+type KeyAdd struct {
+	Name string `json:"keyName"`
+	Type string `json:"keyType"`
+}
+
+type KeyUpdate struct {
+	ID                string `json:"id"`
 	Name              string `json:"keyName"`
 	Description       string `json:"keyDescription"`
 	SimpleDescription string `json:"simpleDescription"`

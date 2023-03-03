@@ -1,6 +1,11 @@
 package response
 
-type Block struct {
+type BlockAdd struct {
+	Name string `json:"blockName"`
+}
+
+type BlockUpdate struct {
+	ID                string   `json:"id"`
 	Name              string   `json:"blockName"`
 	BlockId           string   `json:"blockId"`
 	Description       string   `json:"blockDescription"`
@@ -11,6 +16,6 @@ type Block struct {
 	EndTime           string   `json:"blockEndTime"`
 	Color             string   `json:"blockColor"`
 	Tags              string   `json:"blockTags"`
-	Completed         *bool    `json:"blockCompleted"`
+	Completed         bool     `json:"blockCompleted"`
 	KanbanMode        bool     `json:"kanbanMode"`
 }

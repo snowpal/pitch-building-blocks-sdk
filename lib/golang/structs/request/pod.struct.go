@@ -1,6 +1,11 @@
 package response
 
-type Pod struct {
+type PodAdd struct {
+	Name string `json:"podName"`
+}
+
+type PodUpdate struct {
+	ID                string   `json:"id"`
 	Name              string   `json:"podName"`
 	Description       string   `json:"podDescription"`
 	TaggedUserIds     []string `json:"taggedUserIds"`
