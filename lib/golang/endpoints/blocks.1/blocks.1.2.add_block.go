@@ -3,7 +3,7 @@ package blocks_1
 import (
 	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
-	"development/go/recipes/lib/golang/structs"
+	"development/go/recipes/lib/golang/structs/response"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -12,7 +12,8 @@ import (
 )
 
 func AddBlock(jwtToken string) {
-	block := structs.Block{Name: "Block A"}
+	block := response.SlimBlock{Name: "SlimBlock A"}
+
 	blockBody, err := json.Marshal(block)
 	if err != nil {
 		return

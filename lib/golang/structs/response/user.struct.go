@@ -1,4 +1,4 @@
-package structs
+package response
 
 type UserSignedIn struct {
 	Registration UserSignIn `json:"user"`
@@ -25,13 +25,12 @@ type UserSignUp struct {
 	JwtToken    string `json:"jwtToken"`
 }
 
-type ResourceAttribute struct {
-	Name    string `json:"attributeName"`
-	CanHide bool   `json:"canHide"`
-}
-
-type ResourceAttributes struct {
-	KeyAttributes   []ResourceAttribute
-	BlockAttributes []ResourceAttribute
-	PodAttributes   []ResourceAttribute
+type User struct {
+	ID        string `json:"userId"`
+	ProfileID string `json:"profileId"`
+	FirstName string `json:"firstName"`
+	LastName  string `json:"lastName"`
+	Username  string `json:"username"`
+	Initial   string `json:"userInitial"`
+	Email     string `json:"email"`
 }
