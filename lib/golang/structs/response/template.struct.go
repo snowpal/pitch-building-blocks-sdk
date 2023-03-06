@@ -1,5 +1,8 @@
 package response
 
+// Note(anish,3,03/06/2023) Most of the attributes are common to these templates, so the gateway should send a nested
+// structure ideally.
+
 type KeyTemplates struct {
 	Templates []KeyTemplatesWithType `json:"templates"`
 }
@@ -50,5 +53,5 @@ type PodTemplate struct {
 	LastModified    string  `json:"lastModified"`
 	Archived        bool    `json:"archived"`
 	KeyTemplateId   *string `json:"keyTemplateId"`
-	BlockTemplateId string  `json:"blockTemplateId"`
+	BlockTemplateId *string `json:"blockTemplateId"`
 }

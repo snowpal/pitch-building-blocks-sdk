@@ -1,9 +1,6 @@
 package request
 
-type NotificationUpdate struct {
-	Unread bool `json:"unread"`
-}
-
-type NotificationBulkUpdate struct {
-	NotificationIds []string `json:"notificationIds"`
+type Notification struct {
+	Unread          *bool     `json:"unread"`
+	NotificationIds *[]string `json:"notificationIds"`
 }

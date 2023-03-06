@@ -18,7 +18,7 @@ func main() {
 	}
 
 	log.Info(".get resource attributes")
-	resourceAttrs, _ := attributes.GetResourceAttrs(userSignIn.Registration.JwtToken)
+	resourceAttrs, _ := attributes.GetResourceAttrs(userSignIn.User.JwtToken)
 	if err != nil {
 		return
 	}

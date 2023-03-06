@@ -1,20 +1,14 @@
 package response
 
-type UserSignedIn struct {
-	Registration UserSignIn `json:"user"`
+type Users struct {
+	Users []User `json:"users"`
 }
 
-type UserSignedUp struct {
-	Registration UserSignUp `json:"user"`
+type UserRegistration struct {
+	User User `json:"user"`
 }
 
-type UserSignIn struct {
-	ID       string `json:"id"`
-	Inactive bool   `json:"inactive"`
-	JwtToken string `json:"jwtToken"`
-}
-
-type UserSignUp struct {
+type User struct {
 	ID          string `json:"id"`
 	Uuid        string `json:"uuid"`
 	Email       string `json:"email"`
@@ -25,7 +19,7 @@ type UserSignUp struct {
 	JwtToken    string `json:"jwtToken"`
 }
 
-type User struct {
+type TaggedUser struct {
 	ID        string `json:"userId"`
 	ProfileID string `json:"profileId"`
 	FirstName string `json:"firstName"`
@@ -33,4 +27,16 @@ type User struct {
 	Username  string `json:"username"`
 	Initial   string `json:"userInitial"`
 	Email     string `json:"email"`
+}
+
+type SearchUsers struct {
+	SearchUsers []SearchUser `json:"users"`
+}
+
+type SearchUser struct {
+	ID        string `json:"userId"`
+	ProfileID string `json:"profileId"`
+	Username  string `json:"userName"`
+	FirstName string `json:"firstName"`
+	FullName  string `json:"FullName"`
 }

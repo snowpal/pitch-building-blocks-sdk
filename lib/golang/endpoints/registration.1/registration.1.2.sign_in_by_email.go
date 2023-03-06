@@ -12,8 +12,8 @@ import (
 	"strings"
 )
 
-func SignIn(email string) (response.UserSignedIn, error) {
-	var userRegistration response.UserSignedIn
+func SignIn(email string) (response.UserRegistration, error) {
+	var userRegistration response.UserRegistration
 	fmt.Println("TODO: Replace with struct")
 	payload := strings.NewReader(fmt.Sprintf(`{
 		"email": "%s",

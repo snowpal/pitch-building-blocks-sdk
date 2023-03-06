@@ -1,30 +1,16 @@
 package request
 
-type ChecklistAdd struct {
-	Title string `json:"checklistTitle"`
+type Checklist struct {
+	ID           *string   `json:"id"`
+	Title        *string   `json:"checklistTitle"`
+	ChecklistIds *[]string `json:"checklistIds"`
 }
 
-type ChecklistUpdate struct {
-	ID    string `json:"id"`
-	Title string `json:"checklistTitle"`
-}
+type ChecklistItem struct {
+	ID        *string `json:"id"`
+	ItemText  *string `json:"checklistItemText"`
+	Completed *bool   `json:"completed"`
 
-type ChecklistItemAdd struct {
-	ItemText      string   `json:"checklistItemText"`
-	TaggedUserIds []string `json:"taggedUserIds"`
-}
-
-type ChecklistItemUpdate struct {
-	ID            string   `json:"id"`
-	ItemText      string   `json:"checklistItemText"`
-	TaggedUserIds []string `json:"taggedUserIds"`
-	Completed     bool     `json:"completed"`
-}
-
-type ChecklistsReorder struct {
-	ChecklistIds []string `json:"checklistIds"`
-}
-
-type ChecklistItemsReorder struct {
-	ChecklistItemIds []string `json:"checklistItemIds"`
+	TaggedUserIds    *[]string `json:"taggedUserIds"`
+	ChecklistItemIds *[]string `json:"checklistItemIds"`
 }

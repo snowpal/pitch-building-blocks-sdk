@@ -27,10 +27,10 @@ type FavoriteBlock struct {
 type FavoriteResource struct {
 	ID           string                  `json:"id"`
 	ResourceType string                  `json:"resourceType"`
-	Modifier     common.ResourceModifier `json:"modifier"`
 	KeyName      *string                 `json:"keyName"`
 	BlockName    *string                 `json:"blockName"`
 	PodName      *string                 `json:"podName"`
 	Key          *FavoriteKey            `json:"key"`
 	Block        *FavoriteBlock          `json:"block"`
+	Modifier     common.ResourceModifier `json:"modifier"`
 }

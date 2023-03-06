@@ -19,19 +19,19 @@ func main() {
 	}
 
 	log.Info(".TODO(): get a key, and use it below")
-	attributes.UpdateKeyAttrs(userSignIn.Registration.JwtToken, "")
+	attributes.UpdateKeyAttrs(userSignIn.User.JwtToken, "")
 
 	log.Info(".TODO(): get a block, and use it below")
-	attributes.UpdateBlockAttrs(userSignIn.Registration.JwtToken, "")
+	attributes.UpdateBlockAttrs(userSignIn.User.JwtToken, "")
 
 	log.Info(".TODO(): get a pod, and use it below")
-	attributes.UpdatePodAttrs(userSignIn.Registration.JwtToken, "")
+	attributes.UpdatePodAttrs(userSignIn.User.JwtToken, "")
 
 	log.Info(".TODO(): get a block pod, and use it below")
-	attributes.UpdateBlockPodAttrs(userSignIn.Registration.JwtToken, "")
+	attributes.UpdateBlockPodAttrs(userSignIn.User.JwtToken, "")
 
 	log.Info(".get resource attributes")
-	resourceAttrs, _ := attributes.GetResourceAttrs(userSignIn.Registration.JwtToken)
+	resourceAttrs, _ := attributes.GetResourceAttrs(userSignIn.User.JwtToken)
 	if err != nil {
 		return
 	}

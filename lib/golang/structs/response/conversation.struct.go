@@ -5,18 +5,20 @@ type Conversations struct {
 }
 
 type Conversation struct {
-	ID              string                 `json:"id"`
-	Type            string                 `json:"type"`
-	LastModified    string                 `json:"lastModified"`
-	IsGroup         bool                   `json:"isGroup"`
-	UserBlocked     bool                   `json:"blockedUser"`
-	UserLeft        bool                   `json:"leftConversation"`
-	UserCanLeave    bool                   `json:"canLeave"`
-	Archived        bool                   `json:"archived"`
-	Members         []Member               `json:"members"`
-	AllMessagesRead bool                   `json:"allMessagesRead"`
-	RecentMessage   string                 `json:"recentMessage"`
-	Messages        *[]ConversationMessage `json:"messages"`
+	ID            string `json:"id"`
+	Type          string `json:"type"`
+	RecentMessage string `json:"recentMessage"`
+
+	IsGroup         bool `json:"isGroup"`
+	UserBlocked     bool `json:"blockedUser"`
+	UserLeft        bool `json:"leftConversation"`
+	UserCanLeave    bool `json:"canLeave"`
+	Archived        bool `json:"archived"`
+	AllMessagesRead bool `json:"allMessagesRead"`
+
+	Members      []Member               `json:"members"`
+	Messages     *[]ConversationMessage `json:"messages"`
+	LastModified string                 `json:"lastModified"`
 }
 
 type Member struct {

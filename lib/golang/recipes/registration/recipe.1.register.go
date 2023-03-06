@@ -18,16 +18,16 @@ func main() {
 		fmt.Println(err)
 	}
 
-	log.Info(".activate user ID: ", userSignUp.Registration.ID)
-	registration.Activate(userSignUp.Registration.ID)
+	log.Info(".activate user ID: ", userSignUp.User.ID)
+	registration.Activate(userSignUp.User.ID)
 
-	log.Info(".sign in user ID: ", userSignUp.Registration.ID)
-	var userSignIn response.UserSignedIn
+	log.Info(".sign in user ID: ", userSignUp.User.ID)
+	var userSignIn response.UserRegistration
 	userSignIn, err = registration.SignIn(golang.Email)
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	log.Info(".get all keys: ", userSignIn.Registration.ID)
-	keys.GetAllKeys(userSignIn.Registration.JwtToken)
+	log.Info(".get all keys: ", userSignIn.User.ID)
+	keys.GetAllKeys(userSignIn.User.JwtToken)
 }
