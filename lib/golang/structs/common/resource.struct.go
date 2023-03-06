@@ -18,3 +18,7 @@ type ResourceModifier struct {
 type AllowArchival struct {
 	AllowArchival bool `json:"allowArchival"`
 }
+
+type UnreadCount struct {
+	UnreadCount int `json:"unreadCount"`
+}
