@@ -1,4 +1,4 @@
-package response
+package request
 
 type BlockAdd struct {
 	Name string `json:"blockName"`
@@ -18,4 +18,8 @@ type BlockUpdate struct {
 	Tags              string   `json:"blockTags"`
 	Completed         bool     `json:"blockCompleted"`
 	KanbanMode        bool     `json:"kanbanMode"`
+}
+
+type BlockBulkUpdate struct {
+	BlockIds []string `json:"blockIds"`
 }

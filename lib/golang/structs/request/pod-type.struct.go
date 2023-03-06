@@ -1,5 +1,10 @@
-package response
+package request
 
-type PodType struct {
+type PodTypeAdd struct {
+	Name string `json:"podTypeName"`
+}
+
+type PodTypeUpdate struct {
+	ID   string `json:"id"`
 	Name string `json:"podTypeName"`
 }

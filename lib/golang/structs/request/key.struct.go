@@ -1,4 +1,4 @@
-package response
+package request
 
 type KeyAdd struct {
 	Name string `json:"keyName"`
