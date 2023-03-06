@@ -40,3 +40,13 @@ type SearchUser struct {
 	FirstName string `json:"firstName"`
 	FullName  string `json:"FullName"`
 }
+
+type SharedUser struct {
+	ID            string `json:"id"`
+	Acl           string `json:"acl"`
+	Username      string `json:"userName"`
+	FirstName     string `json:"firstName"`
+	LastName      string `json:"lastName"`
+	FullName      string `json:"fullName"`
+	AddressUserBy string `json:"addressUserBy"`
+}

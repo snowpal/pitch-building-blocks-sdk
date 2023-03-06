@@ -36,11 +36,13 @@ type Pod struct {
 	ProjectListName   *string `json:"projectListName"`
 
 	// Acl Attributes
-	Acl         *string `json:"acl"`
-	IsShared    *bool   `json:"isShared"`
-	CanLeave    *bool   `json:"canLeave"`
-	AllowDelete *bool   `json:"allowDelete"`
-	CanDelete   *bool   `json:"canDelete"`
+	Acl            *string       `json:"acl"`
+	IsShared       *bool         `json:"isShared"`
+	CanLeave       *bool         `json:"canLeave"`
+	AllowDelete    *bool         `json:"allowDelete"`
+	CanDelete      *bool         `json:"canDelete"`
+	SharedUsers    *[]SharedUser `json:"sharedUsers"`
+	CurrentUserAcl SharedUser    `json:"currentUserAcl"`
 
 	// Count Attributes
 	KeysCount        *int `json:"keysCount"`

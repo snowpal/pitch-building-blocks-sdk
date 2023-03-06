@@ -43,3 +43,8 @@ type PodWithParam struct {
 	AllTasks      *bool `json:"allTasks"`
 	AllChecklists *bool `json:"allChecklists"`
 }
+
+type SharePod struct {
+	Acl    string    `json:"podAcl"`
+	PodIds *[]string `json:"podIds"`
+}

@@ -45,3 +45,9 @@ type BlockWithParam struct {
 	AllTasks      *bool     `json:"allTasks"`
 	AllChecklists *bool     `json:"allChecklists"`
 }
+
+type ShareBlock struct {
+	Acl      string    `json:"blockAcl"`
+	PodIds   *[]string `json:"podIds"`
+	BlockIds *[]string `json:"blockIds"`
+}
