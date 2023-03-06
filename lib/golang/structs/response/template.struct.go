@@ -19,8 +19,8 @@ type KeyTemplate struct {
 	Color        string `json:"color"`
 	Tags         string `json:"tags"`
 	PreviewUrl   string `json:"previewUrl"`
-	LastModified string `json:"lastModified"`
 	Archived     bool   `json:"archived"`
+	LastModified string `json:"lastModified"`
 }
 
 type BlockTemplates struct {
@@ -34,9 +34,9 @@ type BlockTemplate struct {
 	Color         string  `json:"color"`
 	Tags          string  `json:"tags"`
 	PreviewUrl    string  `json:"previewUrl"`
-	LastModified  string  `json:"lastModified"`
 	Archived      bool    `json:"archived"`
 	KeyTemplateId *string `json:"keyTemplateId"`
+	LastModified  string  `json:"lastModified"`
 }
 
 type PodTemplates struct {
@@ -50,8 +50,8 @@ type PodTemplate struct {
 	Color           string  `json:"color"`
 	Tags            string  `json:"tags"`
 	PreviewUrl      string  `json:"previewUrl"`
-	LastModified    string  `json:"lastModified"`
 	Archived        bool    `json:"archived"`
 	KeyTemplateId   *string `json:"keyTemplateId"`
 	BlockTemplateId *string `json:"blockTemplateId"`
+	LastModified    string  `json:"lastModified"`
 }
