@@ -1,5 +1,6 @@
-package response
+package request
 
 type Note struct {
-	NoteText string `json:"noteText"`
+	ID       *string `json:"id"`
+	NoteText *string `json:"noteText"`
 }

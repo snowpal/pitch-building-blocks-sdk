@@ -1,5 +1,6 @@
-package response
+package request
 
 type BlockType struct {
-	Name string `json:"blockTypeName"`
+	ID   *string `json:"id"`
+	Name *string `json:"blockTypeName"`
 }

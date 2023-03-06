@@ -1,5 +1,6 @@
-package response
+package request
 
 type PodType struct {
-	Name string `json:"podTypeName"`
+	ID   *string `json:"id"`
+	Name *string `json:"podTypeName"`
 }

@@ -7,7 +7,7 @@ type Scale struct {
 	Name            string                  `json:"scaleName"`
 	Type            string                  `json:"scaleType"`
 	ScaleValues     []string                `json:"scaleValues"`
+	TeacherReadOnly *bool                   `json:"teacherReadOnly"`
 	Modifier        common.ResourceModifier `json:"modifier"`
 	LastModified    string                  `json:"lastModified"`
-	TeacherReadOnly *bool                   `json:"teacherReadOnly"`
 }

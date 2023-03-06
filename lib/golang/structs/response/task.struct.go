@@ -11,9 +11,9 @@ type Task struct {
 	Name      string                  `json:"taskName"`
 	DueDate   string                  `json:"taskDueDate"`
 	Completed bool                    `json:"isCompleted"`
+	Assignees []TaggedUser            `json:"assignees"`
 	Key       *common.SlimKey         `json:"key"`
 	Block     *common.SlimBlock       `json:"block"`
 	Creator   common.ResourceCreator  `json:"creator"`
 	Modifier  common.ResourceModifier `json:"modifier"`
-	Assignees []User                  `json:"assignees"`
 }

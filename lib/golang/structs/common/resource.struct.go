@@ -14,3 +14,11 @@ type ResourceModifier struct {
 	ModifiedOn string `json:"modifiedOn"`
 	ModifiedBy string `json:"modifiedBy"`
 }
+
+type AllowArchival struct {
+	AllowArchival bool `json:"allowArchival"`
+}
+
+type UnreadCount struct {
+	UnreadCount int `json:"unreadCount"`
+}

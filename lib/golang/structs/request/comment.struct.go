@@ -1,6 +1,7 @@
-package response
+package request
 
 type Comment struct {
-	CommentText   string    `json:"commentText"`
+	ID            *string   `json:"id"`
+	CommentText   *string   `json:"commentText"`
 	TaggedUserIds *[]string `json:"taggedUserIds"`
 }
