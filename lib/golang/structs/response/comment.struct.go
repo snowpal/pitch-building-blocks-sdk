@@ -16,6 +16,7 @@ type Comment struct {
 
 	Key   *common.SlimKey   `json:"key"`
 	Block *common.SlimBlock `json:"block"`
+	Pod   *common.SlimPod   `json:"pod"`
 
 	Creator      common.ResourceCreator  `json:"creator"`
 	Modifier     common.ResourceModifier `json:"modifier"`

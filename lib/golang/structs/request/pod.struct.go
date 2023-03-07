@@ -15,8 +15,9 @@ type Pod struct {
 	Tags              *string `json:"podTags"`
 	ScaleValue        *string `json:"scaleValue"`
 
-	Completed  *bool `json:"podCompleted"`
-	KanbanMode *bool `json:"kanbanMode"`
+	AllowArchival *bool `json:"allowArchival"`
+	Completed     *bool `json:"podCompleted"`
+	KanbanMode    *bool `json:"kanbanMode"`
 
 	TaggedUserIds *[]string `json:"taggedUserIds"`
 	PodIds        *[]string `json:"podIds"`
@@ -45,6 +46,7 @@ type PodWithParam struct {
 }
 
 type SharePod struct {
-	Acl    string    `json:"podAcl"`
-	PodIds *[]string `json:"podIds"`
+	Acl            string    `json:"podAcl"`
+	PodIds         *[]string `json:"podIds"`
+	StudentUserIds *[]string `json:"studentUserIds"`
 }
