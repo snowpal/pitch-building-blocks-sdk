@@ -7,9 +7,12 @@ type BlockTypes struct {
 }
 
 type BlockType struct {
-	ID              string                  `json:"id"`
-	Name            string                  `json:"blockTypeName"`
-	TeacherReadOnly *bool                   `json:"teacherReadOnly"`
-	Modifier        common.ResourceModifier `json:"modifier"`
-	LastModified    string                  `json:"lastModified"`
+	ID     string              `json:"id"`
+	Name   string              `json:"blockTypeName"`
+	Blocks *[]common.SlimBlock `json:"blocks"`
+
+	TeacherReadOnly *bool `json:"teacherReadOnly"`
+
+	Modifier     *common.ResourceModifier `json:"modifier"`
+	LastModified string                   `json:"lastModified"`
 }
