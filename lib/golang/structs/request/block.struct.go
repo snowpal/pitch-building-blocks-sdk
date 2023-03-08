@@ -19,8 +19,9 @@ type Block struct {
 	Tags              *string `json:"blockTags"`
 	ScaleValue        *string `json:"scaleValue"`
 
-	Completed  *bool `json:"blockCompleted"`
-	KanbanMode *bool `json:"kanbanMode"`
+	AllowArchival *bool `json:"allowArchival"`
+	Completed     *bool `json:"blockCompleted"`
+	KanbanMode    *bool `json:"kanbanMode"`
 
 	TaggedUserIds *[]string `json:"taggedUserIds"`
 	BlockIds      *[]string `json:"blockIds"`
