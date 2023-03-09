@@ -11,9 +11,9 @@ const (
 const (
 	RouteAttributesGetDisplayableAttributesOfKey   = "app/resource/attributes"
 	RouteAttributesUpdateKeyDisplayAttributes      = "keys/%s/attributes"
-	RouteAttributesUpdateBlockDisplayAttributes    = "blocks/%s/attributes"
-	RouteAttributesUpdateKeyPodDisplayAttributes   = "pods/%s/attributes"
-	RouteAttributesUpdateBlockPodDisplayAttributes = "block-pods/%s/attributes"
+	RouteAttributesUpdateBlockDisplayAttributes    = "blocks/%s/attributes?keyId=%s"
+	RouteAttributesUpdateKeyPodDisplayAttributes   = "pods/%s/attributes?keyId=%s"
+	RouteAttributesUpdateBlockPodDisplayAttributes = "block-pods/%s/attributes?keyId=%s&blockId=%s"
 )
 
 const (

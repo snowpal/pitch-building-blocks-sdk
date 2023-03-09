@@ -14,7 +14,7 @@ func GetResourceAttrs(jwtToken string) (response.ResourceAttributes, error) {
 	var resourceAttrs response.ResourceAttributes
 
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodGet, golang.RouteAttributesGetDisplayableAttributesOfKey, nil)
+	req, err := http.NewRequest(http.MethodGet, helpers.GetRoute(golang.RouteAttributesGetDisplayableAttributesOfKey), nil)
 
 	if err != nil {
 		fmt.Println(err)
