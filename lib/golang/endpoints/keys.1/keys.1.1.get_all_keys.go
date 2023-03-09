@@ -14,7 +14,7 @@ func GetAllKeys(jwtToken string) {
 
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
 
 	helpers.AddUserHeaders(jwtToken, req)
@@ -22,7 +22,7 @@ func GetAllKeys(jwtToken string) {
 	res, _ := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
@@ -34,7 +34,7 @@ func GetAllKeys(jwtToken string) {
 	body, _ := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
 	fmt.Println(string(body))
 }

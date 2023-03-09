@@ -11,9 +11,9 @@ const (
 const (
 	RouteAttributesGetDisplayableAttributesOfKey   = "app/resource/attributes"
 	RouteAttributesUpdateKeyDisplayAttributes      = "keys/%s/attributes"
-	RouteAttributesUpdateBlockDisplayAttributes    = "blocks/%s/attributes"
-	RouteAttributesUpdateKeyPodDisplayAttributes   = "pods/%s/attributes"
-	RouteAttributesUpdateBlockPodDisplayAttributes = "block-pods/%s/attributes"
+	RouteAttributesUpdateBlockDisplayAttributes    = "blocks/%s/attributes?keyId=%s"
+	RouteAttributesUpdateKeyPodDisplayAttributes   = "pods/%s/attributes?keyId=%s"
+	RouteAttributesUpdateBlockPodDisplayAttributes = "block-pods/%s/attributes?keyId=%s&blockId=%s"
 )
 
 const (
@@ -93,7 +93,7 @@ const (
 
 const (
 	RouteBlockPodsGetBlockPods                   = "blocks/%s/pods?batchIndex=%s&keyId=%s"
-	RouteBlockPodsAddBlockPod                    = "blocks/%s/pods?batchIndex=%s&keyId=%s"
+	RouteBlockPodsAddBlockPod                    = "blocks/%s/pods?keyId=%s"
 	RouteBlockPodsAddBlockPodBasedOnTemplate     = "blocks/%s/pods/by-template?keyId=%s&templateId=%s&excludeTasks=%s"
 	RouteBlockPodsLinkPodToBlock                 = "blocks/%s/pods/%s/link?keyId=%s"
 	RouteBlockPodsUnlinkPodFromBlock             = "blocks/%s/pods/%s/unlink?keyId=%s"

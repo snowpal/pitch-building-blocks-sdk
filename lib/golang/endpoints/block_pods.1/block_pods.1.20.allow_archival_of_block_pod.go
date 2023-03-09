@@ -1,33 +1,38 @@
 package block_pods
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/common"
+	"development/go/recipes/lib/golang/structs/request"
+	"development/go/recipes/lib/golang/structs/response"
 	"fmt"
 	"io"
 	"net/http"
 	"strings"
 )
 
-func main(jwtToken string) {
+func AllowArchivalOfBlockPod(jwtToken string, slimPod common.SlimPod, pod request.Pod) (response.Pod, error) {
+	podResponse := response.Pod{}
 
-	url := "block-pods/%s/allow-archival?keyId=%s&blockId=%s"
-	method := "PATCH"
-
-	payload := strings.NewReader(`{"allowArchival":"allow_delete"}`)
-
-	client := &http.Client{}
-	req, err := http.NewRequest(method, url, payload)
-
+	requestBody, err := helpers.GetRequestBody(pod)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return podResponse, err
+	}
+	payload := strings.NewReader(requestBody)
+	client := &http.Client{}
+	req, err := http.NewRequest(http.MethodPatch, helpers.GetRoute(golang.RouteBlockPodsAllowArchivalOfBlockPod, slimPod.ID, slimPod.Key.ID, slimPod.Block.ID), payload)
+	if err != nil {
+		fmt.Println(err)
+		return podResponse, err
 	}
 	helpers.AddUserHeaders(jwtToken, req)
 
 	res, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return podResponse, err
 	}
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
@@ -39,7 +44,8 @@ func main(jwtToken string) {
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return podResponse, err
 	}
 	fmt.Println(string(body))
+	return podResponse, nil
 }

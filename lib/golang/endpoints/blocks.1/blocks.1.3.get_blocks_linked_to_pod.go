@@ -3,7 +3,7 @@ package blocks_1
 import (
 	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
-	"development/go/recipes/lib/golang/structs/response"
+	"development/go/recipes/lib/golang/structs/common"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -12,7 +12,7 @@ import (
 )
 
 func GetBlocksLinkedToPods(jwtToken string) {
-	block := response.SlimBlock{Name: "SlimBlock A"}
+	block := common.SlimBlock{Name: "SlimBlock A"}
 	blockBody, err := json.Marshal(block)
 	if err != nil {
 		return
@@ -24,14 +24,14 @@ func GetBlocksLinkedToPods(jwtToken string) {
 
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
 
 	helpers.AddUserHeaders(jwtToken, req)
 	res, _ := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
@@ -43,7 +43,7 @@ func GetBlocksLinkedToPods(jwtToken string) {
 	body, _ := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
 	fmt.Println(string(body))
 }

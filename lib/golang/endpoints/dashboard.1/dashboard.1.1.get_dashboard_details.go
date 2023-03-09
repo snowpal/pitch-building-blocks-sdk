@@ -7,24 +7,24 @@ import (
 	"net/http"
 )
 
-func main(jwtToken string) {
+func main(jwtToken string) error {
 
 	url := "dashboard/combined-responses"
 	method := "GET"
 
 	client := &http.Client{}
-	req, err := http.NewRequest(method, url, nil)
+	req, err := http.NewRequest(http.MethodPatch, helpers.GetRoute(golang), nil)
 
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
 	helpers.AddUserHeaders(jwtToken, req)
 
 	res, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
@@ -36,7 +36,7 @@ func main(jwtToken string) {
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
 	fmt.Println(string(body))
 }

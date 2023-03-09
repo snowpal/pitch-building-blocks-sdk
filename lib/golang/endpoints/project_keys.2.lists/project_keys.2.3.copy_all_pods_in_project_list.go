@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func main(jwtToken string) {
+func main(jwtToken string) error {
 
 	url := "project-block-lists/%s/pods/copy-all?keyId=%s&targetKeyId=%s&targetBlockId=%s&targetProjectListId=%s&allPods=%s&allTasks=%s&blockId=%s"
 	method := "POST"
@@ -16,18 +16,18 @@ func main(jwtToken string) {
 	payload := strings.NewReader(``)
 
 	client := &http.Client{}
-	req, err := http.NewRequest(method, url, payload)
+	req, err := http.NewRequest(http.MethodPatch, helpers.GetRoute(golang), payload)
 
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
 	helpers.AddUserHeaders(jwtToken, req)
 
 	res, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
@@ -39,7 +39,7 @@ func main(jwtToken string) {
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
 	fmt.Println(string(body))
 }
