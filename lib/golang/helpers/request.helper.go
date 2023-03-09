@@ -3,6 +3,7 @@ package helpers
 import (
 	"development/go/recipes/lib/golang"
 	"encoding/json"
+	"errors"
 	"net/http"
 	"strings"
 )
@@ -16,13 +17,16 @@ func AddAppHeaders(req *http.Request) {
 	addHeaders(req)
 }
 
-func GetRoute(route string, args ...string) string {
-	requestRoute := ""
-	tokens := strings.Split(route, "%s")
-	for index, token := range tokens {
-		requestRoute += token + args[index]
+func GetRoute(route string, args ...string) (string, error) {
+	var res string
+	if len(strings.Split(route, "%s"))-1 != len(args) {
+		return res, errors.New("substitution does not match args count")
 	}
-	return golang.HostDev + requestRoute
+	for _, arg := range args {
+		route = strings.Replace(route, "%s", arg, 1)
+	}
+	res = golang.HostDev + route
+	return res, nil
 }
 
 func GetRequestBody(obj interface{}) (string, error) {

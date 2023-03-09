@@ -18,3 +18,9 @@ type ResourceModifier struct {
 type UnreadCount struct {
 	UnreadCount int `json:"unreadCount"`
 }
+
+type ResourceIdParam struct {
+	KeyId   string
+	BlockId string
+	PodId   string
+}

@@ -11,40 +11,43 @@ import (
 )
 
 func GetResourceAttrs(jwtToken string) (response.ResourceAttributes, error) {
-	var resourceAttrs response.ResourceAttributes
-
+	var resAttributes response.ResourceAttributes
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodGet, helpers.GetRoute(golang.RouteAttributesGetDisplayableAttributesOfKey), nil)
-
+	route, err := helpers.GetRoute(golang.RouteAttributesGetDisplayableAttributesOfKey)
 	if err != nil {
 		fmt.Println(err)
-		return resourceAttrs, err
+		return resAttributes, err
 	}
+
+	var req *http.Request
+	req, err = http.NewRequest(http.MethodGet, route, nil)
+	if err != nil {
+		fmt.Println(err)
+		return resAttributes, err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, _ := client.Do(req)
+	var res *http.Response
+	res, err = client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return resourceAttrs, err
+		return resAttributes, err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
+
+	defer helpers.CloseBody(res.Body)
 
 	body, _ := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return resourceAttrs, err
+		return resAttributes, err
 	}
-	fmt.Println(string(body))
 
-	err = json.Unmarshal(body, &resourceAttrs)
+	err = json.Unmarshal(body, &resAttributes)
 	if err != nil {
-		return resourceAttrs, err
+		fmt.Println(err)
+		return resAttributes, err
 	}
 
-	return resourceAttrs, nil
+	return resAttributes, nil
 }
