@@ -93,7 +93,7 @@ const (
 
 const (
 	RouteBlockPodsGetBlockPods                   = "blocks/%s/pods?batchIndex=%s&keyId=%s"
-	RouteBlockPodsAddBlockPod                    = "blocks/%s/pods?batchIndex=%s&keyId=%s"
+	RouteBlockPodsAddBlockPod                    = "blocks/%s/pods?keyId=%s"
 	RouteBlockPodsAddBlockPodBasedOnTemplate     = "blocks/%s/pods/by-template?keyId=%s&templateId=%s&excludeTasks=%s"
 	RouteBlockPodsLinkPodToBlock                 = "blocks/%s/pods/%s/link?keyId=%s"
 	RouteBlockPodsUnlinkPodFromBlock             = "blocks/%s/pods/%s/unlink?keyId=%s"

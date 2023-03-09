@@ -45,5 +45,5 @@ func UpdatePodAttrs(jwtToken string, pod common.SlimPod, attribute request.Resou
 		return err
 	}
 	fmt.Println(string(body))
-	return err
+	return nil
 }

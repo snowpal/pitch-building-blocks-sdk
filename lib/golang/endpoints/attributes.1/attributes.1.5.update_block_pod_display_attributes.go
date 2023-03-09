@@ -48,5 +48,5 @@ func UpdateBlockPodAttrs(jwtToken string, pod common.SlimPod, attribute request.
 		return err
 	}
 	fmt.Println(string(body))
-	return err
+	return nil
 }

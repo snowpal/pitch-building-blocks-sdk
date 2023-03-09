@@ -1,10 +1,5 @@
 package request
 
-type Pods struct {
-	KeyId      string `json:"keyId"`
-	BatchIndex *int   `json:"batchIndex"`
-}
-
 type Pod struct {
 	ID                *string `json:"id"`
 	Name              *string `json:"podName"`
@@ -29,15 +24,7 @@ type PodByTemplate struct {
 	ExcludeTasks *bool  `json:"excludeTasks"`
 }
 
-type ArchivedPods struct {
-	KeyId      string  `json:"keyId"`
-	BlockId    *string `json:"blockId"`
-	BatchIndex *int    `json:"batchIndex"`
-}
-
 type PodWithParam struct {
-	KeyId         string  `json:"keyId"`
-	BlockId       *string `json:"blockId"`
 	TargetKeyId   string  `json:"targetKeyId"`
 	TargetBlockId *string `json:"targetBlockId"`
 

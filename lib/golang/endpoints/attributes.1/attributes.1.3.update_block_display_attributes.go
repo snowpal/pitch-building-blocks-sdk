@@ -44,5 +44,5 @@ func UpdateBlockAttrs(jwtToken string, block common.SlimBlock, attribute request
 		return err
 	}
 	fmt.Println(string(body))
-	return err
+	return nil
 }

@@ -19,7 +19,8 @@ func UpdateKeyAttrs(jwtToken string, key common.SlimKey, attribute request.Resou
 
 	payload := strings.NewReader(requestBody)
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodGet, helpers.GetRoute(golang.RouteAttributesUpdateKeyDisplayAttributes, key.ID), payload)
+	req, err := http.NewRequest(http.MethodGet, helpers.GetRoute(golang.RouteAttributesUpdateKeyDisplayAttributes,
+		key.ID), payload)
 	if err != nil {
 		fmt.Println(err)
 		return err
@@ -44,5 +45,5 @@ func UpdateKeyAttrs(jwtToken string, key common.SlimKey, attribute request.Resou
 		return err
 	}
 	fmt.Println(string(body))
-	return err
+	return nil
 }
