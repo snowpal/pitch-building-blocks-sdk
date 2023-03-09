@@ -19,10 +19,12 @@ func SignIn(email string) (response.UserRegistration, error) {
 		"email": "%s",
 		"password": "Welcome1!"
 	}`, email))
-
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodPost, helpers.GetRoute(golang.RouteRegistrationSignInByEmail), payload)
-
+	route, err := helpers.GetRoute(golang.RouteRegistrationSignInByEmail)
+	if err != nil {
+		return userRegistration, err
+	}
+	req, err := http.NewRequest(http.MethodPost, route, payload)
 	if err != nil {
 		fmt.Println(err)
 		return userRegistration, err
@@ -34,12 +36,7 @@ func SignIn(email string) (response.UserRegistration, error) {
 		fmt.Println(err)
 		return userRegistration, err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
+	defer helpers.CloseBody(res.Body)
 
 	body, _ := io.ReadAll(res.Body)
 	if err != nil {

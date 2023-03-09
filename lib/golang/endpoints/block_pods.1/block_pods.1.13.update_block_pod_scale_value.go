@@ -33,12 +33,7 @@ func UpdateBlockPodScaleValue(jwtToken string, slimPod common.SlimPod, pod reque
 		return err
 	}
 
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
+	defer helpers.CloseBody(res.Body)
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
@@ -46,6 +41,5 @@ func UpdateBlockPodScaleValue(jwtToken string, slimPod common.SlimPod, pod reque
 		return err
 	}
 
-	fmt.Println(string(body))
 	return nil
 }

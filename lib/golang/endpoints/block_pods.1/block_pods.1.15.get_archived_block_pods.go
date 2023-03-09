@@ -28,19 +28,13 @@ func GetArchivedBlockPods(jwtToken string, slimBlock common.SlimBlock, batchInde
 		fmt.Println(err)
 		return podsResponse.Pods, err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
+	defer helpers.CloseBody(res.Body)
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
 		return podsResponse.Pods, err
 	}
-	fmt.Println(string(body))
 
 	err = json.Unmarshal(body, &podsResponse)
 	if err != nil {

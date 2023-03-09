@@ -25,18 +25,12 @@ func LinkPodToBlock(jwtToken string, block common.SlimBlock, pod request.Pod) er
 		fmt.Println(err)
 		return err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
+	defer helpers.CloseBody(res.Body)
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
 		return err
 	}
-	fmt.Println(string(body))
 	return nil
 }

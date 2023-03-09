@@ -45,5 +45,4 @@ func GetBlocksLinkedToPods(jwtToken string) {
 		fmt.Println(err)
 		return err
 	}
-	fmt.Println(string(body))
 }

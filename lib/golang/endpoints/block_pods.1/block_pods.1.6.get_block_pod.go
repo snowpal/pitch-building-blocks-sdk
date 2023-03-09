@@ -27,19 +27,13 @@ func GetBlockPod(jwtToken string, pod common.SlimPod) (response.Pod, error) {
 		fmt.Println(err)
 		return podResponse, err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
+	defer helpers.CloseBody(res.Body)
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
 		return podResponse, err
 	}
-	fmt.Println(string(body))
 
 	err = json.Unmarshal(body, &podResponse)
 	if err != nil {

@@ -14,9 +14,9 @@ import (
 
 func GetBlockPods(jwtToken string, block common.SlimBlock, batchIndex int) ([]response.Pod, error) {
 	podsResponse := response.Pods{}
-
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodGet, helpers.GetRoute(golang.RouteBlockPodsGetBlockPods, block.ID, strconv.Itoa(batchIndex), block.Key.ID), nil)
+	req, err := http.NewRequest(http.MethodGet, helpers.GetRoute(golang.RouteBlockPodsGetBlockPods, block.ID,
+		strconv.Itoa(batchIndex), block.Key.ID), nil)
 	if err != nil {
 		fmt.Println(err)
 		return podsResponse.Pods, err
@@ -29,19 +29,14 @@ func GetBlockPods(jwtToken string, block common.SlimBlock, batchIndex int) ([]re
 		fmt.Println(err)
 		return podsResponse.Pods, err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
+
+	defer helpers.CloseBody(res.Body)
 
 	body, _ := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
 		return podsResponse.Pods, err
 	}
-	fmt.Println(string(body))
 
 	err = json.Unmarshal(body, &podsResponse)
 	if err != nil {

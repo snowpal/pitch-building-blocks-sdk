@@ -37,6 +37,5 @@ func AddScaleToBlockPod(jwtToken string, slimPod common.SlimPod, scale request.S
 		fmt.Println(err)
 		return err
 	}
-	fmt.Println(string(body))
 	return nil
 }

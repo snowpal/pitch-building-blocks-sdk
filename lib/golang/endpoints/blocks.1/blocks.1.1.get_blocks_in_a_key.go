@@ -30,19 +30,13 @@ func GetBlocks(jwtToken string) (response.ResourceAttributes, error) {
 		fmt.Println(err)
 		return resourceAttrs, err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
+	defer helpers.CloseBody(res.Body)
 
 	body, _ := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
 		return resourceAttrs, err
 	}
-	fmt.Println(string(body))
 
 	err = json.Unmarshal(body, &resourceAttrs)
 	if err != nil {
