@@ -3,7 +3,7 @@ package blocks_1
 import (
 	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
-	"development/go/recipes/lib/golang/structs/response"
+	"development/go/recipes/lib/golang/structs/common"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -12,7 +12,7 @@ import (
 )
 
 func GetBlocksLinkedToPods(jwtToken string) {
-	block := response.SlimBlock{Name: "SlimBlock A"}
+	block := common.SlimBlock{Name: "SlimBlock A"}
 	blockBody, err := json.Marshal(block)
 	if err != nil {
 		return
