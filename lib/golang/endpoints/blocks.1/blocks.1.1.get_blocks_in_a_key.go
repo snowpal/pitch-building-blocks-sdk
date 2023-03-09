@@ -3,16 +3,16 @@ package blocks_1
 import (
 	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
-	"development/go/recipes/lib/golang/structs"
+	"development/go/recipes/lib/golang/structs/response"
 	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 )
 
-func GetBlocks(jwtToken string) (structs.ResourceAttributes, error) {
+func GetBlocks(jwtToken string) (response.ResourceAttributes, error) {
 	fmt.Println("TODO: Replace structs.ResourceAttributes with Blocks struct")
-	var resourceAttrs structs.ResourceAttributes
+	var resourceAttrs response.ResourceAttributes
 	client := &http.Client{}
 
 	fmt.Println("TODO: Fix arguments")

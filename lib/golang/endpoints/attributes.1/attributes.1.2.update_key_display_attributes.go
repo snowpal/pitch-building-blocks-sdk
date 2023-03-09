@@ -3,28 +3,34 @@ package attributes_1
 import (
 	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/common"
+	"development/go/recipes/lib/golang/structs/request"
 	"fmt"
 	"io"
 	"net/http"
 	"strings"
 )
 
-func UpdateKeyAttrs(jwtToken string, keyId string) {
-	fmt.Println("TODO: Replace with struct")
-	payload := strings.NewReader(`{"showAttribute":"show_attribute","attributeNames":"view[attribute_names]"}`)
-	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf(golang.RouteAttributesUpdateKeyDisplayAttributes, keyId), payload)
+func UpdateKeyAttrs(jwtToken string, key common.SlimKey, attribute request.ResourceAttribute) error {
+	requestBody, err := helpers.GetRequestBody(attribute)
+	if err != nil {
+		return err
+	}
 
+	payload := strings.NewReader(requestBody)
+	client := &http.Client{}
+	req, err := http.NewRequest(http.MethodGet, helpers.GetRoute(golang.RouteAttributesUpdateKeyDisplayAttributes,
+		key.ID), payload)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
 	helpers.AddUserHeaders(jwtToken, req)
 
 	res, _ := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
@@ -36,7 +42,8 @@ func UpdateKeyAttrs(jwtToken string, keyId string) {
 	body, _ := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
 	fmt.Println(string(body))
+	return nil
 }

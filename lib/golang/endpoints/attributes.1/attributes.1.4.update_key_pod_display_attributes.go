@@ -3,40 +3,47 @@ package attributes_1
 import (
 	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/common"
+	"development/go/recipes/lib/golang/structs/request"
 	"fmt"
 	"io"
 	"net/http"
 	"strings"
 )
 
-func UpdatePodAttrs(jwtToken string, keyId string) {
-	fmt.Println("TODO: Replace with struct")
-	payload := strings.NewReader(`{"showAttribute":"show_attribute","attributeNames":"assessment[attribute_names]"}`)
+func UpdatePodAttrs(jwtToken string, pod common.SlimPod, attribute request.ResourceAttribute) error {
+	requestBody, err := helpers.GetRequestBody(attribute)
+	if err != nil {
+		return err
+	}
+
+	payload := strings.NewReader(requestBody)
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf(golang.RouteAttributesUpdateKeyPodDisplayAttributes, keyId), payload)
+	req, err := http.NewRequest(http.MethodGet, helpers.GetRoute(golang.RouteAttributesUpdateKeyPodDisplayAttributes, pod.ID, pod.Key.ID), payload)
 
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
 	helpers.AddUserHeaders(jwtToken, req)
 
 	res, _ := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
 		if err != nil {
-
+			return
 		}
 	}(res.Body)
 
 	body, _ := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
 	fmt.Println(string(body))
+	return nil
 }

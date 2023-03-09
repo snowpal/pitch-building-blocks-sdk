@@ -16,18 +16,18 @@ func main() {
 	payload := strings.NewReader(`{"password":"Welcome2@","confirmPassword":"Welcome2@"}`)
 
 	client := &http.Client{}
-	req, err := http.NewRequest(method, url, payload)
+	req, err := http.NewRequest(http.MethodPatch, helpers.GetRoute(golang), payload)
 
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
 	helpers.AddAppHeaders(req)
 
 	res, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
@@ -39,7 +39,7 @@ func main() {
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
 	fmt.Println(string(body))
 }

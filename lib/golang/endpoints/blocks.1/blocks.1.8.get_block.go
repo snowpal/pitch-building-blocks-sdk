@@ -1,42 +1,46 @@
 package blocks_1
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/common"
+	"development/go/recipes/lib/golang/structs/response"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 )
 
-func main(jwtToken string) {
-
-	url := "blocks/%s?keyId=%s"
-	method := "GET"
-
+func GetBlock(jwtToken string, block common.SlimBlock) (response.Block, error) {
+	blockResponse := response.Block{}
 	client := &http.Client{}
-	req, err := http.NewRequest(method, url, nil)
-
+	req, err := http.NewRequest(http.MethodGet, helpers.GetRoute(golang.RouteBlocksGetBlock, block.ID, block.Key.ID),
+		nil)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return blockResponse, err
 	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
 	res, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return blockResponse, err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
+
+	defer helpers.CloseBody(res.Body)
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return blockResponse, err
 	}
-	fmt.Println(string(body))
+
+	err = json.Unmarshal(body, &blockResponse)
+	if err != nil {
+		fmt.Println(err)
+		return blockResponse, err
+	}
+	return blockResponse, nil
 }
