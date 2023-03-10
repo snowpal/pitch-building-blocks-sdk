@@ -5,27 +5,32 @@ import (
 	"development/go/recipes/lib/golang/helpers"
 	"development/go/recipes/lib/golang/structs/common"
 	"fmt"
-	"io"
 	"net/http"
 )
 
-func RemovePodTypeFromBlockPod(jwtToken string, slimPod common.SlimPod) error {
+func RemovePodTypeFromBlockPod(jwtToken string, podParam common.ResourceIdParam) error {
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodPatch, helpers.GetRoute(golang.RouteBlockPodsRemovePodTypeFromBlockPod, slimPod.ID, slimPod.Key.ID, slimPod.Block.ID), nil)
+	route, err := helpers.GetRoute(
+		golang.RouteBlockPodsRemovePodTypeFromBlockPod,
+		podParam.PodId,
+		podParam.KeyId,
+		podParam.BlockId,
+	)
 	if err != nil {
 		fmt.Println(err)
 		return err
 	}
+
+	var req *http.Request
+	req, err = http.NewRequest(http.MethodPatch, route, nil)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
-	if err != nil {
-		fmt.Println(err)
-		return err
-	}
-	defer helpers.CloseBody(res.Body)
-
-	body, err := io.ReadAll(res.Body)
+	_, err = client.Do(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

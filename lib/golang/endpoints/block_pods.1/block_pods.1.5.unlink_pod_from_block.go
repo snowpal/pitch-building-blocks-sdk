@@ -4,30 +4,28 @@ import (
 	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
 	"development/go/recipes/lib/golang/structs/common"
-	"development/go/recipes/lib/golang/structs/request"
 	"fmt"
-	"io"
 	"net/http"
 )
 
-func UnlinkPodFromBlock(jwtToken string, block common.SlimBlock, pod request.Pod) error {
+func UnlinkPodFromBlock(jwtToken string, podParam common.ResourceIdParam) error {
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodPatch, helpers.GetRoute(golang.RouteBlockPodsUnlinkPodFromBlock, block.ID, *pod.ID, block.Key.ID), nil)
-
+	route, err := helpers.GetRoute(golang.RouteBlockPodsUnlinkPodFromBlock, podParam.BlockId, podParam.PodId, podParam.KeyId)
 	if err != nil {
 		fmt.Println(err)
 		return err
 	}
+
+	var req *http.Request
+	req, err = http.NewRequest(http.MethodPatch, route, nil)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
-	if err != nil {
-		fmt.Println(err)
-		return err
-	}
-	defer helpers.CloseBody(res.Body)
-
-	body, err := io.ReadAll(res.Body)
+	_, err = client.Do(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

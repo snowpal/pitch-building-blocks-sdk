@@ -13,41 +13,52 @@ import (
 	"strings"
 )
 
-func AddBlockPod(jwtToken string, block common.SlimBlock, pod request.Pod) (response.Pod, error) {
-	podResponse := response.Pod{}
-	requestBody, err := helpers.GetRequestBody(pod)
+func AddBlockPod(jwtToken string, reqBody request.AddPodReqBody, podParam common.ResourceIdParam) (response.Pod, error) {
+	resPod := response.Pod{}
+	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)
-		return podResponse, err
+		return resPod, err
 	}
 	payload := strings.NewReader(requestBody)
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodPost, helpers.GetRoute(golang.RouteBlockPodsAddBlockPod, block.ID, block.Key.ID), payload)
+
+	var route string
+	route, err = helpers.GetRoute(golang.RouteBlockPodsAddBlockPod, podParam.BlockId, podParam.KeyId)
 	if err != nil {
 		fmt.Println(err)
-		return podResponse, err
+		return resPod, err
+	}
+
+	var req *http.Request
+	req, err = http.NewRequest(http.MethodPost, route, payload)
+	if err != nil {
+		fmt.Println(err)
+		return resPod, err
 	}
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	var res *http.Response
+	res, err = client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return podResponse, err
+		return resPod, err
 	}
 
 	defer helpers.CloseBody(res.Body)
 
-	body, err := io.ReadAll(res.Body)
+	var body []byte
+	body, err = io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return podResponse, err
+		return resPod, err
 	}
 
-	err = json.Unmarshal(body, &podResponse)
+	err = json.Unmarshal(body, &resPod)
 	if err != nil {
 		fmt.Println(err)
-		return podResponse, err
+		return resPod, err
 	}
-	return podResponse, nil
+	return resPod, nil
 }

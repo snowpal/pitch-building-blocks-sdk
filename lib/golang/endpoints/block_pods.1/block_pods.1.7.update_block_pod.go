@@ -4,7 +4,6 @@ import (
 	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
 	"development/go/recipes/lib/golang/structs/common"
-	"development/go/recipes/lib/golang/structs/request"
 	"development/go/recipes/lib/golang/structs/response"
 	"encoding/json"
 	"fmt"
@@ -13,40 +12,61 @@ import (
 	"strings"
 )
 
-func RouteBlockPodsUpdateBlockPod(jwtToken string, slimPod common.SlimPod, pod request.Pod) (response.Pod, error) {
-	podResponse := response.Pod{}
+type UpdatePodReqBody struct {
+	Name              *string `json:"podName"`
+	SimpleDescription *string `json:"simpleDescription"`
+	DueDate           *string `json:"podDueDate"`
+	Color             *string `json:"podColor"`
+	Tags              *string `json:"podTags"`
+	KanbanMode        *bool   `json:"kanbanMode"`
+}
 
-	requestBody, err := helpers.GetRequestBody(pod)
+func RouteBlockPodsUpdateBlockPod(jwtToken string, reqBody UpdatePodReqBody, podParam common.ResourceIdParam) (response.Pod, error) {
+	resPod := response.Pod{}
+	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)
-		return podResponse, err
+		return resPod, err
 	}
 	payload := strings.NewReader(requestBody)
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodPatch, helpers.GetRoute(golang.RouteBlockPodsUpdateBlockPod, slimPod.ID, slimPod.Key.ID, slimPod.Block.ID), payload)
+
+	var route string
+	route, err = helpers.GetRoute(golang.RouteBlockPodsUpdateBlockPod, podParam.PodId, podParam.KeyId, podParam.BlockId)
 	if err != nil {
 		fmt.Println(err)
-		return podResponse, err
+		return resPod, err
 	}
+
+	var req *http.Request
+	req, err = http.NewRequest(http.MethodGet, route, payload)
+	if err != nil {
+		fmt.Println(err)
+		return resPod, err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	var res *http.Response
+	res, err = client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return podResponse, err
+		return resPod, err
 	}
+
 	defer helpers.CloseBody(res.Body)
 
-	body, err := io.ReadAll(res.Body)
+	var body []byte
+	body, err = io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return podResponse, err
+		return resPod, err
 	}
 
-	err = json.Unmarshal(body, &podResponse)
+	err = json.Unmarshal(body, &resPod)
 	if err != nil {
 		fmt.Println(err)
-		return podResponse, err
+		return resPod, err
 	}
-	return podResponse, nil
+	return resPod, nil
 }
