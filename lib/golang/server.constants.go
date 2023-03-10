@@ -361,8 +361,8 @@ const (
 const (
 	RouteKeyPodsGetKeyPodNotes   = "pods/%s/notes?keyId=%s"
 	RouteKeyPodsAddKeyPodNote    = "pods/%s/notes?keyId=%s"
-	RouteKeyPodsUpdateKeyPodNote = "pod-notes/%s"
-	RouteKeyPodsDeleteKeyPodNote = "pod-notes/%s"
+	RouteKeyPodsUpdateKeyPodNote = "pod-notes/%s?keyId=%s&podId=%s"
+	RouteKeyPodsDeleteKeyPodNote = "pod-notes/%s?keyId=%s&podId=%s"
 )
 
 const (
