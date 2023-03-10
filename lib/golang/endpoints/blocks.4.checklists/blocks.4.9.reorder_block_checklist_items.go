@@ -12,33 +12,34 @@ import (
 	"strings"
 )
 
-func RenameBlockChecklist(
+func ReorderBlockChecklistItems(
 	jwtToken string,
-	reqBody request.ChecklistReqBody,
+	reqBody request.ReorderChecklistItemsReqBody,
 	checklistParam request.ChecklistIdParam,
-) (response.Checklist, error) {
-	resChecklist := response.Checklist{}
+) ([]response.ChecklistItem, error) {
+	resChecklistItems := response.ChecklistItems{}
 	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)
-		return resChecklist, err
+		return resChecklistItems.ChecklistItems, err
 	}
 	payload := strings.NewReader(requestBody)
 	client := &http.Client{}
 	route, err := helpers.GetRoute(
-		golang.RouteBlocksRenameChecklistTitle,
+		golang.RouteBlocksReorderBlockChecklistItems,
 		*checklistParam.BlockId,
 		*checklistParam.ChecklistId,
 		checklistParam.KeyId,
 	)
 	if err != nil {
 		fmt.Println(err)
-		return resChecklist, err
+		return resChecklistItems.ChecklistItems, err
 	}
+
 	req, err := http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
 		fmt.Println(err)
-		return resChecklist, err
+		return resChecklistItems.ChecklistItems, err
 	}
 
 	helpers.AddUserHeaders(jwtToken, req)
@@ -46,7 +47,7 @@ func RenameBlockChecklist(
 	res, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return resChecklist, err
+		return resChecklistItems.ChecklistItems, err
 	}
 
 	defer helpers.CloseBody(res.Body)
@@ -54,13 +55,13 @@ func RenameBlockChecklist(
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return resChecklist, err
+		return resChecklistItems.ChecklistItems, err
 	}
 
-	err = json.Unmarshal(body, &resChecklist)
+	err = json.Unmarshal(body, &resChecklistItems)
 	if err != nil {
 		fmt.Println(err)
-		return resChecklist, err
+		return resChecklistItems.ChecklistItems, err
 	}
-	return resChecklist, nil
+	return resChecklistItems.ChecklistItems, nil
 }

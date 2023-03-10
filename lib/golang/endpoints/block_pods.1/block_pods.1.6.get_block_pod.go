@@ -14,7 +14,7 @@ import (
 func GetBlockPod(jwtToken string, podParam common.ResourceIdParam) (response.Pod, error) {
 	resPod := response.Pod{}
 	client := &http.Client{}
-	route, err := helpers.GetRoute(golang.RouteBlockPodsUnlinkPodFromBlock, podParam.BlockId, podParam.PodId, podParam.KeyId)
+	route, err := helpers.GetRoute(golang.RouteBlockPodsGetBlockPod, podParam.PodId, podParam.KeyId, podParam.BlockId)
 	if err != nil {
 		fmt.Println(err)
 		return resPod, err

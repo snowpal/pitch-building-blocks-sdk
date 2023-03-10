@@ -11,7 +11,7 @@ import (
 func DeleteBlockChecklist(jwtToken string, checklistParam request.ChecklistIdParam) error {
 	client := &http.Client{}
 	route, err := helpers.GetRoute(
-		golang.RouteBlocksDeleteChecklist,
+		golang.RouteBlocksDeleteBlockChecklist,
 		*checklistParam.BlockId,
 		*checklistParam.ChecklistId,
 		checklistParam.KeyId,

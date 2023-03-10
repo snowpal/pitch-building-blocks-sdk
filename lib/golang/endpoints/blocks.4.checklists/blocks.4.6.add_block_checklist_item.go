@@ -26,7 +26,7 @@ func AddBlockChecklistItem(
 	payload := strings.NewReader(requestBody)
 	client := &http.Client{}
 	route, err := helpers.GetRoute(
-		golang.RouteBlocksAddChecklistItem,
+		golang.RouteBlocksAddBlockChecklistItem,
 		*checklistParam.BlockId,
 		*checklistParam.ChecklistId,
 		checklistParam.KeyId,
