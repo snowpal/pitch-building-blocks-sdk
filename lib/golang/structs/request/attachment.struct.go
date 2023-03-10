@@ -9,3 +9,10 @@ type Attachment struct {
 	FileName *string `json:"fileName"`
 	FileUrl  *string `json:"fileUrl"`
 }
+
+type AttachmentParam struct {
+	AttachmentId string
+	KeyId        string
+	BlockId      *string
+	PodId        *string
+}
