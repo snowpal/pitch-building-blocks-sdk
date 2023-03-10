@@ -1,39 +1,66 @@
 package blocks_4
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/request"
+	"development/go/recipes/lib/golang/structs/response"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"strings"
 )
 
-func main(jwtToken string) error {
-
-	url := "blocks/%s/checklists/reorder?keyId=%s"
-	method := "PATCH"
-
-	payload := strings.NewReader(`{"checklistIds":"63db073e9d84870014bdfb58,63d136d4fea2a60015442478"}`)
-
-	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodPatch, helpers.GetRoute(golang), payload)
-
+func ReorderBlockChecklists(
+	jwtToken string,
+	reqBody request.ReorderChecklistsReqBody,
+	checklistParam request.ChecklistIdParam,
+) ([]response.Checklist, error) {
+	resChecklists := response.Checklists{}
+	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)
-		return err
+		return resChecklists.Checklists, err
 	}
+	payload := strings.NewReader(requestBody)
+	client := &http.Client{}
+	route, err := helpers.GetRoute(
+		golang.RouteBlocksReorderBlockChecklists,
+		*checklistParam.BlockId,
+		checklistParam.KeyId,
+	)
+	if err != nil {
+		fmt.Println(err)
+		return resChecklists.Checklists, err
+	}
+
+	req, err := http.NewRequest(http.MethodPatch, route, payload)
+	if err != nil {
+		fmt.Println(err)
+		return resChecklists.Checklists, err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
 	res, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return err
+		return resChecklists.Checklists, err
 	}
+
 	defer helpers.CloseBody(res.Body)
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return err
+		return resChecklists.Checklists, err
 	}
+
+	err = json.Unmarshal(body, &resChecklists)
+	if err != nil {
+		fmt.Println(err)
+		return resChecklists.Checklists, err
+	}
+	return resChecklists.Checklists, nil
 }
