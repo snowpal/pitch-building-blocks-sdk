@@ -2,9 +2,9 @@ package request
 
 type ChecklistIdParam struct {
 	KeyId           string
-	BlockId         string
-	PodId           string
-	ChecklistId     string
+	BlockId         *string
+	PodId           *string
+	ChecklistId     *string
 	ChecklistItemId *string
 }
 

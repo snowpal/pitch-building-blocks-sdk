@@ -12,10 +12,10 @@ func DeleteBlockPodChecklist(jwtToken string, checklistParam request.ChecklistId
 	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlockPodsDeleteBlockPodChecklist,
-		checklistParam.PodId,
-		checklistParam.ChecklistId,
+		*checklistParam.PodId,
+		*checklistParam.ChecklistId,
 		checklistParam.KeyId,
-		checklistParam.BlockId,
+		*checklistParam.BlockId,
 	)
 	if err != nil {
 		fmt.Println(err)

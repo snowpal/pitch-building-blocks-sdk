@@ -27,10 +27,10 @@ func RenameBlockPodChecklist(
 	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlockPodsRenameBlockPodChecklist,
-		checklistParam.PodId,
-		checklistParam.ChecklistId,
+		*checklistParam.PodId,
+		*checklistParam.ChecklistId,
 		checklistParam.KeyId,
-		checklistParam.BlockId,
+		*checklistParam.BlockId,
 	)
 	if err != nil {
 		fmt.Println(err)

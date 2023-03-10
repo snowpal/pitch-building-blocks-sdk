@@ -3,7 +3,6 @@ package block_pods_4
 import (
 	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
-	"development/go/recipes/lib/golang/structs/common"
 	"development/go/recipes/lib/golang/structs/request"
 	"development/go/recipes/lib/golang/structs/response"
 	"encoding/json"
@@ -16,7 +15,7 @@ import (
 func AddBlockPodChecklist(
 	jwtToken string,
 	reqBody request.ChecklistReqBody,
-	podParam common.ResourceIdParam,
+	checklistParam request.ChecklistIdParam,
 ) (response.Checklist, error) {
 	resChecklist := response.Checklist{}
 	requestBody, err := helpers.GetRequestBody(reqBody)
@@ -28,9 +27,9 @@ func AddBlockPodChecklist(
 	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlockPodsAddBlockPodChecklist,
-		podParam.PodId,
-		podParam.KeyId,
-		podParam.BlockId,
+		*checklistParam.PodId,
+		checklistParam.KeyId,
+		*checklistParam.BlockId,
 	)
 	if err != nil {
 		fmt.Println(err)

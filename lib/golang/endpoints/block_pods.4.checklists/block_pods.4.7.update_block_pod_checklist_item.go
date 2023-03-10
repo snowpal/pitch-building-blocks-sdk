@@ -27,11 +27,11 @@ func UpdateBlockPodChecklistItem(
 	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlockPodsUpdateBlockPodChecklistItem,
-		checklistParam.PodId,
-		checklistParam.ChecklistId,
+		*checklistParam.PodId,
+		*checklistParam.ChecklistId,
 		*checklistParam.ChecklistItemId,
 		checklistParam.KeyId,
-		checklistParam.BlockId,
+		*checklistParam.BlockId,
 	)
 	if err != nil {
 		fmt.Println(err)
