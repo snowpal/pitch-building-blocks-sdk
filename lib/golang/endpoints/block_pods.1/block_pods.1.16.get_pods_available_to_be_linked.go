@@ -11,33 +11,43 @@ import (
 	"net/http"
 )
 
-func GetPodsAvailableToBeLinked(jwtToken string, slimBlock common.SlimBlock) ([]response.Pod, error) {
-	podsResponse := response.Pods{}
-
+func GetPodsAvailableToBeLinked(jwtToken string, podParam common.ResourceIdParam) ([]response.Pod, error) {
+	resPods := response.Pods{}
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodGet, helpers.GetRoute(golang.RouteBlockPodsGetPodsAvailableToBeLinked, slimBlock.ID, slimBlock.Key.ID), nil)
+	route, err := helpers.GetRoute(golang.RouteBlockPodsGetPodsAvailableToBeLinked, podParam.BlockId, podParam.KeyId)
 	if err != nil {
 		fmt.Println(err)
-		return podsResponse.Pods, err
+		return resPods.Pods, err
 	}
+
+	var req *http.Request
+	req, err = http.NewRequest(http.MethodGet, route, nil)
+	if err != nil {
+		fmt.Println(err)
+		return resPods.Pods, err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	var res *http.Response
+	res, err = client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return podsResponse.Pods, err
+		return resPods.Pods, err
 	}
+
 	defer helpers.CloseBody(res.Body)
 
-	body, err := io.ReadAll(res.Body)
+	var body []byte
+	body, err = io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return podsResponse.Pods, err
+		return resPods.Pods, err
 	}
 
-	err = json.Unmarshal(body, &podsResponse)
+	err = json.Unmarshal(body, &resPods)
 	if err != nil {
-		return podsResponse.Pods, err
+		return resPods.Pods, err
 	}
-	return podsResponse.Pods, nil
+	return resPods.Pods, nil
 }
