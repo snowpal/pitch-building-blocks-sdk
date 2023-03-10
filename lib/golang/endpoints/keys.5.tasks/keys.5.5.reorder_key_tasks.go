@@ -1,4 +1,4 @@
-package blocks_7
+package keys_5
 
 import (
 	"development/go/recipes/lib/golang"
@@ -9,22 +9,27 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 )
 
-func GetBlockTasks(jwtToken string, taskParam request.TaskIdParam) ([]response.Task, error) {
+func ReorderKeyTasks(
+	jwtToken string,
+	reqBody request.ReorderTasksReqBody,
+	taskParam request.TaskIdParam,
+) ([]response.Task, error) {
 	resTasks := response.Tasks{}
-	client := &http.Client{}
-	route, err := helpers.GetRoute(
-		golang.RouteBlocksGetBlockTasks,
-		*taskParam.BlockId,
-		taskParam.KeyId,
-	)
+	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)
 		return resTasks.Tasks, err
 	}
-
-	req, err := http.NewRequest(http.MethodGet, route, nil)
+	payload := strings.NewReader(requestBody)
+	client := &http.Client{}
+	route, err := helpers.GetRoute(
+		golang.RouteKeysReorderKeyTasks,
+		taskParam.KeyId,
+	)
+	req, err := http.NewRequest(http.MethodPost, route, payload)
 	if err != nil {
 		fmt.Println(err)
 		return resTasks.Tasks, err

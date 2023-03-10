@@ -301,11 +301,11 @@ const (
 )
 
 const (
-	RouteKeysGetKeyTasks    = "keys/%s/tasks"
-	RouteKeysAddKeyTask     = "keys/%s/tasks"
-	RouteKeysUpdateKeyTask  = "key-tasks/%s?keyId=%s"
-	RouteKeysDeleteKeyTask  = "key-tasks/%s?keyId=%s"
-	RouteKeysReorderKeyTask = "keys/%s/tasks/reorder"
+	RouteKeysGetKeyTasks     = "keys/%s/tasks"
+	RouteKeysAddKeyTask      = "keys/%s/tasks"
+	RouteKeysUpdateKeyTask   = "key-tasks/%s?keyId=%s"
+	RouteKeysDeleteKeyTask   = "key-tasks/%s?keyId=%s"
+	RouteKeysReorderKeyTasks = "keys/%s/tasks/reorder"
 )
 
 const (
