@@ -6,43 +6,62 @@ import (
 	"development/go/recipes/lib/golang/structs/request"
 	"development/go/recipes/lib/golang/structs/response"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 	"strings"
 )
 
-func AddBlockPodAttachment(jwtToken string, param request.BlockPodParam) (response.Attachment, error) {
-	attachment := response.Attachment{}
-	payload := strings.NewReader(`{"files":[{"fileName":"file_name","fileURL":"file_url"}]}`)
-
-	client := &http.Client{}
-	route, err := helpers.GetRoute(golang.RouteBlockPodsAddBlockPodAttachment, param.PodId, param.KeyId, *param.BlockId)
+func AddBlockPodAttachment(
+	jwtToken string,
+	reqBody request.AttachmentsReqBody,
+	attachmentParam request.AttachmentParam,
+) ([]response.Attachment, error) {
+	resAttachments := response.Attachments{}
+	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
-		return attachment, err
+		fmt.Println(err)
+		return resAttachments.Attachments, err
 	}
-	req, err := http.NewRequest(http.MethodPatch, route, payload)
-
+	payload := strings.NewReader(requestBody)
+	client := &http.Client{}
+	route, err := helpers.GetRoute(
+		golang.RouteBlockPodsAddBlockPodAttachment,
+		*attachmentParam.PodId,
+		attachmentParam.KeyId,
+		*attachmentParam.BlockId,
+	)
 	if err != nil {
-		return attachment, err
+		fmt.Println(err)
+		return resAttachments.Attachments, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, route, payload)
+	if err != nil {
+		fmt.Println(err)
+		return resAttachments.Attachments, err
 	}
 
 	helpers.AddUserHeaders(jwtToken, req)
 
 	res, err := client.Do(req)
 	if err != nil {
-		return attachment, err
+		fmt.Println(err)
+		return resAttachments.Attachments, err
 	}
 
 	defer helpers.CloseBody(res.Body)
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		return attachment, err
+		fmt.Println(err)
+		return resAttachments.Attachments, err
 	}
 
-	err = json.Unmarshal(body, &attachment)
+	err = json.Unmarshal(body, &resAttachments)
 	if err != nil {
-		return attachment, err
+		fmt.Println(err)
+		return resAttachments.Attachments, err
 	}
-	return attachment, nil
+	return resAttachments.Attachments, nil
 }

@@ -1,4 +1,4 @@
-package blocks_pods_2
+package key_pods_2
 
 import (
 	"development/go/recipes/lib/golang"
@@ -9,27 +9,38 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 )
 
-func GetBlockPodAttachments(jwtToken string, attachmentParam request.AttachmentParam) ([]response.Attachment, error) {
+func AddKeyPodAttachment(
+	jwtToken string,
+	reqBody request.AttachmentsReqBody,
+	attachmentParam request.AttachmentParam,
+) ([]response.Attachment, error) {
 	resAttachments := response.Attachments{}
+	requestBody, err := helpers.GetRequestBody(reqBody)
+	if err != nil {
+		fmt.Println(err)
+		return resAttachments.Attachments, err
+	}
+	payload := strings.NewReader(requestBody)
 	client := &http.Client{}
 	route, err := helpers.GetRoute(
-		golang.RouteBlockPodsGetBlockPodAttachments,
+		golang.RouteKeyPodsAddKeyPodAttachment,
 		*attachmentParam.PodId,
 		attachmentParam.KeyId,
-		*attachmentParam.BlockId,
 	)
 	if err != nil {
 		fmt.Println(err)
 		return resAttachments.Attachments, err
 	}
 
-	req, err := http.NewRequest(http.MethodGet, route, nil)
+	req, err := http.NewRequest(http.MethodPost, route, payload)
 	if err != nil {
 		fmt.Println(err)
 		return resAttachments.Attachments, err
 	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
 	res, err := client.Do(req)

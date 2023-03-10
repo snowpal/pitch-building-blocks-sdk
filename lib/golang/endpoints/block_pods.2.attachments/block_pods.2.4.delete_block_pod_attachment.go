@@ -4,28 +4,36 @@ import (
 	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
 	"development/go/recipes/lib/golang/structs/request"
+	"fmt"
 	"net/http"
 )
 
-func DeleteBlockPodAttachment(jwtToken string, param request.AttachmentParam) error {
+func DeleteBlockPodAttachment(jwtToken string, attachmentParam request.AttachmentParam) error {
 	client := &http.Client{}
-	route, err := helpers.GetRoute(golang.RouteBlockPodsDeleteBlockPodAttachment,
-		param.AttachmentId, param.KeyId, *param.BlockId, *param.PodId)
+	route, err := helpers.GetRoute(
+		golang.RouteBlockPodsDeleteBlockPodAttachment,
+		*attachmentParam.AttachmentId,
+		attachmentParam.KeyId,
+		*attachmentParam.BlockId,
+		*attachmentParam.PodId,
+	)
 	if err != nil {
+		fmt.Println(err)
 		return err
 	}
-	req, err := http.NewRequest(http.MethodDelete, route, nil)
 
+	req, err := http.NewRequest(http.MethodDelete, route, nil)
 	if err != nil {
+		fmt.Println(err)
 		return err
 	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	_, err = client.Do(req)
 	if err != nil {
+		fmt.Println(err)
 		return err
-
 	}
-	defer helpers.CloseBody(res.Body)
 	return nil
 }

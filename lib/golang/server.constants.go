@@ -44,8 +44,8 @@ const (
 const (
 	RouteBlocksGetBlockAttachments   = "blocks/%s/attachments?keyId=%s"
 	RouteBlocksAddBlockAttachment    = "blocks/%s/attachments?keyId=%s"
-	RouteBlocksRenameBlockAttachment = "block-attachments/%s/rename?blockId=%s"
-	RouteBlocksDeleteBlockAttachment = "block-attachments/%s?blockId=%s"
+	RouteBlocksRenameBlockAttachment = "block-attachments/%s/rename?keyId=%s&blockId=%s"
+	RouteBlocksDeleteBlockAttachment = "block-attachments/%s?keyId=%s&blockId=%s"
 )
 
 const (
@@ -334,7 +334,7 @@ const (
 
 const (
 	RouteKeyPodsGetKeyPodAttachments   = "pods/%s/attachments?keyId=%s"
-	RouteKeyPodsAddAttachmentToKeyPod  = "pods/%s/attachments?keyId=%s"
+	RouteKeyPodsAddKeyPodAttachment    = "pods/%s/attachments?keyId=%s"
 	RouteKeyPodsRenameKeyPodAttachment = "key-pod-attachments/%s/rename?keyId=%s&podId=%s"
 	RouteKeyPodsDeleteKeyPodAttachment = "key-pod-attachments/%s?keyId=%s&podId=%s"
 )
