@@ -15,9 +15,17 @@ type Checklist struct {
 	Modifier       common.ResourceModifier `json:"modifier"`
 }
 
+type ChecklistItems struct {
+	ChecklistItems []ChecklistItem `json:"checklistItems"`
+}
+
 type ChecklistItem struct {
 	ID          string       `json:"id"`
-	ItemText    string       `json:"checklistItemText"`
+	ItemTitle   string       `json:"checklistItemTitle"`
 	Completed   bool         `json:"completed"`
 	TaggedUsers []TaggedUser `json:"taggedUsers"`
+
+	ItemSequence *int                     `json:"checklistItemSeq"`
+	Creator      *common.ResourceCreator  `json:"creator"`
+	Modifier     *common.ResourceModifier `json:"modifier"`
 }
