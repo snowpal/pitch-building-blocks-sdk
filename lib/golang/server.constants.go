@@ -44,8 +44,8 @@ const (
 const (
 	RouteBlocksGetBlockAttachments   = "blocks/%s/attachments?keyId=%s"
 	RouteBlocksAddBlockAttachment    = "blocks/%s/attachments?keyId=%s"
-	RouteBlocksRenameBlockAttachment = "block-attachments/%s/rename?blockId=%s"
-	RouteBlocksDeleteBlockAttachment = "block-attachments/%s?blockId=%s"
+	RouteBlocksRenameBlockAttachment = "block-attachments/%s/rename?keyId=%s&blockId=%s"
+	RouteBlocksDeleteBlockAttachment = "block-attachments/%s?keyId=%s&blockId=%s"
 )
 
 const (
@@ -56,15 +56,15 @@ const (
 )
 
 const (
-	RouteBlocksGetBlockChecklists     = "blocks/%s/checklists?keyId=%s"
-	RouteBlocksAddBlockChecklist      = "blocks/%s/checklists?keyId=%s"
-	RouteBlocksReorderBlockChecklists = "blocks/%s/checklists/reorder?keyId=%s"
-	RouteBlocksRenameChecklistTitle   = "blocks/%s/checklists/%s?keyId=%s"
-	RouteBlocksDeleteChecklist        = "blocks/%s/checklists/%s?keyId=%s"
-	RouteBlocksAddChecklistItem       = "blocks/%s/checklists/%s/checklist-items?keyId=%s"
-	RouteBlocksUpdateChecklistItem    = "blocks/%s/checklists/%s/checklist-items/%s?keyId=%s"
-	RouteBlocksDeleteChecklistItem    = "blocks/%s/checklists/%s/checklist-items/%s?keyId=%s"
-	RouteBlocksReorderChecklistItems  = "blocks/%s/checklists/%s/checklist-items/reorder?keyId=%s"
+	RouteBlocksGetBlockChecklists         = "blocks/%s/checklists?keyId=%s"
+	RouteBlocksAddBlockChecklist          = "blocks/%s/checklists?keyId=%s"
+	RouteBlocksReorderBlockChecklists     = "blocks/%s/checklists/reorder?keyId=%s"
+	RouteBlocksDeleteBlockChecklist       = "blocks/%s/checklists/%s?keyId=%s"
+	RouteBlocksRenameBlockChecklist       = "blocks/%s/checklists/%s?keyId=%s"
+	RouteBlocksAddBlockChecklistItem      = "blocks/%s/checklists/%s/checklist-items?keyId=%s"
+	RouteBlocksUpdateBlockChecklistItem   = "blocks/%s/checklists/%s/checklist-items/%s?keyId=%s"
+	RouteBlocksDeleteBlockChecklistItem   = "blocks/%s/checklists/%s/checklist-items/%s?keyId=%s"
+	RouteBlocksReorderBlockChecklistItems = "blocks/%s/checklists/%s/checklist-items/reorder?keyId=%s"
 )
 
 const (
@@ -285,8 +285,8 @@ const (
 	RouteKeysGetKeyChecklists         = "keys/%s/checklists"
 	RouteKeysAddKeyChecklist          = "keys/%s/checklists"
 	RouteKeysReorderKeyChecklists     = "keys/%s/checklists/reorder"
-	RouteKeysRenameChecklist          = "keys/%s/checklists/%s"
 	RouteKeysDeleteKeyChecklist       = "keys/%s/checklists/%s"
+	RouteKeysRenameKeyChecklist       = "keys/%s/checklists/%s"
 	RouteKeysAddKeyChecklistItem      = "keys/%s/checklists/%s/checklist-items"
 	RouteKeysUpdateKeyChecklistItem   = "keys/%s/checklists/%s/checklist-items/%s"
 	RouteKeysDeleteKeyChecklistItem   = "keys/%s/checklists/%s/checklist-items/%s"
@@ -301,11 +301,11 @@ const (
 )
 
 const (
-	RouteKeysGetKeyTasks    = "keys/%s/tasks"
-	RouteKeysAddKeyTask     = "keys/%s/tasks"
-	RouteKeysUpdateKeyTask  = "key-tasks/%s?keyId=%s"
-	RouteKeysDeleteKeyTask  = "key-tasks/%s?keyId=%s"
-	RouteKeysReorderKeyTask = "keys/%s/tasks/reorder"
+	RouteKeysGetKeyTasks     = "keys/%s/tasks"
+	RouteKeysAddKeyTask      = "keys/%s/tasks"
+	RouteKeysUpdateKeyTask   = "key-tasks/%s?keyId=%s"
+	RouteKeysDeleteKeyTask   = "key-tasks/%s?keyId=%s"
+	RouteKeysReorderKeyTasks = "keys/%s/tasks/reorder"
 )
 
 const (
@@ -334,7 +334,7 @@ const (
 
 const (
 	RouteKeyPodsGetKeyPodAttachments   = "pods/%s/attachments?keyId=%s"
-	RouteKeyPodsAddAttachmentToKeyPod  = "pods/%s/attachments?keyId=%s"
+	RouteKeyPodsAddKeyPodAttachment    = "pods/%s/attachments?keyId=%s"
 	RouteKeyPodsRenameKeyPodAttachment = "key-pod-attachments/%s/rename?keyId=%s&podId=%s"
 	RouteKeyPodsDeleteKeyPodAttachment = "key-pod-attachments/%s?keyId=%s&podId=%s"
 )
@@ -361,8 +361,8 @@ const (
 const (
 	RouteKeyPodsGetKeyPodNotes   = "pods/%s/notes?keyId=%s"
 	RouteKeyPodsAddKeyPodNote    = "pods/%s/notes?keyId=%s"
-	RouteKeyPodsUpdateKeyPodNote = "pod-notes/%s"
-	RouteKeyPodsDeleteKeyPodNote = "pod-notes/%s"
+	RouteKeyPodsUpdateKeyPodNote = "pod-notes/%s?keyId=%s&podId=%s"
+	RouteKeyPodsDeleteKeyPodNote = "pod-notes/%s?keyId=%s&podId=%s"
 )
 
 const (

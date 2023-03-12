@@ -1,39 +1,63 @@
 package block_pods_5
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/request"
+	"development/go/recipes/lib/golang/structs/response"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"strings"
 )
 
-func main(jwtToken string) error {
-
-	url := "block-pod-comments/%s?keyId=%s&blockId=%s&podId=%s"
-	method := "PATCH"
-
-	payload := strings.NewReader(`{"commentText":"comment[comment_text]","taggedUserIds":"comment[tagged_user_ids]"}`)
-
-	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodPatch, helpers.GetRoute(golang), payload)
-
+func UpdateBlockPodComment(
+	jwtToken string,
+	reqBody request.CommentReqBody,
+	commentParam request.CommentIdParam,
+) (response.Comment, error) {
+	resComment := response.Comment{}
+	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)
-		return err
+		return resComment, err
 	}
+	payload := strings.NewReader(requestBody)
+	client := &http.Client{}
+	route, err := helpers.GetRoute(
+		golang.RouteBlockPodsUpdateBlockPodComment,
+		*commentParam.CommentId,
+		commentParam.KeyId,
+		*commentParam.BlockId,
+		*commentParam.PodId,
+	)
+	req, err := http.NewRequest(http.MethodPatch, route, payload)
+	if err != nil {
+		fmt.Println(err)
+		return resComment, err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
 	res, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return err
+		return resComment, err
 	}
+
 	defer helpers.CloseBody(res.Body)
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return err
+		return resComment, err
 	}
+
+	err = json.Unmarshal(body, &resComment)
+	if err != nil {
+		fmt.Println(err)
+		return resComment, err
+	}
+	return resComment, nil
 }

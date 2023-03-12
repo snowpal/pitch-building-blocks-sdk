@@ -1,36 +1,55 @@
 package key_pods_3
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/request"
+	"development/go/recipes/lib/golang/structs/response"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 )
 
-func main(jwtToken string) error {
-
-	url := "pods/%s/checklists?keyId=%s"
-	method := "GET"
-
+func GetKeyPodChecklists(jwtToken string, checklistParam request.ChecklistIdParam) ([]response.Checklist, error) {
+	resChecklists := response.Checklists{}
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodPatch, helpers.GetRoute(golang), nil)
-
+	route, err := helpers.GetRoute(
+		golang.RouteKeyPodsGetKeyPodChecklists,
+		*checklistParam.PodId,
+		checklistParam.KeyId,
+	)
 	if err != nil {
 		fmt.Println(err)
-		return err
+		return resChecklists.Checklists, err
 	}
+
+	req, err := http.NewRequest(http.MethodGet, route, nil)
+	if err != nil {
+		fmt.Println(err)
+		return resChecklists.Checklists, err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
 	res, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return err
+		return resChecklists.Checklists, err
 	}
+
 	defer helpers.CloseBody(res.Body)
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return err
+		return resChecklists.Checklists, err
 	}
+
+	err = json.Unmarshal(body, &resChecklists)
+	if err != nil {
+		fmt.Println(err)
+		return resChecklists.Checklists, err
+	}
+	return resChecklists.Checklists, nil
 }

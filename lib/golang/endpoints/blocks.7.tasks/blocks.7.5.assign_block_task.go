@@ -1,39 +1,40 @@
 package blocks_7
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/request"
 	"fmt"
-	"io"
 	"net/http"
 	"strings"
 )
 
-func main(jwtToken string) error {
-
-	url := "block-tasks/%s/assign?keyId=%s&blockId=%s"
-	method := "PATCH"
-
-	payload := strings.NewReader(`{"userIds":"user_ids"}`)
-
-	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodPatch, helpers.GetRoute(golang), payload)
-
+func AssignBlockTask(jwtToken string, reqBody request.AssignTaskReqBody, taskParam request.TaskIdParam) error {
+	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)
 		return err
 	}
+	payload := strings.NewReader(requestBody)
+	client := &http.Client{}
+	route, err := helpers.GetRoute(
+		golang.RouteBlocksAssignBlockTask,
+		*taskParam.TaskId,
+		taskParam.KeyId,
+		*taskParam.BlockId,
+	)
+	req, err := http.NewRequest(http.MethodPatch, route, payload)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	_, err = client.Do(req)
 	if err != nil {
 		fmt.Println(err)
 		return err
 	}
-	defer helpers.CloseBody(res.Body)
-
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		fmt.Println(err)
-		return err
-	}
+	return nil
 }

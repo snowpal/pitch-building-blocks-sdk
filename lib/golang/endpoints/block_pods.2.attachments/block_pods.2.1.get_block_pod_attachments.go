@@ -6,40 +6,50 @@ import (
 	"development/go/recipes/lib/golang/structs/request"
 	"development/go/recipes/lib/golang/structs/response"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 )
 
-func GetBlockPodAttachments(jwtToken string, param request.BlockPodParam) (response.Attachments, error) {
-	attachments := response.Attachments{}
+func GetBlockPodAttachments(jwtToken string, attachmentParam request.AttachmentParam) ([]response.Attachment, error) {
+	resAttachments := response.Attachments{}
 	client := &http.Client{}
-	route, err := helpers.GetRoute(golang.RouteBlockPodsGetBlockPodAttachments,
-		param.PodId, param.KeyId, *param.BlockId)
+	route, err := helpers.GetRoute(
+		golang.RouteBlockPodsGetBlockPodAttachments,
+		*attachmentParam.PodId,
+		attachmentParam.KeyId,
+		*attachmentParam.BlockId,
+	)
 	if err != nil {
-		return attachments, err
+		fmt.Println(err)
+		return resAttachments.Attachments, err
 	}
 
 	req, err := http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
-		return attachments, err
+		fmt.Println(err)
+		return resAttachments.Attachments, err
 	}
 	helpers.AddUserHeaders(jwtToken, req)
 
 	res, err := client.Do(req)
 	if err != nil {
-		return attachments, err
+		fmt.Println(err)
+		return resAttachments.Attachments, err
 	}
 
 	defer helpers.CloseBody(res.Body)
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		return attachments, err
+		fmt.Println(err)
+		return resAttachments.Attachments, err
 	}
 
-	err = json.Unmarshal(body, &attachments)
+	err = json.Unmarshal(body, &resAttachments)
 	if err != nil {
-		return attachments, err
+		fmt.Println(err)
+		return resAttachments.Attachments, err
 	}
-	return attachments, nil
+	return resAttachments.Attachments, nil
 }

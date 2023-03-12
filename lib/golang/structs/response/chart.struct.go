@@ -181,11 +181,3 @@ type PodGrade struct {
 	Block    common.SlimBlock `json:"block"`
 	Students []Student        `json:"students"`
 }
-
-type BlockPodGrade struct {
-	ID       string         `json:"id"`
-	Name     string         `json:"blockName"`
-	Key      common.SlimKey `json:"key"`
-	Pod      common.SlimPod `json:"pod"`
-	Students []Student      `json:"students"`
-}

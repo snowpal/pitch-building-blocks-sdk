@@ -1,6 +1,12 @@
 package request
 
-type Note struct {
-	ID       *string `json:"id"`
-	NoteText *string `json:"noteText"`
+type NoteReqBody struct {
+	NoteText string `json:"noteText"`
+}
+
+type NoteIdParam struct {
+	KeyId   string
+	BlockId *string
+	PodId   *string
+	NoteId  *string
 }
