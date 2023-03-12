@@ -3,7 +3,7 @@ package registration_1
 import (
 	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
-	"development/go/recipes/lib/golang/structs"
+	"development/go/recipes/lib/golang/structs/response"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -11,8 +11,8 @@ import (
 	"strings"
 )
 
-func Signup(email string) (structs.UserSignedUp, error) {
-	var userSignedUp structs.UserSignedUp
+func Signup(email string) (response.UserRegistration, error) {
+	var userSignedUp response.UserRegistration
 	fmt.Println("TODO: Replace with struct")
 	payload := strings.NewReader(fmt.Sprintf(`{
 		"email": "%s",
@@ -34,12 +34,7 @@ func Signup(email string) (structs.UserSignedUp, error) {
 		fmt.Println(err)
 		return userSignedUp, err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
+	defer helpers.CloseBody(res.Body)
 
 	body, _ := io.ReadAll(res.Body)
 	if err != nil {

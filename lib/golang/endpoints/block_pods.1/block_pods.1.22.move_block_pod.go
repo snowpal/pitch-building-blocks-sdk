@@ -1,45 +1,41 @@
 package block_pods
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/request"
 	"fmt"
-	"io"
 	"net/http"
-	"strings"
 )
 
-func main(jwtToken string) {
-
-	url := "block-pods/%s/move?keyId=%s&blockId=%s&targetKeyId=%s&targetBlockId=%s"
-	method := "PATCH"
-
-	payload := strings.NewReader(``)
-
+func MoveBlockPod(jwtToken string, podParam request.CopyMovePodParam) error {
 	client := &http.Client{}
-	req, err := http.NewRequest(method, url, payload)
-
+	route, err := helpers.GetRoute(
+		golang.RouteBlockPodsMoveBlockPod,
+		podParam.PodId,
+		podParam.KeyId,
+		*podParam.BlockId,
+		podParam.TargetKeyId,
+		*podParam.TargetBlockId,
+	)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
+
+	var req *http.Request
+	req, err = http.NewRequest(http.MethodPatch, route, nil)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	_, err = client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
-
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Println(string(body))
+	return nil
 }

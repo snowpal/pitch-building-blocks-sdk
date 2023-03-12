@@ -3,38 +3,58 @@ package block_pods
 import (
 	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/request"
+	"development/go/recipes/lib/golang/structs/response"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
+	"strconv"
 )
 
-func GetBlockPods(jwtToken string) {
+func GetBlockPods(jwtToken string, podsParam request.GetBlockPodsParam) ([]response.Pod, error) {
+	resPods := response.Pods{}
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf(golang.RouteBlockPodsGetBlockPods, "", "", ""), nil)
-
+	route, err := helpers.GetRoute(
+		golang.RouteBlockPodsGetBlockPods,
+		podsParam.BlockId,
+		strconv.Itoa(podsParam.BatchIndex),
+		podsParam.KeyId,
+	)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resPods.Pods, err
+	}
+
+	var req *http.Request
+	req, err = http.NewRequest(http.MethodGet, route, nil)
+	if err != nil {
+		fmt.Println(err)
+		return resPods.Pods, err
 	}
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, _ := client.Do(req)
+	var res *http.Response
+	res, err = client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resPods.Pods, err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
 
-		}
-	}(res.Body)
+	defer helpers.CloseBody(res.Body)
 
-	body, _ := io.ReadAll(res.Body)
+	var body []byte
+	body, err = io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resPods.Pods, err
 	}
-	fmt.Println(string(body))
+
+	err = json.Unmarshal(body, &resPods)
+	if err != nil {
+		fmt.Println(err)
+		return resPods.Pods, err
+	}
+	return resPods.Pods, nil
 }

@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func main(jwtToken string) {
+func main(jwtToken string) error {
 
 	url := "blocks/%s/scale-value?keyId=%s"
 	method := "PATCH"
@@ -16,30 +16,24 @@ func main(jwtToken string) {
 	payload := strings.NewReader(`{"scaleValue":"B"}`)
 
 	client := &http.Client{}
-	req, err := http.NewRequest(method, url, payload)
+	req, err := http.NewRequest(http.MethodPatch, helpers.GetRoute(golang), payload)
 
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
 	helpers.AddUserHeaders(jwtToken, req)
 
 	res, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
+	defer helpers.CloseBody(res.Body)
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
-	fmt.Println(string(body))
 }

@@ -1,45 +1,44 @@
 package block_pods
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/request"
 	"fmt"
-	"io"
 	"net/http"
-	"strings"
+	"strconv"
 )
 
-func main(jwtToken string) {
-
-	url := "block-pods/%s/copy?keyId=%s&blockId=%s&allTasks=%s&allChecklists=%s&targetKeyId=%s&targetBlockId=%s"
-	method := "POST"
-
-	payload := strings.NewReader(``)
-
+func CopyBlockPod(jwtToken string, podParam request.CopyMovePodParam) error {
 	client := &http.Client{}
-	req, err := http.NewRequest(method, url, payload)
-
+	route, err := helpers.GetRoute(
+		golang.RouteBlockPodsCopyBlockPod,
+		podParam.PodId,
+		podParam.KeyId,
+		*podParam.BlockId,
+		strconv.FormatBool(*podParam.AllTasks),
+		strconv.FormatBool(*podParam.AllChecklists),
+		podParam.TargetKeyId,
+		*podParam.TargetBlockId,
+	)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
+
+	var req *http.Request
+	req, err = http.NewRequest(http.MethodPost, route, nil)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	_, err = client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
-
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Println(string(body))
+	return nil
 }

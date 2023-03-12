@@ -1,45 +1,61 @@
 package key_pods_6
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/request"
+	"development/go/recipes/lib/golang/structs/response"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"strings"
 )
 
-func main(jwtToken string) {
-
-	url := "pods/%s/tasks/reorder?keyId=%s"
-	method := "PATCH"
-
-	payload := strings.NewReader(`{"taskIds":"task_ids"}`)
-
-	client := &http.Client{}
-	req, err := http.NewRequest(method, url, payload)
-
+func ReorderKeyPodTasks(
+	jwtToken string,
+	reqBody request.ReorderTasksReqBody,
+	taskParam request.TaskIdParam,
+) ([]response.Task, error) {
+	resTasks := response.Tasks{}
+	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resTasks.Tasks, err
 	}
+	payload := strings.NewReader(requestBody)
+	client := &http.Client{}
+	route, err := helpers.GetRoute(
+		golang.RouteKeyPodsReorderKeyPodTasks,
+		*taskParam.PodId,
+		taskParam.KeyId,
+	)
+	req, err := http.NewRequest(http.MethodPost, route, payload)
+	if err != nil {
+		fmt.Println(err)
+		return resTasks.Tasks, err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
 	res, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resTasks.Tasks, err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
+
+	defer helpers.CloseBody(res.Body)
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resTasks.Tasks, err
 	}
-	fmt.Println(string(body))
+
+	err = json.Unmarshal(body, &resTasks)
+	if err != nil {
+		fmt.Println(err)
+		return resTasks.Tasks, err
+	}
+	return resTasks.Tasks, nil
 }

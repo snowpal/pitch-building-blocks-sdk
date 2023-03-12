@@ -1,45 +1,72 @@
 package block_pods
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/common"
+	"development/go/recipes/lib/golang/structs/response"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"strings"
 )
 
-func main(jwtToken string) {
+type UpdatePodReqBody struct {
+	Name              *string `json:"podName"`
+	SimpleDescription *string `json:"simpleDescription"`
+	DueDate           *string `json:"podDueDate"`
+	Color             *string `json:"podColor"`
+	Tags              *string `json:"podTags"`
+	KanbanMode        *bool   `json:"kanbanMode"`
+}
 
-	url := "block-pods/%s?keyId=%s&blockId=%s"
-	method := "PATCH"
-
-	payload := strings.NewReader(`{"podName":"assessment[assessment_name]","simpleDescription":"assessment[simple_description]","podDueDate":"assessment[assessment_due_date]","podTags":"assessment[tags]","podColor":"assessment[color]"}`)
-
-	client := &http.Client{}
-	req, err := http.NewRequest(method, url, payload)
-
+func RouteBlockPodsUpdateBlockPod(jwtToken string, reqBody UpdatePodReqBody, podParam common.ResourceIdParam) (response.Pod, error) {
+	resPod := response.Pod{}
+	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resPod, err
 	}
+	payload := strings.NewReader(requestBody)
+	client := &http.Client{}
+
+	var route string
+	route, err = helpers.GetRoute(golang.RouteBlockPodsUpdateBlockPod, podParam.PodId, podParam.KeyId, podParam.BlockId)
+	if err != nil {
+		fmt.Println(err)
+		return resPod, err
+	}
+
+	var req *http.Request
+	req, err = http.NewRequest(http.MethodGet, route, payload)
+	if err != nil {
+		fmt.Println(err)
+		return resPod, err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	var res *http.Response
+	res, err = client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resPod, err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
 
-	body, err := io.ReadAll(res.Body)
+	defer helpers.CloseBody(res.Body)
+
+	var body []byte
+	body, err = io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resPod, err
 	}
-	fmt.Println(string(body))
+
+	err = json.Unmarshal(body, &resPod)
+	if err != nil {
+		fmt.Println(err)
+		return resPod, err
+	}
+	return resPod, nil
 }

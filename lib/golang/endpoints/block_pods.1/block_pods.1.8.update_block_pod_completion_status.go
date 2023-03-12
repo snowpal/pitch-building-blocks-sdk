@@ -1,45 +1,71 @@
 package block_pods
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/common"
+	"development/go/recipes/lib/golang/structs/response"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"strings"
 )
 
-func main(jwtToken string) {
+type UpdatePodStatusReqBody struct {
+	Completed *bool `json:"podCompleted"`
+}
 
-	url := "block-pods/%s/by-completion-status?keyId=%s&blockId=%s"
-	method := "PATCH"
-
-	payload := strings.NewReader(`{"podCompleted":true}`)
-
-	client := &http.Client{}
-	req, err := http.NewRequest(method, url, payload)
-
+func UpdateBlockPodCompletionStatus(
+	jwtToken string,
+	reqBody UpdatePodStatusReqBody,
+	podParam common.ResourceIdParam,
+) (response.Pod, error) {
+	resPod := response.Pod{}
+	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resPod, err
 	}
+	payload := strings.NewReader(requestBody)
+	client := &http.Client{}
+
+	var route string
+	route, err = helpers.GetRoute(golang.RouteBlockPodsUpdateBlockPodCompletionStatus, podParam.PodId, podParam.KeyId, podParam.BlockId)
+	if err != nil {
+		fmt.Println(err)
+		return resPod, err
+	}
+
+	var req *http.Request
+	req, err = http.NewRequest(http.MethodPatch, route, payload)
+	if err != nil {
+		fmt.Println(err)
+		return resPod, err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	var res *http.Response
+	res, err = client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resPod, err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
 
-	body, err := io.ReadAll(res.Body)
+	defer helpers.CloseBody(res.Body)
+
+	var body []byte
+	body, err = io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resPod, err
 	}
-	fmt.Println(string(body))
+
+	err = json.Unmarshal(body, &resPod)
+	if err != nil {
+		fmt.Println(err)
+		return resPod, err
+	}
+	return resPod, nil
 }

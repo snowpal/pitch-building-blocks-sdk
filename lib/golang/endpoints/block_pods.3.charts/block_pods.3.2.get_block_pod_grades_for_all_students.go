@@ -1,42 +1,64 @@
 package block_pods
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/common"
+	"development/go/recipes/lib/golang/structs/response"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 )
 
-func main(jwtToken string) {
+type BlockPodGrade struct {
+	ID       string             `json:"id"`
+	Name     string             `json:"blockName"`
+	Key      common.SlimKey     `json:"key"`
+	Pod      common.SlimPod     `json:"pod"`
+	Students []response.Student `json:"students"`
+}
 
-	url := "charts/classroom-pods/%s/students/grades?keyId=%s&blockId=%s"
-	method := "GET"
-
+func GetBlockPodGradesForAllStudents(jwtToken string, podParam common.ResourceIdParam) (BlockPodGrade, error) {
+	resBlockPodGrades := BlockPodGrade{}
 	client := &http.Client{}
-	req, err := http.NewRequest(method, url, nil)
-
+	route, err := helpers.GetRoute(
+		golang.RouteBlockPodsGetBlockPodGradesForAllStudents,
+		podParam.PodId,
+		podParam.KeyId,
+		podParam.BlockId,
+	)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resBlockPodGrades, err
 	}
+
+	req, err := http.NewRequest(http.MethodGet, route, nil)
+	if err != nil {
+		fmt.Println(err)
+		return resBlockPodGrades, err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
 	res, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resBlockPodGrades, err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
+
+	defer helpers.CloseBody(res.Body)
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resBlockPodGrades, err
 	}
-	fmt.Println(string(body))
+
+	err = json.Unmarshal(body, &resBlockPodGrades)
+	if err != nil {
+		fmt.Println(err)
+		return resBlockPodGrades, err
+	}
+	return resBlockPodGrades, nil
 }

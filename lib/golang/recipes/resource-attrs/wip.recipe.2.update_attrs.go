@@ -4,6 +4,8 @@ import (
 	"development/go/recipes/lib/golang"
 	attributes "development/go/recipes/lib/golang/endpoints/attributes.1"
 	registration "development/go/recipes/lib/golang/endpoints/registration.1"
+	"development/go/recipes/lib/golang/structs/common"
+	"development/go/recipes/lib/golang/structs/request"
 	log "github.com/sirupsen/logrus"
 
 	"fmt"
@@ -19,19 +21,19 @@ func main() {
 	}
 
 	log.Info(".TODO(): get a key, and use it below")
-	attributes.UpdateKeyAttrs(userSignIn.Registration.JwtToken, "")
+	attributes.UpdateKeyAttrs(userSignIn.User.JwtToken, "", request.ResourceAttribute{})
 
 	log.Info(".TODO(): get a block, and use it below")
-	attributes.UpdateBlockAttrs(userSignIn.Registration.JwtToken, "")
+	attributes.UpdateBlockAttrs(userSignIn.User.JwtToken, common.ResourceIdParam{}, request.ResourceAttribute{})
 
 	log.Info(".TODO(): get a pod, and use it below")
-	attributes.UpdatePodAttrs(userSignIn.Registration.JwtToken, "")
+	attributes.UpdatePodAttrs(userSignIn.User.JwtToken, common.ResourceIdParam{}, request.ResourceAttribute{})
 
 	log.Info(".TODO(): get a block pod, and use it below")
-	attributes.UpdateBlockPodAttrs(userSignIn.Registration.JwtToken, "")
+	attributes.UpdateBlockPodAttrs(userSignIn.User.JwtToken, common.ResourceIdParam{}, request.ResourceAttribute{})
 
 	log.Info(".get resource attributes")
-	resourceAttrs, _ := attributes.GetResourceAttrs(userSignIn.Registration.JwtToken)
+	resourceAttrs, _ := attributes.GetResourceAttrs(userSignIn.User.JwtToken)
 	if err != nil {
 		return
 	}

@@ -1,45 +1,46 @@
 package block_pods
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
 	"fmt"
-	"io"
 	"net/http"
-	"strings"
 )
 
-func main(jwtToken string) {
+type AddScaleIdParam struct {
+	KeyId   string
+	BlockId string
+	PodId   string
+	ScaleId string
+}
 
-	url := "block-pods/%s/scales/%s?keyId=%s&blockId=%s"
-	method := "PATCH"
-
-	payload := strings.NewReader(``)
-
+func AddScaleToBlockPod(jwtToken string, podParam AddScaleIdParam) error {
 	client := &http.Client{}
-	req, err := http.NewRequest(method, url, payload)
-
+	route, err := helpers.GetRoute(
+		golang.RouteBlockPodsAddScaleToBlockPod,
+		podParam.PodId,
+		podParam.ScaleId,
+		podParam.KeyId,
+		podParam.BlockId,
+	)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
+
+	var req *http.Request
+	req, err = http.NewRequest(http.MethodPatch, route, nil)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	_, err = client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-
-		}
-	}(res.Body)
-
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Println(string(body))
+	return nil
 }

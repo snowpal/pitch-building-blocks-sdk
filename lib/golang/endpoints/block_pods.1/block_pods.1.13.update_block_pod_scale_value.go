@@ -1,52 +1,74 @@
 package block_pods
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/common"
+	"development/go/recipes/lib/golang/structs/response"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"strings"
 )
 
-type Scale struct {
+type UpdateScaleValueReqBody struct {
 	ScaleValue string `json:"scaleValue"`
 }
 
-func UpdateBlockPodScaleValue(jwtToken string, scale Scale) error {
-	url := "block-pods/%s/scale-value?keyId=%s&blockId=%s"
-	requestBody, err := helpers.GetRequestBody(scale)
-	if err != nil {
-		return err
-	}
-
-	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodPatch, url, payload)
+func UpdateBlockPodScaleValue(
+	jwtToken string,
+	reqBody UpdateScaleValueReqBody,
+	podParam common.ResourceIdParam,
+) (response.Pod, error) {
+	resPod := response.Pod{}
+	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)
-		return err
+		return resPod, err
+	}
+	payload := strings.NewReader(requestBody)
+	client := &http.Client{}
+	route, err := helpers.GetRoute(
+		golang.RouteBlockPodsUpdateBlockPodScaleValue,
+		podParam.PodId,
+		podParam.KeyId,
+		podParam.BlockId,
+	)
+	if err != nil {
+		fmt.Println(err)
+		return resPod, err
+	}
+
+	var req *http.Request
+	req, err = http.NewRequest(http.MethodPatch, route, payload)
+	if err != nil {
+		fmt.Println(err)
+		return resPod, err
 	}
 
 	helpers.AddUserHeaders(jwtToken, req)
-	res, err := client.Do(req)
+
+	var res *http.Response
+	res, err = client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return err
+		return resPod, err
 	}
 
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
+	defer helpers.CloseBody(res.Body)
 
-	body, err := io.ReadAll(res.Body)
+	var body []byte
+	body, err = io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return err
+		return resPod, err
 	}
 
-	fmt.Println(string(body))
-	return nil
+	err = json.Unmarshal(body, &resPod)
+	if err != nil {
+		fmt.Println(err)
+		return resPod, err
+	}
+	return resPod, nil
 }

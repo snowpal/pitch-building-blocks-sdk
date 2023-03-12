@@ -1,45 +1,47 @@
 package block_pods
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/common"
 	"fmt"
-	"io"
 	"net/http"
 	"strings"
 )
 
-func main(jwtToken string) {
+type BulkArchivePodsReqBody struct {
+	PodIds []string `json:"podIds"`
+}
 
-	url := "block-pods/archive?keyId=%s&blockId=%s"
-	method := "PATCH"
-
-	payload := strings.NewReader(`{"podIds":"assessment_ids"}`)
-
-	client := &http.Client{}
-	req, err := http.NewRequest(method, url, payload)
-
+func BulkArchiveBlockPods(jwtToken string, reqBody BulkArchivePodsReqBody, podParam common.ResourceIdParam) error {
+	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
+	payload := strings.NewReader(requestBody)
+	client := &http.Client{}
+
+	var route string
+	route, err = helpers.GetRoute(golang.RouteBlockPodsBulkArchiveBlockPods, podParam.KeyId, podParam.BlockId)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	var req *http.Request
+	req, err = http.NewRequest(http.MethodPatch, route, payload)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	_, err = client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
-
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Println(string(body))
+	return nil
 }

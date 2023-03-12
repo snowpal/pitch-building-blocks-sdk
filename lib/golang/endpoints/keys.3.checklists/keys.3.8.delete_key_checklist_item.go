@@ -1,42 +1,38 @@
 package keys_3
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/request"
 	"fmt"
-	"io"
 	"net/http"
 )
 
-func main(jwtToken string) {
-
-	url := "keys/%s/checklists/%s/checklist-items/%s"
-	method := "DELETE"
-
+func DeleteKeyChecklistItem(jwtToken string, checklistParam request.ChecklistIdParam) error {
 	client := &http.Client{}
-	req, err := http.NewRequest(method, url, nil)
-
+	route, err := helpers.GetRoute(
+		golang.RouteKeysDeleteKeyChecklistItem,
+		*checklistParam.ChecklistId,
+		*checklistParam.ChecklistItemId,
+		checklistParam.KeyId,
+	)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
+
+	req, err := http.NewRequest(http.MethodDelete, route, nil)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	_, err = client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
-
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Println(string(body))
+	return nil
 }

@@ -1,45 +1,62 @@
 package key_pods_6
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/request"
+	"development/go/recipes/lib/golang/structs/response"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"strings"
 )
 
-func main(jwtToken string) {
-
-	url := "pod-tasks/%s?keyId=%s&podId=%s"
-	method := "PATCH"
-
-	payload := strings.NewReader(`{"isCompleted":"task[is_completed]","dueDate":"task[task_due_date]","taskName":"task[task_name]"}`)
-
-	client := &http.Client{}
-	req, err := http.NewRequest(method, url, payload)
-
+func UpdateKeyPodTask(
+	jwtToken string,
+	reqBody request.UpdateTaskReqBody,
+	taskParam request.TaskIdParam,
+) (response.Task, error) {
+	resTask := response.Task{}
+	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resTask, err
 	}
+	payload := strings.NewReader(requestBody)
+	client := &http.Client{}
+	route, err := helpers.GetRoute(
+		golang.RouteKeyPodsUpdateKeyPodTask,
+		*taskParam.TaskId,
+		taskParam.KeyId,
+		*taskParam.PodId,
+	)
+	req, err := http.NewRequest(http.MethodPatch, route, payload)
+	if err != nil {
+		fmt.Println(err)
+		return resTask, err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
 	res, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resTask, err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
+
+	defer helpers.CloseBody(res.Body)
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resTask, err
 	}
-	fmt.Println(string(body))
+
+	err = json.Unmarshal(body, &resTask)
+	if err != nil {
+		fmt.Println(err)
+		return resTask, err
+	}
+	return resTask, nil
 }
