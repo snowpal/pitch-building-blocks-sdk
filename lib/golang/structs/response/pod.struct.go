@@ -35,6 +35,9 @@ type Pod struct {
 	ProjectKanbanMode *bool   `json:"projectKanbanMode"`
 	ProjectListName   *string `json:"projectListName"`
 
+	// Time Attributes
+	DueDate string `json:"podDueDate"`
+
 	// Acl Attributes
 	Acl            *string       `json:"acl"`
 	IsShared       *bool         `json:"isShared"`

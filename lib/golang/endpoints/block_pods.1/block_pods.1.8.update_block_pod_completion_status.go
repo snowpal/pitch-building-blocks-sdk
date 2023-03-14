@@ -4,6 +4,7 @@ import (
 	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
 	"development/go/recipes/lib/golang/structs/common"
+	"development/go/recipes/lib/golang/structs/request"
 	"development/go/recipes/lib/golang/structs/response"
 	"encoding/json"
 	"fmt"
@@ -12,13 +13,9 @@ import (
 	"strings"
 )
 
-type UpdatePodStatusReqBody struct {
-	Completed *bool `json:"podCompleted"`
-}
-
 func UpdateBlockPodCompletionStatus(
 	jwtToken string,
-	reqBody UpdatePodStatusReqBody,
+	reqBody request.UpdatePodStatusReqBody,
 	podParam common.ResourceIdParam,
 ) (response.Pod, error) {
 	resPod := response.Pod{}

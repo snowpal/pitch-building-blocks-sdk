@@ -4,6 +4,7 @@ import (
 	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
 	"development/go/recipes/lib/golang/structs/common"
+	"development/go/recipes/lib/golang/structs/request"
 	"development/go/recipes/lib/golang/structs/response"
 	"encoding/json"
 	"fmt"
@@ -12,16 +13,11 @@ import (
 	"strings"
 )
 
-type UpdatePodReqBody struct {
-	Name              *string `json:"podName"`
-	SimpleDescription *string `json:"simpleDescription"`
-	DueDate           *string `json:"podDueDate"`
-	Color             *string `json:"podColor"`
-	Tags              *string `json:"podTags"`
-	KanbanMode        *bool   `json:"kanbanMode"`
-}
-
-func RouteBlockPodsUpdateBlockPod(jwtToken string, reqBody UpdatePodReqBody, podParam common.ResourceIdParam) (response.Pod, error) {
+func UpdateBlockPod(
+	jwtToken string,
+	reqBody request.UpdatePodReqBody,
+	podParam common.ResourceIdParam,
+) (response.Pod, error) {
 	resPod := response.Pod{}
 	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {

@@ -4,40 +4,67 @@ type AddPodReqBody struct {
 	Name string `json:"podName"`
 }
 
-type GetBlockPodsParam struct {
-	KeyId      string
-	BlockId    string
-	BatchIndex int
+type UpdatePodDescReqBody struct {
+	Description   string    `json:"podDescription"`
+	TaggedUserIds *[]string `json:"taggedUserIds"`
 }
 
-type Pod struct {
-	ID                *string `json:"id"`
+type BulkArchivePodsReqBody struct {
+	PodIds []string `json:"podIds"`
+}
+
+type UpdatePodStatusReqBody struct {
+	Completed *bool `json:"podCompleted"`
+}
+
+type UpdatePodReqBody struct {
 	Name              *string `json:"podName"`
-	Description       *string `json:"podDescription"`
 	SimpleDescription *string `json:"simpleDescription"`
 	DueDate           *string `json:"podDueDate"`
 	Color             *string `json:"podColor"`
 	Tags              *string `json:"podTags"`
-	ScaleValue        *string `json:"scaleValue"`
+	KanbanMode        *bool   `json:"kanbanMode"`
+}
 
-	AllowArchival *bool `json:"allowArchival"`
-	Completed     *bool `json:"podCompleted"`
-	KanbanMode    *bool `json:"kanbanMode"`
+type PodAclReqBody struct {
+	Acl string `json:"podAcl"`
+}
 
-	TaggedUserIds *[]string `json:"taggedUserIds"`
-	PodIds        *[]string `json:"podIds"`
+type PodBulkShareReqBody struct {
+	Acl    string   `json:"podAcl"`
+	PodIds []string `json:"podIds"`
+}
+
+type GetPodsParam struct {
+	KeyId      string
+	BlockId    *string
+	BatchIndex int
+}
+
+type AddPodTypeIdParam struct {
+	PodId     string
+	PodTypeId string
+	KeyId     string
+	BlockId   *string
+}
+
+type PodByTemplateParam struct {
+	KeyId        string
+	BlockId      *string
+	TemplateId   string
+	ExcludeTasks bool
 }
 
 type CopyMovePodParam struct {
-	PodId       string `json:"podId"`
-	KeyId       string `json:"keyId"`
-	TargetKeyId string `json:"targetKeyId"`
+	PodId       string
+	KeyId       string
+	TargetKeyId string
 
-	BlockId       *string `json:"blockId"`
-	TargetBlockId *string `json:"targetBlockId"`
+	BlockId       *string
+	TargetBlockId *string
 
-	AllTasks      *bool `json:"allTasks"`
-	AllChecklists *bool `json:"allChecklists"`
+	AllTasks      *bool
+	AllChecklists *bool
 }
 
 type SharePod struct {

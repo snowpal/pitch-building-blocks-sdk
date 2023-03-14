@@ -11,14 +11,19 @@ import (
 	"net/http"
 )
 
-func GetBlock(jwtToken string, block common.SlimBlock) (response.Block, error) {
-	blockResponse := response.Block{}
+func GetBlock(jwtToken string, blockParam common.ResourceIdParam) (response.Block, error) {
+	resBlock := response.Block{}
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodGet, helpers.GetRoute(golang.RouteBlocksGetBlock, block.ID, block.Key.ID),
-		nil)
+	route, err := helpers.GetRoute(golang.RouteBlocksGetBlock, blockParam.BlockId, blockParam.KeyId)
 	if err != nil {
 		fmt.Println(err)
-		return blockResponse, err
+		return resBlock, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, route, nil)
+	if err != nil {
+		fmt.Println(err)
+		return resBlock, err
 	}
 
 	helpers.AddUserHeaders(jwtToken, req)
@@ -26,7 +31,7 @@ func GetBlock(jwtToken string, block common.SlimBlock) (response.Block, error) {
 	res, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return blockResponse, err
+		return resBlock, err
 	}
 
 	defer helpers.CloseBody(res.Body)
@@ -34,13 +39,13 @@ func GetBlock(jwtToken string, block common.SlimBlock) (response.Block, error) {
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return blockResponse, err
+		return resBlock, err
 	}
 
-	err = json.Unmarshal(body, &blockResponse)
+	err = json.Unmarshal(body, &resBlock)
 	if err != nil {
 		fmt.Println(err)
-		return blockResponse, err
+		return resBlock, err
 	}
-	return blockResponse, nil
+	return resBlock, nil
 }

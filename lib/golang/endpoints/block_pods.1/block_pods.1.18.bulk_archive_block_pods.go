@@ -4,16 +4,13 @@ import (
 	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
 	"development/go/recipes/lib/golang/structs/common"
+	"development/go/recipes/lib/golang/structs/request"
 	"fmt"
 	"net/http"
 	"strings"
 )
 
-type BulkArchivePodsReqBody struct {
-	PodIds []string `json:"podIds"`
-}
-
-func BulkArchiveBlockPods(jwtToken string, reqBody BulkArchivePodsReqBody, podParam common.ResourceIdParam) error {
+func BulkArchiveBlockPods(jwtToken string, reqBody request.BulkArchivePodsReqBody, podParam common.ResourceIdParam) error {
 	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)

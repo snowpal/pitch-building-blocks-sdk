@@ -1,39 +1,53 @@
 package collaboration_1
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/common"
 	"fmt"
-	"io"
 	"net/http"
 	"strings"
 )
 
-func main(jwtToken string) error {
+type BlockBulkShareReqBody struct {
+	Acl      string   `json:"blockAcl"`
+	BlockIds []string `json:"blockIds"`
+}
 
-	url := "blocks/users/%s/share?keyId=%s"
-	method := "PATCH"
-
-	payload := strings.NewReader(`{"blockAcl":"acl","blockIds":"course_ids"}`)
-
-	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodPatch, helpers.GetRoute(golang), payload)
-
+func ShareBlocksWithCollaborators(
+	jwtToken string,
+	reqBody BlockBulkShareReqBody,
+	blockAclParam common.AclParam,
+) error {
+	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)
 		return err
 	}
+	payload := strings.NewReader(requestBody)
+	client := &http.Client{}
+	route, err := helpers.GetRoute(
+		golang.RouteCollaborationBulkShareBlocksWithCollaborators,
+		blockAclParam.UserId,
+		blockAclParam.KeyId,
+	)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	req, err := http.NewRequest(http.MethodPatch, route, payload)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	_, err = client.Do(req)
 	if err != nil {
 		fmt.Println(err)
 		return err
 	}
-	defer helpers.CloseBody(res.Body)
-
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		fmt.Println(err)
-		return err
-	}
+	return nil
 }

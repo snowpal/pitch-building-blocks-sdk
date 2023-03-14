@@ -3,7 +3,8 @@ package blocks_1
 import (
 	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
-	"development/go/recipes/lib/golang/structs/common"
+	"development/go/recipes/lib/golang/structs/request"
+	"development/go/recipes/lib/golang/structs/response"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -11,39 +12,47 @@ import (
 	"strings"
 )
 
-func AddBlock(jwtToken string) {
-	block := common.SlimBlock{Name: "SlimBlock A"}
-
-	blockBody, err := json.Marshal(block)
-	if err != nil {
-		return
-	}
-	payload := strings.NewReader(string(blockBody))
-	client := &http.Client{}
-	fmt.Println("TODO: Replace with Key ID")
-	req, _ := http.NewRequest(http.MethodPost, fmt.Sprintf(helpers.GetRoute(golang.RouteBlocksAddBlock), ""), payload)
-
+func AddBlock(jwtToken string, reqBody request.AddBlockReqBody, keyId string) (response.Block, error) {
+	resBlock := response.Block{}
+	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)
-		return err
+		return resBlock, err
+	}
+	payload := strings.NewReader(requestBody)
+	client := &http.Client{}
+	route, err := helpers.GetRoute(golang.RouteBlocksAddBlock, keyId)
+	if err != nil {
+		fmt.Println(err)
+		return resBlock, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, route, payload)
+	if err != nil {
+		fmt.Println(err)
+		return resBlock, err
 	}
 
 	helpers.AddUserHeaders(jwtToken, req)
-	res, _ := client.Do(req)
+
+	res, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return err
+		return resBlock, err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
 
-		}
-	}(res.Body)
+	defer helpers.CloseBody(res.Body)
 
-	body, _ := io.ReadAll(res.Body)
+	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return err
+		return resBlock, err
 	}
+
+	err = json.Unmarshal(body, &resBlock)
+	if err != nil {
+		fmt.Println(err)
+		return resBlock, err
+	}
+	return resBlock, nil
 }

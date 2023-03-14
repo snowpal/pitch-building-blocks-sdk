@@ -12,13 +12,9 @@ import (
 	"strings"
 )
 
-type AllowArchivalReqBody struct {
-	AllowArchival bool `json:"allowArchival"`
-}
-
 func AllowArchivalOfBlockPod(
 	jwtToken string,
-	reqBody AllowArchivalReqBody,
+	reqBody common.AllowArchivalReqBody,
 	podParam common.ResourceIdParam,
 ) (response.Pod, error) {
 	resPod := response.Pod{}

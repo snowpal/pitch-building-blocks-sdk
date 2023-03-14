@@ -12,14 +12,14 @@ import (
 	"strconv"
 )
 
-func GetArchivedBlockPods(jwtToken string, podsParam request.GetBlockPodsParam) ([]response.Pod, error) {
+func GetArchivedBlockPods(jwtToken string, podsParam request.GetPodsParam) ([]response.Pod, error) {
 	resPods := response.Pods{}
 	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlockPodsGetArchivedBlockPods,
 		strconv.Itoa(podsParam.BatchIndex),
 		podsParam.KeyId,
-		podsParam.BlockId,
+		*podsParam.BlockId,
 	)
 	if err != nil {
 		fmt.Println(err)

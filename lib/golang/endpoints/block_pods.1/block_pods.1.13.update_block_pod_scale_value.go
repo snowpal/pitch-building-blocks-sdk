@@ -4,6 +4,7 @@ import (
 	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
 	"development/go/recipes/lib/golang/structs/common"
+	"development/go/recipes/lib/golang/structs/request"
 	"development/go/recipes/lib/golang/structs/response"
 	"encoding/json"
 	"fmt"
@@ -12,13 +13,9 @@ import (
 	"strings"
 )
 
-type UpdateScaleValueReqBody struct {
-	ScaleValue string `json:"scaleValue"`
-}
-
 func UpdateBlockPodScaleValue(
 	jwtToken string,
-	reqBody UpdateScaleValueReqBody,
+	reqBody request.UpdateScaleValueReqBody,
 	podParam common.ResourceIdParam,
 ) (response.Pod, error) {
 	resPod := response.Pod{}

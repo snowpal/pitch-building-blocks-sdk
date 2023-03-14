@@ -8,13 +8,20 @@ import (
 	"net/http"
 )
 
-func LinkBlockToKey(jwtToken string, block common.SlimBlock) error {
+func LinkBlockToKey(jwtToken string, blockParam common.ResourceIdParam) error {
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodPatch, helpers.GetRoute(golang.RouteBlocksLinkBlockToKey, block.Key.ID, block.ID), nil)
+	route, err := helpers.GetRoute(golang.RouteBlocksLinkBlockToKey, blockParam.KeyId, blockParam.BlockId)
 	if err != nil {
 		fmt.Println(err)
 		return err
 	}
+
+	req, err := http.NewRequest(http.MethodPatch, route, nil)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
 	_, err = client.Do(req)
