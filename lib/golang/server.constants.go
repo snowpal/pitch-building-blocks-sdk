@@ -173,34 +173,34 @@ const (
 )
 
 const (
-	RouteCollaborationGetBlockCollaborators               = "blocks/%s/pods?batchIndex=%s&keyId=%s"
-	RouteCollaborationUpdateCollaboratorsAccessLevel      = "blocks/%s/users/%s/acl?keyId=%s"
-	RouteCollaborationUnshareBlockFromCollaborator        = "blocks/%s/users/%s/unshare?keyId=%s"
-	RouteCollaborationShareBlockWithUser                  = "blocks/%s/users/%s/share?keyId=%s"
-	RouteCollaborationShareBlockWithUserAlongWithPods     = "blocks/%s/users/%s/share/with/pods?keyId=%s"
-	RouteCollaborationGetAllUsersThisBlockCanBeSharedWith = "search/blocks/%s/shareable/users?keyId=%s&token=%s"
-	RouteCollaborationBulkShareBlocksWithCollaborators    = "blocks/users/%s/share?keyId=%s"
-	RouteCollaborationLeaveBlock                          = "blocks/%s/leave?keyId=%s"
+	RouteCollaborationGetBlockCollaborators                   = "blocks/%s/acl?keyId=%s"
+	RouteCollaborationUpdateBlockAcl                          = "blocks/%s/users/%s/acl?keyId=%s"
+	RouteCollaborationUnshareBlockFromCollaborator            = "blocks/%s/users/%s/unshare?keyId=%s"
+	RouteCollaborationShareBlockWithCollaborator              = "blocks/%s/users/%s/share?keyId=%s"
+	RouteCollaborationShareBlockWithCollaboratorAlongWithPods = "blocks/%s/users/%s/share/with/pods?keyId=%s"
+	RouteCollaborationGetUsersThisBlockCanBeSharedWith        = "search/blocks/%s/shareable/users?keyId=%s&token=%s"
+	RouteCollaborationBulkShareBlocksWithCollaborators        = "blocks/users/%s/share?keyId=%s"
+	RouteCollaborationLeaveBlock                              = "blocks/%s/leave?keyId=%s"
 )
 
 const (
-	RouteCollaborationGetBlockPodCollaborators               = "block-pods/%s/acl?keyId=%s&blockId=%s"
-	RouteCollaborationShareBlockPodWithUser                  = "block-pods/%s/users/%s/share?keyId=%s&blockId=%s"
-	RouteCollaborationUnshareBlockPodFromUser                = "block-pods/%s/users/%s/unshare?keyId=%s&blockId=%s"
-	RouteCollaborationBulkShareBlockPodsWithCollaborators    = "block-pods/users/%s/share?keyId=%s"
-	RouteCollaborationGetAllUsersThisBlockPodCanBeSharedWith = "search/block-pods/%s/shareable/users?keyId=%s&blockId=%s&token=%s"
-	RouteCollaborationUpdateBlockPodACL                      = "block-pods/%s/users/%s/acl?keyId=%s&blockId=%s"
-	RouteCollaborationLeaveBlockPod                          = "block-pods/%s/leave?keyId=%s&blockId=%s"
+	RouteCollaborationGetBlockPodCollaborators            = "block-pods/%s/acl?keyId=%s&blockId=%s"
+	RouteCollaborationShareBlockPodWithCollaborator       = "block-pods/%s/users/%s/share?keyId=%s&blockId=%s"
+	RouteCollaborationUnshareBlockPodFromCollaborator     = "block-pods/%s/users/%s/unshare?keyId=%s&blockId=%s"
+	RouteCollaborationBulkShareBlockPodsWithCollaborators = "block-pods/users/%s/share?keyId=%s"
+	RouteCollaborationGetUsersThisBlockPodCanBeSharedWith = "search/block-pods/%s/shareable/users?keyId=%s&blockId=%s&token=%s"
+	RouteCollaborationUpdateBlockPodAcl                   = "block-pods/%s/users/%s/acl?keyId=%s&blockId=%s"
+	RouteCollaborationLeaveBlockPod                       = "block-pods/%s/leave?keyId=%s&blockId=%s"
 )
 
 const (
-	RouteCollaborationGetKeyPodCollaborators               = "pods/%s/acl?keyId=%s"
-	RouteCollaborationShareKeyPodWithUser                  = "pods/%s/users/%s/share?keyId=%s"
-	RouteCollaborationBulkSharePodsWithCollaborators       = "pods/users/%s/share?keyId=%s"
-	RouteCollaborationUnshareKeyPodFromUser                = "pods/%s/users/%s/unshare?keyId=%s"
-	RouteCollaborationGetAllUsersThisKeyPodCanBeSharedWith = "search/pods/%s/shareable/users?keyId=%s&token=%s"
-	RouteCollaborationUpdatePodAcl                         = "pods/%s/users/%s/acl?keyId=%s"
-	RouteCollaborationLeavePod                             = "pods/%s/leave?keyId=%s"
+	RouteCollaborationGetKeyPodCollaborators            = "pods/%s/acl?keyId=%s"
+	RouteCollaborationShareKeyPodWithCollaborator       = "pods/%s/users/%s/share?keyId=%s"
+	RouteCollaborationBulkShareKeyPodsWithCollaborators = "pods/users/%s/share?keyId=%s"
+	RouteCollaborationUnshareKeyPodFromCollaborator     = "pods/%s/users/%s/unshare?keyId=%s"
+	RouteCollaborationGetUsersThisKeyPodCanBeSharedWith = "search/pods/%s/shareable/users?keyId=%s&token=%s"
+	RouteCollaborationUpdateKeyPodAcl                   = "pods/%s/users/%s/acl?keyId=%s"
+	RouteCollaborationLeaveKeyPod                       = "pods/%s/leave?keyId=%s"
 )
 
 const (

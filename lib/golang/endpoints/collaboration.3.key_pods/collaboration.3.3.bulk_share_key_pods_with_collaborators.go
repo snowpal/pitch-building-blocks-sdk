@@ -1,23 +1,19 @@
-package collaboration_1
+package collaboration_3
 
 import (
 	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
 	"development/go/recipes/lib/golang/structs/common"
+	"development/go/recipes/lib/golang/structs/request"
 	"fmt"
 	"net/http"
 	"strings"
 )
 
-type BlockBulkShareReqBody struct {
-	Acl      string   `json:"blockAcl"`
-	BlockIds []string `json:"blockIds"`
-}
-
-func ShareBlocksWithCollaborators(
+func ShareKeyPodsWithCollaborators(
 	jwtToken string,
-	reqBody BlockBulkShareReqBody,
-	blockAclParam common.AclParam,
+	reqBody request.PodBulkShareReqBody,
+	podAclParam common.AclParam,
 ) error {
 	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
@@ -27,9 +23,9 @@ func ShareBlocksWithCollaborators(
 	payload := strings.NewReader(requestBody)
 	client := &http.Client{}
 	route, err := helpers.GetRoute(
-		golang.RouteCollaborationBulkShareBlocksWithCollaborators,
-		blockAclParam.UserId,
-		blockAclParam.KeyId,
+		golang.RouteCollaborationBulkShareKeyPodsWithCollaborators,
+		podAclParam.UserId,
+		podAclParam.KeyId,
 	)
 	if err != nil {
 		fmt.Println(err)

@@ -11,21 +11,17 @@ import (
 	"net/http"
 )
 
-func GetKeyPodCollaborators(jwtToken string, podParam common.ResourceIdParam) (response.Pod, error) {
+func UnshareKeyPodWithCollaborator(jwtToken string, podAclParam common.AclParam) (response.Pod, error) {
 	resPod := response.Pod{}
 	client := &http.Client{}
 	route, err := helpers.GetRoute(
-		golang.RouteCollaborationGetKeyPodCollaborators,
-		podParam.PodId,
-		podParam.KeyId,
+		golang.RouteCollaborationUnshareKeyPodFromCollaborator,
+		*podAclParam.PodId,
+		podAclParam.UserId,
+		podAclParam.KeyId,
+		*podAclParam.BlockId,
 	)
-	if err != nil {
-		fmt.Println(err)
-		return resPod, err
-	}
-
-	var req *http.Request
-	req, err = http.NewRequest(http.MethodGet, route, nil)
+	req, err := http.NewRequest(http.MethodPatch, route, nil)
 	if err != nil {
 		fmt.Println(err)
 		return resPod, err
@@ -33,8 +29,7 @@ func GetKeyPodCollaborators(jwtToken string, podParam common.ResourceIdParam) (r
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	var res *http.Response
-	res, err = client.Do(req)
+	res, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
 		return resPod, err
@@ -42,8 +37,7 @@ func GetKeyPodCollaborators(jwtToken string, podParam common.ResourceIdParam) (r
 
 	defer helpers.CloseBody(res.Body)
 
-	var body []byte
-	body, err = io.ReadAll(res.Body)
+	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
 		return resPod, err

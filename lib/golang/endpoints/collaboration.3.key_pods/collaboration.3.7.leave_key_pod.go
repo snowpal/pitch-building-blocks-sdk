@@ -1,4 +1,4 @@
-package collaboration_2
+package collaboration_3
 
 import (
 	"development/go/recipes/lib/golang"
@@ -8,13 +8,12 @@ import (
 	"net/http"
 )
 
-func LeaveBlockPod(jwtToken string, podParam common.ResourceIdParam) error {
+func LeaveKeyPod(jwtToken string, podParam common.ResourceIdParam) error {
 	client := &http.Client{}
 	route, err := helpers.GetRoute(
-		golang.RouteCollaborationLeaveBlockPod,
+		golang.RouteCollaborationLeaveKeyPod,
 		podParam.PodId,
 		podParam.KeyId,
-		podParam.BlockId,
 	)
 	req, err := http.NewRequest(http.MethodPatch, route, nil)
 	if err != nil {

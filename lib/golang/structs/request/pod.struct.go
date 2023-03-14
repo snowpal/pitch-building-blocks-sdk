@@ -26,6 +26,15 @@ type UpdatePodReqBody struct {
 	KanbanMode        *bool   `json:"kanbanMode"`
 }
 
+type PodAclReqBody struct {
+	Acl string `json:"podAcl"`
+}
+
+type PodBulkShareReqBody struct {
+	Acl    string   `json:"podAcl"`
+	PodIds []string `json:"podIds"`
+}
+
 type GetPodsParam struct {
 	KeyId      string
 	BlockId    *string

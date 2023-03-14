@@ -4,6 +4,10 @@ type AddBlockReqBody struct {
 	Name string `json:"blockName"`
 }
 
+type BlockAclReqBody struct {
+	Acl string `json:"blockAcl"`
+}
+
 type GetBlocksParam struct {
 	KeyId            string
 	BatchIndex       int
@@ -20,10 +24,4 @@ type CopyMoveBlockParam struct {
 	AllPods       *bool
 	AllTasks      *bool
 	AllChecklists *bool
-}
-
-type ShareBlock struct {
-	Acl      string    `json:"blockAcl"`
-	PodIds   *[]string `json:"podIds"`
-	BlockIds *[]string `json:"blockIds"`
 }

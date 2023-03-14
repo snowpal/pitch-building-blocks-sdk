@@ -4,28 +4,35 @@ import (
 	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
 	"development/go/recipes/lib/golang/structs/common"
+	"development/go/recipes/lib/golang/structs/request"
 	"development/go/recipes/lib/golang/structs/response"
 	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 )
 
-func GetBlockCollaborators(jwtToken string, blockParam common.ResourceIdParam) (response.Block, error) {
+func ShareBlockWithCollaborator(
+	jwtToken string,
+	reqBody request.BlockAclReqBody,
+	blockAclParam common.AclParam,
+) (response.Block, error) {
 	resBlock := response.Block{}
-	client := &http.Client{}
-	route, err := helpers.GetRoute(
-		golang.RouteCollaborationGetBlockCollaborators,
-		blockParam.BlockId,
-		blockParam.KeyId,
-	)
+	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)
 		return resBlock, err
 	}
-
-	var req *http.Request
-	req, err = http.NewRequest(http.MethodGet, route, nil)
+	payload := strings.NewReader(requestBody)
+	client := &http.Client{}
+	route, err := helpers.GetRoute(
+		golang.RouteCollaborationShareBlockWithCollaborator,
+		*blockAclParam.BlockId,
+		blockAclParam.UserId,
+		blockAclParam.KeyId,
+	)
+	req, err := http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
 		fmt.Println(err)
 		return resBlock, err
@@ -33,8 +40,7 @@ func GetBlockCollaborators(jwtToken string, blockParam common.ResourceIdParam) (
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	var res *http.Response
-	res, err = client.Do(req)
+	res, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
 		return resBlock, err
@@ -42,8 +48,7 @@ func GetBlockCollaborators(jwtToken string, blockParam common.ResourceIdParam) (
 
 	defer helpers.CloseBody(res.Body)
 
-	var body []byte
-	body, err = io.ReadAll(res.Body)
+	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
 		return resBlock, err
