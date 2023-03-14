@@ -17,3 +17,14 @@ type Scale struct {
 	Blocks *[]common.SlimBlock `json:"blocks"`
 	Pods   *[]common.SlimPod   `json:"pods"`
 }
+
+type UpdateScaleValueReqBody struct {
+	ScaleValue string `json:"scaleValue"`
+}
+
+type AddScaleIdParam struct {
+	ScaleId string
+	KeyId   string
+	BlockId *string
+	PodId   *string
+}

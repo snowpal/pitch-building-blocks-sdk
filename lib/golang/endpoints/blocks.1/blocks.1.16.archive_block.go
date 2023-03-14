@@ -1,39 +1,38 @@
 package blocks_1
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/common"
 	"fmt"
-	"io"
 	"net/http"
-	"strings"
 )
 
-func main(jwtToken string) error {
-
-	url := "blocks/%s/archive?keyId=%s"
-	method := "PATCH"
-
-	payload := strings.NewReader(``)
-
+func ArchiveBlock(jwtToken string, blockParam common.ResourceIdParam) error {
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodPatch, helpers.GetRoute(golang), payload)
-
+	route, err := helpers.GetRoute(
+		golang.RouteBlocksArchiveBlock,
+		blockParam.BlockId,
+		blockParam.KeyId,
+	)
 	if err != nil {
 		fmt.Println(err)
 		return err
 	}
+
+	var req *http.Request
+	req, err = http.NewRequest(http.MethodPatch, route, nil)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	_, err = client.Do(req)
 	if err != nil {
 		fmt.Println(err)
 		return err
 	}
-	defer helpers.CloseBody(res.Body)
-
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		fmt.Println(err)
-		return err
-	}
+	return nil
 }

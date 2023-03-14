@@ -2,8 +2,10 @@ package main
 
 import (
 	"development/go/recipes/lib/golang"
+	blocks "development/go/recipes/lib/golang/endpoints/blocks.1"
 	keys "development/go/recipes/lib/golang/endpoints/keys.1"
 	registration "development/go/recipes/lib/golang/endpoints/registration.1"
+	"development/go/recipes/lib/golang/structs/request"
 	"development/go/recipes/lib/golang/structs/response"
 	log "github.com/sirupsen/logrus"
 
@@ -29,5 +31,19 @@ func main() {
 	}
 
 	log.Info(".get all keys: ", userSignIn.User.ID)
-	keys.GetAllKeys(userSignIn.User.JwtToken)
+	allKeys, err := keys.GetKeys(userSignIn.User.JwtToken, 0)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	log.Info(allKeys)
+
+	block, err := blocks.AddBlockBasedOnTemplate(userSignIn.User.JwtToken,
+		request.AddBlockReqBody{Name: "Blk by Template1"},
+		blocks.BlockByTemplateParam{KeyId: "63ceb29edb035900138d975d", TemplateId: "63c9bec50e98a800140720e3"})
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	log.Info(block)
 }

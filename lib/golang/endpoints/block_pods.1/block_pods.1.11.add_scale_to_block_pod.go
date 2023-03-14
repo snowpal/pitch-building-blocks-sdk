@@ -3,25 +3,19 @@ package block_pods
 import (
 	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/request"
 	"fmt"
 	"net/http"
 )
 
-type AddScaleIdParam struct {
-	KeyId   string
-	BlockId string
-	PodId   string
-	ScaleId string
-}
-
-func AddScaleToBlockPod(jwtToken string, podParam AddScaleIdParam) error {
+func AddScaleToBlockPod(jwtToken string, podParam request.AddScaleIdParam) error {
 	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlockPodsAddScaleToBlockPod,
-		podParam.PodId,
+		*podParam.PodId,
 		podParam.ScaleId,
 		podParam.KeyId,
-		podParam.BlockId,
+		*podParam.BlockId,
 	)
 	if err != nil {
 		fmt.Println(err)

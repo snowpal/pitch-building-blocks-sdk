@@ -4,6 +4,7 @@ import (
 	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
 	"development/go/recipes/lib/golang/structs/common"
+	"development/go/recipes/lib/golang/structs/request"
 	"development/go/recipes/lib/golang/structs/response"
 	"encoding/json"
 	"fmt"
@@ -12,14 +13,9 @@ import (
 	"strings"
 )
 
-type UpdatePodDescReqBody struct {
-	Description   string    `json:"podDescription"`
-	TaggedUserIds *[]string `json:"taggedUserIds"`
-}
-
 func UpdateBlockPodDescription(
 	jwtToken string,
-	reqBody UpdatePodDescReqBody,
+	reqBody request.UpdatePodDescReqBody,
 	podParam common.ResourceIdParam,
 ) (response.Pod, error) {
 	resPod := response.Pod{}

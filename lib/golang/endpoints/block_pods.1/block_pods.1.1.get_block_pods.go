@@ -12,12 +12,12 @@ import (
 	"strconv"
 )
 
-func GetBlockPods(jwtToken string, podsParam request.GetBlockPodsParam) ([]response.Pod, error) {
+func GetBlockPods(jwtToken string, podsParam request.GetPodsParam) ([]response.Pod, error) {
 	resPods := response.Pods{}
 	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlockPodsGetBlockPods,
-		podsParam.BlockId,
+		*podsParam.BlockId,
 		strconv.Itoa(podsParam.BatchIndex),
 		podsParam.KeyId,
 	)

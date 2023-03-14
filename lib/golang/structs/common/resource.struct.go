@@ -19,6 +19,10 @@ type UnreadCount struct {
 	UnreadCount int `json:"unreadCount"`
 }
 
+type AllowArchivalReqBody struct {
+	AllowArchival bool `json:"allowArchival"`
+}
+
 type ResourceIdParam struct {
 	KeyId   string
 	BlockId string

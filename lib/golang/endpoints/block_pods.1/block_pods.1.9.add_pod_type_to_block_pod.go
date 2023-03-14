@@ -3,25 +3,19 @@ package block_pods
 import (
 	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/request"
 	"fmt"
 	"net/http"
 )
 
-type AddPodTypeIdParam struct {
-	KeyId     string
-	BlockId   string
-	PodId     string
-	PodTypeId string
-}
-
-func AddPodTypeToBlockPod(jwtToken string, podParam AddPodTypeIdParam) error {
+func AddPodTypeToBlockPod(jwtToken string, podParam request.AddPodTypeIdParam) error {
 	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlockPodsAddPodTypeToBlockPod,
 		podParam.PodId,
 		podParam.PodTypeId,
 		podParam.KeyId,
-		podParam.BlockId,
+		*podParam.BlockId,
 	)
 	if err != nil {
 		fmt.Println(err)
