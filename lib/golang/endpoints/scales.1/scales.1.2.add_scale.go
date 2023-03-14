@@ -1,39 +1,58 @@
 package scales
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/request"
+	"development/go/recipes/lib/golang/structs/response"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"strings"
 )
 
-func main(jwtToken string) error {
-
-	url := "scales"
-	method := "POST"
-
-	payload := strings.NewReader(`{"scaleName":"grading_system[grading_system_name]","scaleType":"grading_system[grading_system_type]","scaleValues":"grading_system[grades]"}`)
-
-	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodPatch, helpers.GetRoute(golang), payload)
-
+func AddScale(jwtToken string, reqBody request.ScaleReqBody) (response.Scale, error) {
+	resScale := response.Scale{}
+	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)
-		return err
+		return resScale, err
 	}
+	payload := strings.NewReader(requestBody)
+	client := &http.Client{}
+	route, err := helpers.GetRoute(golang.RouteScalesAddScale)
+	if err != nil {
+		fmt.Println(err)
+		return resScale, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, route, payload)
+	if err != nil {
+		fmt.Println(err)
+		return resScale, err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
 	res, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return err
+		return resScale, err
 	}
+
 	defer helpers.CloseBody(res.Body)
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return err
+		return resScale, err
 	}
+
+	err = json.Unmarshal(body, &resScale)
+	if err != nil {
+		fmt.Println(err)
+		return resScale, err
+	}
+	return resScale, nil
 }

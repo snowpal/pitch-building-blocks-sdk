@@ -165,7 +165,7 @@ const (
 )
 
 const (
-	RouteBlockTypesGetBlockTypes           = "block-types"
+	RouteBlockTypesGetBlockTypes           = "block-types?includeCounts=%s"
 	RouteBlockTypesAddBlockType            = "block-types"
 	RouteBlockTypesUpdateBlockType         = "block-types/%s"
 	RouteBlockTypesDeleteBlockType         = "block-types/%s"
@@ -386,7 +386,7 @@ const (
 )
 
 const (
-	RoutePodTypesGetPodTypes         = "pod-types"
+	RoutePodTypesGetPodTypes         = "pod-types?includeCounts=%s"
 	RoutePodTypesAddPodType          = "pod-types"
 	RoutePodTypesUpdatePodType       = "pod-types/%s"
 	RoutePodTypesDeletePodType       = "pod-types/%s"

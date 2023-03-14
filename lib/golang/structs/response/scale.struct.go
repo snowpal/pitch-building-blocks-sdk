@@ -2,6 +2,10 @@ package response
 
 import "development/go/recipes/lib/golang/structs/common"
 
+type Scales struct {
+	Scales []Scale `json:"scales"`
+}
+
 type Scale struct {
 	ID              string                  `json:"id"`
 	Name            string                  `json:"scaleName"`
