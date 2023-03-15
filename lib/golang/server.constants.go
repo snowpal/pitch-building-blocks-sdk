@@ -378,7 +378,7 @@ const (
 )
 
 const (
-	RouteNotificationsGetAllNotifications           = "notifications"
+	RouteNotificationsGetNotifications              = "notifications"
 	RouteNotificationsGetUnreadNotifications        = "notifications/unread"
 	RouteNotificationsGetUnreadNotificationCount    = "notifications/unread/count"
 	RouteNotificationsMarkNotificationAsRead        = "notifications/%s/read"

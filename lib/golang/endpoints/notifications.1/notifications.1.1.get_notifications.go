@@ -10,10 +10,10 @@ import (
 	"net/http"
 )
 
-func GetUnreadNotifications(jwtToken string) ([]response.Notification, error) {
+func GetNotifications(jwtToken string) ([]response.Notification, error) {
 	resNotifications := response.Notifications{}
 	client := &http.Client{}
-	route, err := helpers.GetRoute(golang.RouteNotificationsGetUnreadNotifications)
+	route, err := helpers.GetRoute(golang.RouteNotificationsGetNotifications)
 	if err != nil {
 		fmt.Println(err)
 		return resNotifications.Notifications, err
