@@ -1,39 +1,62 @@
 package conversations
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/response"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"strings"
 )
 
-func main(jwtToken string) error {
+type ConversationReqBody struct {
+	MessageText string   `json:"messageText"`
+	Usernames   []string `json:"userNames"`
+}
 
-	url := "conversations"
-	method := "POST"
-
-	payload := strings.NewReader(`{"messageText":"conversation[message_text]","userNames":"conversation[user_names]"}`)
-
-	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodPatch, helpers.GetRoute(golang), payload)
-
+func AddPrivateOrGroupConversation(jwtToken string, reqBody ConversationReqBody) (response.Conversation, error) {
+	resConversation := response.Conversation{}
+	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)
-		return err
+		return resConversation, err
 	}
+	payload := strings.NewReader(requestBody)
+	client := &http.Client{}
+	route, err := helpers.GetRoute(golang.RouteConversationsAddPrivateOrGroupConversation)
+	if err != nil {
+		fmt.Println(err)
+		return resConversation, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, route, payload)
+	if err != nil {
+		fmt.Println(err)
+		return resConversation, err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
 	res, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return err
+		return resConversation, err
 	}
+
 	defer helpers.CloseBody(res.Body)
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return err
+		return resConversation, err
 	}
+
+	err = json.Unmarshal(body, &resConversation)
+	if err != nil {
+		fmt.Println(err)
+		return resConversation, err
+	}
+	return resConversation, nil
 }

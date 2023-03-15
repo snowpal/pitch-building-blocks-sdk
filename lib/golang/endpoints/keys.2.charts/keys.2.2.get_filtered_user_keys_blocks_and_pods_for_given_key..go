@@ -1,9 +1,8 @@
-package blocks_3
+package keys_2
 
 import (
 	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
-	"development/go/recipes/lib/golang/structs/common"
 	"development/go/recipes/lib/golang/structs/response"
 	"encoding/json"
 	"fmt"
@@ -11,24 +10,20 @@ import (
 	"net/http"
 )
 
-func GetTaskStatusForBlock(jwtToken string, taskParam common.ResourceIdParam) (response.TasksStatusBlock, error) {
-	resBlockTasksStatus := response.TasksStatusBlock{}
+func GetFilteredUserKeysBlocksAndPodsForGivenKey(jwtToken string, keyId string) (response.FilteredKey, error) {
+	resFilteredUserKey := response.FilteredKey{}
 	client := &http.Client{}
-	route, err := helpers.GetRoute(
-		golang.RouteBlocksGetTaskStatusForBlock,
-		taskParam.KeyId,
-		taskParam.BlockId,
-	)
+	route, err := helpers.GetRoute(golang.RouteKeysGetFilteredUserKeysBlocksAndPodsForGivenKey, keyId)
 	if err != nil {
 		fmt.Println(err)
-		return resBlockTasksStatus, err
+		return resFilteredUserKey, err
 	}
 
 	var req *http.Request
 	req, err = http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
 		fmt.Println(err)
-		return resBlockTasksStatus, err
+		return resFilteredUserKey, err
 	}
 
 	helpers.AddUserHeaders(jwtToken, req)
@@ -37,7 +32,7 @@ func GetTaskStatusForBlock(jwtToken string, taskParam common.ResourceIdParam) (r
 	res, err = client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return resBlockTasksStatus, err
+		return resFilteredUserKey, err
 	}
 
 	defer helpers.CloseBody(res.Body)
@@ -46,13 +41,13 @@ func GetTaskStatusForBlock(jwtToken string, taskParam common.ResourceIdParam) (r
 	body, err = io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return resBlockTasksStatus, err
+		return resFilteredUserKey, err
 	}
 
-	err = json.Unmarshal(body, &resBlockTasksStatus)
+	err = json.Unmarshal(body, &resFilteredUserKey)
 	if err != nil {
 		fmt.Println(err)
-		return resBlockTasksStatus, err
+		return resFilteredUserKey, err
 	}
-	return resBlockTasksStatus, nil
+	return resFilteredUserKey, nil
 }

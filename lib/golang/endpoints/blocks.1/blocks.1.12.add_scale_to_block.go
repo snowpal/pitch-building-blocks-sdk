@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-func AddScaleToBlock(jwtToken string, blockParam request.AddScaleIdParam) error {
+func AddScaleToBlock(jwtToken string, blockParam request.ScaleIdParam) error {
 	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlocksAddScaleToBlock,

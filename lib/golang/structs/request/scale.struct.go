@@ -10,7 +10,7 @@ type UpdateScaleValueReqBody struct {
 	ScaleValue string `json:"scaleValue"`
 }
 
-type AddScaleIdParam struct {
+type ScaleIdParam struct {
 	ScaleId string
 	KeyId   string
 	BlockId *string

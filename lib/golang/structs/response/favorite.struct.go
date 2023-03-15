@@ -6,6 +6,10 @@ type Favorites struct {
 	Favorites []Favorite `json:"favorites"`
 }
 
+type AddFavorite struct {
+	ID string `json:"id"`
+}
+
 type Favorite struct {
 	ID       string                  `json:"id"`
 	Modifier common.ResourceModifier `json:"modifier"`
