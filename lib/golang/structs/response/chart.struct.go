@@ -2,20 +2,20 @@ package response
 
 import "development/go/recipes/lib/golang/structs/common"
 
-type SlimKeysExt struct {
-	Keys []SlimKeyExt `json:"keys"`
+type UserKeys struct {
+	Keys []UserKey `json:"keys"`
 }
 
-type SlimKeyExt struct {
+type UserKey struct {
 	ID           string           `json:"id"`
 	Name         string           `json:"keyName"`
 	Type         string           `json:"keyType"`
-	Blocks       []SlimBlockExt   `json:"blocks"`
+	Blocks       []UserBlock      `json:"blocks"`
 	Pods         []common.SlimPod `json:"pods"`
 	LastModified string           `json:"lastModified"`
 }
 
-type SlimBlockExt struct {
+type UserBlock struct {
 	ID           string           `json:"id"`
 	Name         string           `json:"keyName"`
 	Pods         []common.SlimPod `json:"pods"`
@@ -45,11 +45,11 @@ type BlockTypesKeys struct {
 }
 
 type BlockTypesKey struct {
-	ID           string       `json:"id"`
-	Name         string       `json:"keyName"`
-	Type         string       `json:"keyType"`
-	BlockTypes   *[]BlockType `json:"blockTypes"`
-	LastModified string       `json:"lastModified"`
+	ID           string      `json:"id"`
+	Name         string      `json:"keyName"`
+	Type         string      `json:"keyType"`
+	BlockTypes   []BlockType `json:"blockTypes"`
+	LastModified string      `json:"lastModified"`
 }
 
 type PodTypesKeysKeyPod struct {
@@ -137,8 +137,8 @@ type LinkedResourcesKey struct {
 type LinkedResources struct {
 	CurrentKey LinkedResourcesKey `json:"currentKey"`
 	SharedKey  LinkedResourcesKey `json:"sharedKey"`
-	Keys       *[]SlimKeyExt      `json:"keys"`
-	Blocks     []SlimBlockExt     `json:"blocks"`
+	Keys       *[]UserKey         `json:"keys"`
+	Blocks     []UserBlock        `json:"blocks"`
 }
 
 type BlockScaleValue struct {

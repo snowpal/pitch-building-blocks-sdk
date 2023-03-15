@@ -1,4 +1,4 @@
-package dashboard_2
+package keys_2
 
 import (
 	"development/go/recipes/lib/golang"
@@ -10,20 +10,20 @@ import (
 	"net/http"
 )
 
-func GetBlocksAndPodsBasedOnScales(jwtToken string) ([]response.ScalesKey, error) {
-	resScalesKeys := response.ScalesKeys{}
+func GetFilteredUserKeysBlocksAndPodsForGivenKey(jwtToken string, keyId string) (response.FilteredKey, error) {
+	resFilteredUserKey := response.FilteredKey{}
 	client := &http.Client{}
-	route, err := helpers.GetRoute(golang.RouteDashboardGetBlocksAndPodsBasedOnScales)
+	route, err := helpers.GetRoute(golang.RouteKeysGetFilteredUserKeysBlocksAndPodsForGivenKey, keyId)
 	if err != nil {
 		fmt.Println(err)
-		return *resScalesKeys.Keys, err
+		return resFilteredUserKey, err
 	}
 
 	var req *http.Request
 	req, err = http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
 		fmt.Println(err)
-		return *resScalesKeys.Keys, err
+		return resFilteredUserKey, err
 	}
 
 	helpers.AddUserHeaders(jwtToken, req)
@@ -32,7 +32,7 @@ func GetBlocksAndPodsBasedOnScales(jwtToken string) ([]response.ScalesKey, error
 	res, err = client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return *resScalesKeys.Keys, err
+		return resFilteredUserKey, err
 	}
 
 	defer helpers.CloseBody(res.Body)
@@ -41,13 +41,13 @@ func GetBlocksAndPodsBasedOnScales(jwtToken string) ([]response.ScalesKey, error
 	body, err = io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return *resScalesKeys.Keys, err
+		return resFilteredUserKey, err
 	}
 
-	err = json.Unmarshal(body, &resScalesKeys)
+	err = json.Unmarshal(body, &resFilteredUserKey)
 	if err != nil {
 		fmt.Println(err)
-		return *resScalesKeys.Keys, err
+		return resFilteredUserKey, err
 	}
-	return *resScalesKeys.Keys, nil
+	return resFilteredUserKey, nil
 }
