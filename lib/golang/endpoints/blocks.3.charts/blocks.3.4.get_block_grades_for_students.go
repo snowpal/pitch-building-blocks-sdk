@@ -11,24 +11,29 @@ import (
 	"net/http"
 )
 
-func GetTaskStatusForBlock(jwtToken string, taskParam common.ResourceIdParam) (response.TasksStatusBlock, error) {
-	resBlockTasksStatus := response.TasksStatusBlock{}
+type BlockGradesForStudents struct {
+	Block response.BlockGrade `json:"block"`
+	Pods  []response.PodGrade `json:"pods"`
+}
+
+func GetBlockGradesForStudents(jwtToken string, gradeParam common.ResourceIdParam) (BlockGradesForStudents, error) {
+	resBlockGrades := BlockGradesForStudents{}
 	client := &http.Client{}
 	route, err := helpers.GetRoute(
-		golang.RouteBlocksGetTaskStatusForBlock,
-		taskParam.KeyId,
-		taskParam.BlockId,
+		golang.RouteBlocksGetBlockGradesForStudents,
+		gradeParam.BlockId,
+		gradeParam.KeyId,
 	)
 	if err != nil {
 		fmt.Println(err)
-		return resBlockTasksStatus, err
+		return resBlockGrades, err
 	}
 
 	var req *http.Request
 	req, err = http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
 		fmt.Println(err)
-		return resBlockTasksStatus, err
+		return resBlockGrades, err
 	}
 
 	helpers.AddUserHeaders(jwtToken, req)
@@ -37,7 +42,7 @@ func GetTaskStatusForBlock(jwtToken string, taskParam common.ResourceIdParam) (r
 	res, err = client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return resBlockTasksStatus, err
+		return resBlockGrades, err
 	}
 
 	defer helpers.CloseBody(res.Body)
@@ -46,13 +51,13 @@ func GetTaskStatusForBlock(jwtToken string, taskParam common.ResourceIdParam) (r
 	body, err = io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return resBlockTasksStatus, err
+		return resBlockGrades, err
 	}
 
-	err = json.Unmarshal(body, &resBlockTasksStatus)
+	err = json.Unmarshal(body, &resBlockGrades)
 	if err != nil {
 		fmt.Println(err)
-		return resBlockTasksStatus, err
+		return resBlockGrades, err
 	}
-	return resBlockTasksStatus, nil
+	return resBlockGrades, nil
 }

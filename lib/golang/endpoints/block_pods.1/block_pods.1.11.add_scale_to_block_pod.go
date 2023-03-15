@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-func AddScaleToBlockPod(jwtToken string, podParam request.AddScaleIdParam) error {
+func AddScaleToBlockPod(jwtToken string, podParam request.ScaleIdParam) error {
 	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlockPodsAddScaleToBlockPod,

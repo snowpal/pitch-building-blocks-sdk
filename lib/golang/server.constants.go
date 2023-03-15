@@ -49,10 +49,10 @@ const (
 )
 
 const (
-	RouteBlocksGetLinkedBlockPods           = "charts/keys/%s/blocks/%s/linked-resources"
-	RouteBlocksGetScaleValuesForScale       = "charts/keys/%s/blocks/%s/scales/%s/grades"
-	RouteBlocksGetTaskStatusForBlock        = "charts/keys/%s/blocks/%s/task-status"
-	RouteBlocksGetBlockGradesForAllStudents = "blocks/%s/students/all/grades?keyId=%s"
+	RouteBlocksGetLinkedBlockPods        = "charts/keys/%s/blocks/%s/linked-resources"
+	RouteBlocksGetScaleValuesForScale    = "charts/keys/%s/blocks/%s/scales/%s/grades"
+	RouteBlocksGetTaskStatusForBlock     = "charts/keys/%s/blocks/%s/task-status"
+	RouteBlocksGetBlockGradesForStudents = "blocks/%s/students/all/grades?keyId=%s"
 )
 
 const (
@@ -124,8 +124,8 @@ const (
 )
 
 const (
-	RouteBlockPodsGetBlockPodTasksForCharts       = "charts/block-pods/%s/tasks?keyId=%s&blockId=%s"
-	RouteBlockPodsGetBlockPodGradesForAllStudents = "charts/classroom-pods/%s/students/grades?keyId=%s&blockId=%s"
+	RouteBlockPodsGetBlockPodTasksForCharts    = "charts/block-pods/%s/tasks?keyId=%s&blockId=%s"
+	RouteBlockPodsGetBlockPodGradesForStudents = "charts/classroom-pods/%s/students/grades?keyId=%s&blockId=%s"
 )
 
 const (

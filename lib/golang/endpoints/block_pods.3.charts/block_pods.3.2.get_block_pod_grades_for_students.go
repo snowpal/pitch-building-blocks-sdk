@@ -11,7 +11,7 @@ import (
 	"net/http"
 )
 
-type BlockPodGrade struct {
+type BlockPodGradesForStudents struct {
 	ID       string             `json:"id"`
 	Name     string             `json:"blockName"`
 	Key      common.SlimKey     `json:"key"`
@@ -19,11 +19,11 @@ type BlockPodGrade struct {
 	Students []response.Student `json:"students"`
 }
 
-func GetBlockPodGradesForAllStudents(jwtToken string, podParam common.ResourceIdParam) (BlockPodGrade, error) {
-	resBlockPodGrades := BlockPodGrade{}
+func GetBlockPodGradesForStudents(jwtToken string, podParam common.ResourceIdParam) (BlockPodGradesForStudents, error) {
+	resBlockPodGrades := BlockPodGradesForStudents{}
 	client := &http.Client{}
 	route, err := helpers.GetRoute(
-		golang.RouteBlockPodsGetBlockPodGradesForAllStudents,
+		golang.RouteBlockPodsGetBlockPodGradesForStudents,
 		podParam.PodId,
 		podParam.KeyId,
 		podParam.BlockId,

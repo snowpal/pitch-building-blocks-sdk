@@ -130,15 +130,15 @@ type TasksStatusBlock struct {
 	LastModified string         `json:"lastModified"`
 }
 
-type SlimKeyKey struct {
-	Key common.SlimKey `json:"key"`
+type LinkedResourcesKey struct {
+	SlimKey common.SlimKey `json:"key"`
 }
 
 type LinkedResources struct {
-	CurrentKey SlimKeyKey     `json:"currentKey"`
-	SharedKey  SlimKeyKey     `json:"sharedKey"`
-	Keys       *[]SlimKeyExt  `json:"keys"`
-	Blocks     []SlimBlockExt `json:"blocks"`
+	CurrentKey LinkedResourcesKey `json:"currentKey"`
+	SharedKey  LinkedResourcesKey `json:"sharedKey"`
+	Keys       *[]SlimKeyExt      `json:"keys"`
+	Blocks     []SlimBlockExt     `json:"blocks"`
 }
 
 type BlockScaleValue struct {
@@ -156,15 +156,11 @@ type PodScaleValue struct {
 }
 
 type ScaleValues struct {
-	Scale  Scale             `json:"scale"`
-	Key    common.SlimKey    `json:"key"`
-	Blocks []BlockScaleValue `json:"blocks"`
-	Pods   []PodScaleValue   `json:"pods"`
-}
-
-type BlockAndPodsGrade struct {
-	Block BlockGrade `json:"block"`
-	Pods  []PodGrade `json:"pods"`
+	Scale  Scale              `json:"scale"`
+	Key    common.SlimKey     `json:"key"`
+	Block  *common.SlimBlock  `json:"block"`
+	Blocks *[]BlockScaleValue `json:"blocks"`
+	Pods   []PodScaleValue    `json:"pods"`
 }
 
 type BlockGrade struct {
