@@ -7,20 +7,23 @@ type Dashboard struct {
 }
 
 type DashboardResources struct {
-	RecentlyModifiedResources *RecentlyModified `json:"recentlyModified"`
-	ShortlyDueResources       *DueShortly       `json:"dueShortly"`
+	RecentlyModifiedResources *RecentlyModifiedResources `json:"recentlyModified"`
+	ShortlyDueResources       *DueShortlyResources       `json:"dueShortly"`
 }
 
-type RecentlyModified struct {
-	Keys   *[]common.SlimKey `json:"keys"`
-	Blocks *[]DashboardBlock `json:"blocks"`
-	Pods   *[]DashboardPod   `json:"pods"`
+type RecentlyModifiedKeys struct {
+	Keys []common.SlimKey `json:"keys"`
 }
 
-type DueShortly struct {
+type RecentlyModifiedResources struct {
+	Blocks []DashboardBlock `json:"blocks"`
+	Pods   []DashboardPod   `json:"pods"`
+}
+
+type DueShortlyResources struct {
 	Blocks *[]DashboardBlock `json:"blocks"`
-	Pods   *[]DashboardPod   `json:"pods"`
-	Tasks  *[]DashboardTask  `json:"tasks"`
+	Pods   []DashboardPod    `json:"pods"`
+	Tasks  []DashboardTask   `json:"tasks"`
 }
 
 type DashboardBlock struct {
