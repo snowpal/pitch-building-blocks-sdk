@@ -15,7 +15,7 @@ import (
 // get resource attributes
 func main() {
 	log.Info(".sign in user email: ", golang.Email)
-	userSignIn, err := registration.SignIn(golang.Email)
+	userSignIn, err := registration.SignInByEmail(golang.Email)
 	if err != nil {
 		fmt.Println(err)
 	}
