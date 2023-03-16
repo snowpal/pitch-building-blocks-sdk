@@ -1,5 +1,22 @@
 package request
 
+type ProjectListIdParam struct {
+	KeyId         string  `json:"keyId"`
+	BlockId       string  `json:"blockId"`
+	ProjectListId string  `json:"projectListId"`
+	PodId         *string `json:"podId"`
+}
+
+type CopyMoveProjectPodParam struct {
+	PodId   string
+	BlockId string
+	KeyId   string
+
+	TargetKeyId         string
+	TargetBlockId       string
+	TargetProjectListId string
+}
+
 type ProjectList struct {
 	ID             string   `json:"id"`
 	Name           string   `json:"projectListName"`
