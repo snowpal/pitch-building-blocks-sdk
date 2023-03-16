@@ -40,6 +40,10 @@ func AddKeyBasedOnTemplate(
 		strconv.FormatBool(keyParam.ExcludePods),
 		strconv.FormatBool(keyParam.ExcludeTasks),
 	)
+	if err != nil {
+		fmt.Println(err)
+		return resKey, err
+	}
 	req, err := http.NewRequest(http.MethodPost, route, payload)
 	if err != nil {
 		fmt.Println(err)

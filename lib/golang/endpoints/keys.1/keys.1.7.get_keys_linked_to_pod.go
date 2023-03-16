@@ -15,6 +15,10 @@ func GetKeysLinkedToPod(jwtToken string, keyParam common.ResourceIdParam) ([]res
 	resKeys := response.Keys{}
 	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteKeysGetKeysLinkedToPod, keyParam.PodId, keyParam.KeyId)
+	if err != nil {
+		fmt.Println(err)
+		return resKeys.Keys, err
+	}
 	req, err := http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
 		fmt.Println(err)

@@ -13,7 +13,8 @@ type Profile struct {
 	AvatarName    string `json:"avatarName"`
 	AvatarUrl     string `json:"avatarUrl"`
 
-	Inactive bool `json:"inactive"`
+	IsInactive         bool `json:"inactive"`
+	IsAnnualSubscriber bool `json:"isAnnualSubscriber"`
 
 	BlockedUsers []BlockedUser `json:"blockedUsers"`
 	Preferences  []Preference  `json:"preferences"`
