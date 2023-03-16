@@ -5,9 +5,20 @@ import (
 	"development/go/recipes/lib/golang/helpers"
 	"fmt"
 	"net/http"
+	"strings"
 )
 
-func MarkNotificationsAsReadInBulk(jwtToken string) error {
+type MarkAsReadInBulkReqBody struct {
+	NotificationIds []string `json:"notificationIds"`
+}
+
+func MarkNotificationsAsReadInBulk(jwtToken string, reqBody MarkAsReadInBulkReqBody) error {
+	requestBody, err := helpers.GetRequestBody(reqBody)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	payload := strings.NewReader(requestBody)
 	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteNotificationsMarkNotificationsAsReadInBulk)
 	if err != nil {
@@ -15,7 +26,7 @@ func MarkNotificationsAsReadInBulk(jwtToken string) error {
 		return err
 	}
 
-	req, err := http.NewRequest(http.MethodPatch, route, nil)
+	req, err := http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
 		fmt.Println(err)
 		return err

@@ -66,9 +66,3 @@ type CopyMovePodParam struct {
 	AllTasks      *bool
 	AllChecklists *bool
 }
-
-type SharePod struct {
-	Acl            string    `json:"podAcl"`
-	PodIds         *[]string `json:"podIds"`
-	StudentUserIds *[]string `json:"studentUserIds"`
-}

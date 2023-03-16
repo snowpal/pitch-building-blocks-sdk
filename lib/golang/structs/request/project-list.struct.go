@@ -1,10 +1,28 @@
 package request
 
+type AddProjectListReqBody struct {
+	Name string `json:"projectListName"`
+}
+
+type AssignProjectPodReqBody struct {
+	UserIds []string `json:"userIds"`
+}
+
 type ProjectListIdParam struct {
-	KeyId         string  `json:"keyId"`
-	BlockId       string  `json:"blockId"`
-	ProjectListId string  `json:"projectListId"`
-	PodId         *string `json:"podId"`
+	KeyId         string
+	BlockId       string
+	ProjectListId string
+	PodId         *string
+}
+
+type CopyMoveProjectListParam struct {
+	KeyId         string
+	BlockId       string
+	ProjectListId string
+
+	TargetKeyId    string
+	TargetBlockId  string
+	TargetPosition int
 }
 
 type CopyMoveProjectPodParam struct {
@@ -17,35 +35,17 @@ type CopyMoveProjectPodParam struct {
 	TargetProjectListId string
 }
 
-type ProjectList struct {
-	ID             string   `json:"id"`
-	Name           string   `json:"projectListName"`
-	ProjectListIds []string `json:"projectListIds"`
-	UserIds        []string `json:"userIds"`
-}
+type CopyMoveProjectListPodsParam struct {
+	KeyId         string
+	BlockId       string
+	ProjectListId string
 
-type ProjectListWithParam struct {
-	KeyId          string `json:"keyId"`
-	TargetKeyId    string `json:"targetKeyId"`
-	TargetBlockId  string `json:"targetBlockIdId"`
-	TargetPosition string `json:"targetPosition"`
-}
+	TargetKeyId         string
+	TargetBlockId       string
+	TargetProjectListId string
 
-type ProjectPodWithParam struct {
-	KeyId               string `json:"keyId"`
-	BlockId             string `json:"blockId"`
-	TargetKeyId         string `json:"targetKeyId"`
-	TargetBlockId       string `json:"targetBlockIdId"`
-	TargetProjectListId string `json:"targetProjectListId"`
+	AllTasks *bool
+	AllPods  *bool
 
-	PodIds   *[]string `json:"podIds"`
-	AllPods  *bool     `json:"allPods"`
-	AllTasks *bool     `json:"allTasks"`
-}
-
-type ProjectPodByTemplate struct {
-	KeyId         string `json:"keyId"`
-	ProjectListId string `json:"projectListId"`
-	TemplateId    string `json:"templateId"`
-	ExcludeTasks  *bool  `json:"excludeTasks"`
+	PodIds *[]string
 }

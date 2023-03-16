@@ -9,16 +9,18 @@ import (
 	"strconv"
 )
 
-func MoveProjectList(jwtToken string, projectListParam request.CopyMoveProjectListParam) error {
+func CopyPodsInProjectList(jwtToken string, projectListParam request.CopyMoveProjectListPodsParam) error {
 	client := &http.Client{}
 	route, err := helpers.GetRoute(
-		golang.RouteProjectKeysMoveProjectList,
-		projectListParam.BlockId,
+		golang.RouteProjectKeysCopyPodsInProjectList,
 		projectListParam.ProjectListId,
 		projectListParam.KeyId,
+		projectListParam.BlockId,
 		projectListParam.TargetKeyId,
 		projectListParam.TargetBlockId,
-		strconv.Itoa(projectListParam.TargetPosition),
+		projectListParam.TargetProjectListId,
+		strconv.FormatBool(*projectListParam.AllPods),
+		strconv.FormatBool(*projectListParam.AllTasks),
 	)
 	if err != nil {
 		fmt.Println(err)
@@ -26,7 +28,7 @@ func MoveProjectList(jwtToken string, projectListParam request.CopyMoveProjectLi
 	}
 
 	var req *http.Request
-	req, err = http.NewRequest(http.MethodPatch, route, nil)
+	req, err = http.NewRequest(http.MethodPost, route, nil)
 	if err != nil {
 		fmt.Println(err)
 		return err

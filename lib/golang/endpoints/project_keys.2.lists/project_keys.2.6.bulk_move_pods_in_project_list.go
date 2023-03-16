@@ -1,39 +1,44 @@
 package project_keys_2
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/request"
 	"fmt"
-	"io"
 	"net/http"
 	"strings"
 )
 
-func main(jwtToken string) error {
-
-	url := "project-block-lists/%s/pods/move?blockId=%s&keyId=%s&targetKeyId=%s&targetBlockId=%s&targetProjectListId=%s&podIds=%s"
-	method := "PATCH"
-
-	payload := strings.NewReader(``)
-
+func BulkMovePodsInProjectList(jwtToken string, projectListParam request.CopyMoveProjectListPodsParam) error {
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodPatch, helpers.GetRoute(golang), payload)
-
+	route, err := helpers.GetRoute(
+		golang.RouteProjectKeysBulkMovePodsInProjectList,
+		projectListParam.ProjectListId,
+		projectListParam.KeyId,
+		projectListParam.BlockId,
+		projectListParam.TargetKeyId,
+		projectListParam.TargetBlockId,
+		projectListParam.TargetProjectListId,
+		strings.Join(*projectListParam.PodIds, ","),
+	)
 	if err != nil {
 		fmt.Println(err)
 		return err
 	}
+
+	var req *http.Request
+	req, err = http.NewRequest(http.MethodPatch, route, nil)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	_, err = client.Do(req)
 	if err != nil {
 		fmt.Println(err)
 		return err
 	}
-	defer helpers.CloseBody(res.Body)
-
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		fmt.Println(err)
-		return err
-	}
+	return nil
 }

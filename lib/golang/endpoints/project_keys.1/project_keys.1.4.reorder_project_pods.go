@@ -37,6 +37,10 @@ func ReorderProjectPods(
 		podParam.BlockId,
 		podParam.KeyId,
 	)
+	if err != nil {
+		fmt.Println(err)
+		return resProjectPods.Pods, err
+	}
 	req, err := http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
 		fmt.Println(err)

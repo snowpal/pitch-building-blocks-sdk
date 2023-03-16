@@ -9,16 +9,17 @@ import (
 	"strconv"
 )
 
-func MoveProjectList(jwtToken string, projectListParam request.CopyMoveProjectListParam) error {
+func MovePodsInProjectList(jwtToken string, projectListParam request.CopyMoveProjectListPodsParam) error {
 	client := &http.Client{}
 	route, err := helpers.GetRoute(
-		golang.RouteProjectKeysMoveProjectList,
-		projectListParam.BlockId,
+		golang.RouteProjectKeysMovePodsInProjectList,
 		projectListParam.ProjectListId,
 		projectListParam.KeyId,
+		projectListParam.BlockId,
 		projectListParam.TargetKeyId,
 		projectListParam.TargetBlockId,
-		strconv.Itoa(projectListParam.TargetPosition),
+		projectListParam.TargetProjectListId,
+		strconv.FormatBool(*projectListParam.AllPods),
 	)
 	if err != nil {
 		fmt.Println(err)
