@@ -1,39 +1,49 @@
 package teacher_keys_2
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/common"
+	"development/go/recipes/lib/golang/structs/request"
 	"fmt"
-	"io"
 	"net/http"
 	"strings"
 )
 
-func main(jwtToken string) error {
-
-	url := "classroom-blocks/%s/student-grades/publish?keyId=%s"
-	method := "PATCH"
-
-	payload := strings.NewReader(`{"studentUserIds":"63cabea69e9c500014d4f9b7"}`)
-
-	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodPatch, helpers.GetRoute(golang), payload)
-
+func PublishStudentGradesForABlock(
+	jwtToken string,
+	reqBody request.PublishGradesReqBody,
+	podParam common.ResourceIdParam,
+) error {
+	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)
 		return err
 	}
+	payload := strings.NewReader(requestBody)
+	client := &http.Client{}
+	route, err := helpers.GetRoute(
+		golang.RouteTeacherKeysPublishStudentGradesForABlock,
+		podParam.BlockId,
+		podParam.KeyId,
+	)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	req, err := http.NewRequest(http.MethodPatch, route, payload)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	_, err = client.Do(req)
 	if err != nil {
 		fmt.Println(err)
 		return err
 	}
-	defer helpers.CloseBody(res.Body)
-
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		fmt.Println(err)
-		return err
-	}
+	return nil
 }

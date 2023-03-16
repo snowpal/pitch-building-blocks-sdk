@@ -2,26 +2,31 @@ package response
 
 import "development/go/recipes/lib/golang/structs/common"
 
-type TeacherBlock struct {
-	ID         string         `json:"id"`
-	Name       string         `json:"blockName"`
-	Key        common.SlimKey `json:"key"`
-	ScaleValue *ScaleValue    `json:"scaleValue"`
-	Pods       *[]TeacherPod  `json:"pods"`
-	Students   *[]Student     `json:"students"`
+type StudentGradeForBlockAndPod struct {
+	ID           string                `json:"id"`
+	Name         string                `json:"blockName"`
+	Key          common.SlimKey        `json:"key"`
+	Pod          *common.SlimPod       `json:"pod"`
+	StudentGrade *StudentGrade         `json:"scaleValue"`
+	Pods         *[]StudentGradeForPod `json:"pods"`
+	Students     *[]Student            `json:"students"`
 }
 
-type TeacherPod struct {
-	ID         string      `json:"id"`
-	Name       string      `json:"podName"`
-	ScaleValue *ScaleValue `json:"scaleValue"`
+type StudentGradeForPod struct {
+	ID           string        `json:"id"`
+	Name         string        `json:"podName"`
+	StudentGrade *StudentGrade `json:"scaleValue"`
 }
 
-type ScaleValue struct {
+type StudentGrade struct {
 	ScaleValue   string `json:"scaleValue"`
 	NumericScale int    `json:"numericScale"`
 	Published    bool   `json:"published"`
 	PublishedOn  string `json:"publishedOn"`
+}
+
+type Students struct {
+	Students []Student `json:"students"`
 }
 
 type Student struct {
@@ -38,7 +43,7 @@ type Student struct {
 	AvatarName    string            `json:"avatarName"`
 	AvatarUrl     string            `json:"avatarUrl"`
 	BlockName     string            `json:"blockName"`
-	ScaleValue    *ScaleValue       `json:"scaleValue"`
+	StudentGrade  *StudentGrade     `json:"scaleValue"`
 	Key           *common.SlimKey   `json:"key"`
 	Block         *common.SlimBlock `json:"block"`
 }

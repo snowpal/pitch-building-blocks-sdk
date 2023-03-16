@@ -3,7 +3,7 @@ package teacher_keys_2
 import (
 	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
-	"development/go/recipes/lib/golang/structs/request"
+	"development/go/recipes/lib/golang/structs/common"
 	"development/go/recipes/lib/golang/structs/response"
 	"encoding/json"
 	"fmt"
@@ -11,28 +11,26 @@ import (
 	"net/http"
 )
 
-func GetStudentCommentSubmissionsAsTeacher(
+func GetBlockGradesForStudents(
 	jwtToken string,
-	submissionParam request.ClassroomIdParam,
-) ([]response.Comment, error) {
-	resComments := response.Comments{}
+	blockParam common.ResourceIdParam,
+) (response.StudentGradeForBlockAndPod, error) {
+	resStudentGradesForBlock := response.StudentGradeForBlockAndPod{}
 	client := &http.Client{}
 	route, err := helpers.GetRoute(
-		golang.RouteTeacherKeysGetStudentCommentSubmissionsAsTeacher,
-		submissionParam.ResourceIds.PodId,
-		submissionParam.StudentId,
-		submissionParam.ResourceIds.KeyId,
-		submissionParam.ResourceIds.BlockId,
+		golang.RouteTeacherKeysGetBlockGradesForStudents,
+		blockParam.BlockId,
+		blockParam.KeyId,
 	)
 	if err != nil {
 		fmt.Println(err)
-		return resComments.Comments, err
+		return resStudentGradesForBlock, err
 	}
 
 	req, err := http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
 		fmt.Println(err)
-		return resComments.Comments, err
+		return resStudentGradesForBlock, err
 	}
 
 	helpers.AddUserHeaders(jwtToken, req)
@@ -40,7 +38,7 @@ func GetStudentCommentSubmissionsAsTeacher(
 	res, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return resComments.Comments, err
+		return resStudentGradesForBlock, err
 	}
 
 	defer helpers.CloseBody(res.Body)
@@ -48,13 +46,13 @@ func GetStudentCommentSubmissionsAsTeacher(
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return resComments.Comments, err
+		return resStudentGradesForBlock, err
 	}
 
-	err = json.Unmarshal(body, &resComments)
+	err = json.Unmarshal(body, &resStudentGradesForBlock)
 	if err != nil {
 		fmt.Println(err)
-		return resComments.Comments, err
+		return resStudentGradesForBlock, err
 	}
-	return resComments.Comments, nil
+	return resStudentGradesForBlock, nil
 }

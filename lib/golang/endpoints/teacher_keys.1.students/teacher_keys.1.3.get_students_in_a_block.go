@@ -1,9 +1,9 @@
-package teacher_keys_2
+package teacher_keys_1
 
 import (
 	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
-	"development/go/recipes/lib/golang/structs/request"
+	"development/go/recipes/lib/golang/structs/common"
 	"development/go/recipes/lib/golang/structs/response"
 	"encoding/json"
 	"fmt"
@@ -11,24 +11,19 @@ import (
 	"net/http"
 )
 
-func GetStudentProfile(jwtToken string, classroomParam request.ClassroomIdParam) (response.Student, error) {
-	resStudent := response.Student{}
+func GetStudentsInABlock(jwtToken string, blockParam common.ResourceIdParam) ([]response.Student, error) {
+	resStudents := response.Students{}
 	client := &http.Client{}
-	route, err := helpers.GetRoute(
-		golang.RouteTeacherKeysGetStudentProfile,
-		classroomParam.StudentId,
-		classroomParam.ResourceIds.BlockId,
-		classroomParam.ResourceIds.KeyId,
-	)
+	route, err := helpers.GetRoute(golang.RouteTeacherKeysGetStudentsInABlock, blockParam.BlockId, blockParam.KeyId)
 	if err != nil {
 		fmt.Println(err)
-		return resStudent, err
+		return resStudents.Students, err
 	}
 
 	req, err := http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
 		fmt.Println(err)
-		return resStudent, err
+		return resStudents.Students, err
 	}
 
 	helpers.AddUserHeaders(jwtToken, req)
@@ -36,7 +31,7 @@ func GetStudentProfile(jwtToken string, classroomParam request.ClassroomIdParam)
 	res, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return resStudent, err
+		return resStudents.Students, err
 	}
 
 	defer helpers.CloseBody(res.Body)
@@ -44,13 +39,13 @@ func GetStudentProfile(jwtToken string, classroomParam request.ClassroomIdParam)
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return resStudent, err
+		return resStudents.Students, err
 	}
 
-	err = json.Unmarshal(body, &resStudent)
+	err = json.Unmarshal(body, &resStudents)
 	if err != nil {
 		fmt.Println(err)
-		return resStudent, err
+		return resStudents.Students, err
 	}
-	return resStudent, nil
+	return resStudents.Students, nil
 }

@@ -17,12 +17,12 @@ func UpdateBlockScaleValue(
 	jwtToken string,
 	reqBody request.UpdateScaleValueReqBody,
 	blockParam common.ResourceIdParam,
-) (response.Block, error) {
-	resBlock := response.Block{}
+) (response.UpdateBlockScaleValue, error) {
+	resBlockScaleValue := response.UpdateBlockScaleValue{}
 	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)
-		return resBlock, err
+		return resBlockScaleValue, err
 	}
 	payload := strings.NewReader(requestBody)
 	client := &http.Client{}
@@ -33,14 +33,14 @@ func UpdateBlockScaleValue(
 	)
 	if err != nil {
 		fmt.Println(err)
-		return resBlock, err
+		return resBlockScaleValue, err
 	}
 
 	var req *http.Request
 	req, err = http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
 		fmt.Println(err)
-		return resBlock, err
+		return resBlockScaleValue, err
 	}
 
 	helpers.AddUserHeaders(jwtToken, req)
@@ -49,7 +49,7 @@ func UpdateBlockScaleValue(
 	res, err = client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return resBlock, err
+		return resBlockScaleValue, err
 	}
 
 	defer helpers.CloseBody(res.Body)
@@ -58,13 +58,13 @@ func UpdateBlockScaleValue(
 	body, err = io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return resBlock, err
+		return resBlockScaleValue, err
 	}
 
-	err = json.Unmarshal(body, &resBlock)
+	err = json.Unmarshal(body, &resBlockScaleValue)
 	if err != nil {
 		fmt.Println(err)
-		return resBlock, err
+		return resBlockScaleValue, err
 	}
-	return resBlock, nil
+	return resBlockScaleValue, nil
 }
