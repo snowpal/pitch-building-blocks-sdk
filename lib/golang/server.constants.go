@@ -394,7 +394,6 @@ const (
 )
 
 const (
-	RouteProfileGetUsersIntroductionProfile   = "profiles/introduction"
 	RouteProfileGetUsersProfile               = "profiles"
 	RouteProfileUpdateUsersProfile            = "profiles"
 	RouteProfileUpdateUsername                = "profiles/username/%s"
