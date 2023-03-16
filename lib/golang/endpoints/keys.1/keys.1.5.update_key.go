@@ -33,7 +33,7 @@ func UpdateKey(jwtToken string, reqBody UpdateKeyReqBody, keyId string) (respons
 		fmt.Println(err)
 		return resKey, err
 	}
-	req, err := http.NewRequest(http.MethodGet, route, payload)
+	req, err := http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
 		fmt.Println(err)
 		return resKey, err
