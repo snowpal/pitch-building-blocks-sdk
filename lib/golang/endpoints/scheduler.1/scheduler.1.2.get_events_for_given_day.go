@@ -3,6 +3,7 @@ package scheduler
 import (
 	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/request"
 	"development/go/recipes/lib/golang/structs/response"
 	"encoding/json"
 	"fmt"
@@ -10,18 +11,18 @@ import (
 	"net/http"
 )
 
-func GetStandaloneEvents(jwtToken string) ([]response.SchedulerEvent, error) {
+func GetEventsForGivenDay(jwtToken string, dateParam request.EventDateParam) (response.AllEvents, error) {
 	resAllEvents := response.AllEvents{}
 	client := &http.Client{}
-	route, err := helpers.GetRoute(golang.RouteSchedulerGetStandaloneEvents)
+	route, err := helpers.GetRoute(golang.RouteSchedulerGetEventsForGivenDay, dateParam.StartDate)
 	if err != nil {
 		fmt.Println(err)
-		return resAllEvents.SchedulerEvents, err
+		return resAllEvents, err
 	}
 	req, err := http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
 		fmt.Println(err)
-		return resAllEvents.SchedulerEvents, err
+		return resAllEvents, err
 	}
 
 	helpers.AddUserHeaders(jwtToken, req)
@@ -29,7 +30,7 @@ func GetStandaloneEvents(jwtToken string) ([]response.SchedulerEvent, error) {
 	res, _ := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return resAllEvents.SchedulerEvents, err
+		return resAllEvents, err
 	}
 
 	defer helpers.CloseBody(res.Body)
@@ -37,13 +38,13 @@ func GetStandaloneEvents(jwtToken string) ([]response.SchedulerEvent, error) {
 	body, _ := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return resAllEvents.SchedulerEvents, err
+		return resAllEvents, err
 	}
 
 	err = json.Unmarshal(body, &resAllEvents)
 	if err != nil {
 		fmt.Println(err)
-		return resAllEvents.SchedulerEvents, err
+		return resAllEvents, err
 	}
-	return resAllEvents.SchedulerEvents, nil
+	return resAllEvents, nil
 }

@@ -64,4 +64,7 @@ type StandaloneEvent struct {
 	Description string `json:"description"`
 	StartTime   string `json:"eventStartTime"`
 	EndTime     string `json:"eventEndTime"`
+
+	Creator  *common.ResourceCreator  `json:"creator"`
+	Modifier *common.ResourceModifier `json:"modifier"`
 }

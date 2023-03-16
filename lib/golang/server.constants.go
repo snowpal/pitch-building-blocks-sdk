@@ -465,12 +465,12 @@ const (
 )
 
 const (
-	RouteSchedulerGetAllEventsInGivenWindow = "scheduler/all-events?startDate=%s&endDate=%s"
-	RouteSchedulerGetAllEventsForGivenDay   = "scheduler/all-events/by-start-date?startDate=%s"
-	RouteSchedulerGetStandaloneEvents       = "scheduler/standalone-events"
-	RouteSchedulerAddStandaloneEvent        = "scheduler/standalone-events"
-	RouteSchedulerUpdateStandaloneEvent     = "scheduler/standalone-events/%s"
-	RouteSchedulerDeleteStandaloneEvent     = "scheduler/standalone-events/%s"
+	RouteSchedulerGetEventsInGivenWindow = "scheduler/all-events?startDate=%s&endDate=%s"
+	RouteSchedulerGetEventsForGivenDay   = "scheduler/all-events/by-start-date?startDate=%s"
+	RouteSchedulerGetStandaloneEvents    = "scheduler/standalone-events"
+	RouteSchedulerAddStandaloneEvent     = "scheduler/standalone-events"
+	RouteSchedulerUpdateStandaloneEvent  = "scheduler/standalone-events/%s"
+	RouteSchedulerDeleteStandaloneEvent  = "scheduler/standalone-events/%s"
 )
 
 const (
