@@ -435,7 +435,7 @@ const (
 )
 
 const (
-	RouteRelationsGetRelationsMatchingSearchToken = "search/relations?token=%s&currentKeyId=%s"
+	RouteRelationsGetRelationsMatchingSearchToken = "search/relations?token=%s&currentKeyId=%s&currentBlockId=%s&currentPodId=%s&keyId=%s&blockId=%s"
 	RouteRelationsGetRelationsForKey              = "keys/%s/relations"
 	RouteRelationsGetRelationsForBlock            = "blocks/%s/relations?keyId=%s"
 	RouteRelationsGetRelationsForPod              = "pods/%s/relations?keyId=%s"
@@ -444,7 +444,7 @@ const (
 	RouteRelationsUnrelateKeyFromKey              = "keys/%s/keys/%s/unrelate"
 	RouteRelationsRelateBlockToKey                = "keys/%s/blocks/%s/relate"
 	RouteRelationsUnrelateBlockFromKey            = "keys/%s/blocks/%s/unrelate"
-	RouteRelationsRelatePodToKey                  = "keys/%s/pods/%s/relate?targetKeyId=%s"
+	RouteRelationsRelatePodToKey                  = "keys/%s/pods/%s/relate?targetKeyId=%s&targetBlockId=%s"
 	RouteRelationsUnrelatePodFromKey              = "keys/%s/pods/%s/unrelate?targetKeyId=%s&targetBlockId=%s"
 	RouteRelationsRelatePodToBlock                = "blocks/%s/pods/%s/relate?targetKeyId=%s&targetBlockId=%s"
 	RouteRelationsUnrelatePodFromBlock            = "blocks/%s/pods/%s/unrelate?targetKeyId=%s&targetBlockId=%s"
