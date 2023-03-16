@@ -9,7 +9,7 @@ type ChecklistIdParam struct {
 }
 
 type ChecklistReqBody struct {
-	Title string `json:"checklistTitle"`
+	Title string `json:"title"`
 }
 
 type ReorderChecklistsReqBody struct {
@@ -17,7 +17,7 @@ type ReorderChecklistsReqBody struct {
 }
 
 type ChecklistItemReqBody struct {
-	Title         string    `json:"checklistItemTitle"`
+	Title         string    `json:"title"`
 	Completed     *bool     `json:"completed"`
 	TaggedUserIds *[]string `json:"taggedUserIds"`
 }

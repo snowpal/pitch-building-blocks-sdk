@@ -8,7 +8,7 @@ type Checklists struct {
 
 type Checklist struct {
 	ID             string                  `json:"id"`
-	Title          string                  `json:"checklistTitle"`
+	Title          string                  `json:"title"`
 	ChecklistItems []ChecklistItem         `json:"checklistItems"`
 	Key            *common.SlimKey         `json:"key"`
 	Creator        common.ResourceCreator  `json:"creator"`
@@ -21,7 +21,7 @@ type ChecklistItems struct {
 
 type ChecklistItem struct {
 	ID          string       `json:"id"`
-	ItemTitle   string       `json:"checklistItemTitle"`
+	ItemTitle   string       `json:"title"`
 	Completed   bool         `json:"completed"`
 	TaggedUsers []TaggedUser `json:"taggedUsers"`
 

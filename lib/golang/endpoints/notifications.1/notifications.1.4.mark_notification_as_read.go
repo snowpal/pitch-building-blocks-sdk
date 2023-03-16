@@ -1,39 +1,32 @@
 package notifications
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
 	"fmt"
-	"io"
 	"net/http"
-	"strings"
 )
 
-func main(jwtToken string) error {
-
-	url := "notifications/%s/read"
-	method := "PATCH"
-
-	payload := strings.NewReader(`{"unread":"badge[unread]"}`)
-
+func MarkNotificationAsRead(jwtToken string, notificationId string) error {
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodPatch, helpers.GetRoute(golang), payload)
-
+	route, err := helpers.GetRoute(golang.RouteNotificationsMarkNotificationAsRead, notificationId)
 	if err != nil {
 		fmt.Println(err)
 		return err
 	}
+
+	req, err := http.NewRequest(http.MethodPatch, route, nil)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	_, err = client.Do(req)
 	if err != nil {
 		fmt.Println(err)
 		return err
 	}
-	defer helpers.CloseBody(res.Body)
-
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		fmt.Println(err)
-		return err
-	}
+	return nil
 }

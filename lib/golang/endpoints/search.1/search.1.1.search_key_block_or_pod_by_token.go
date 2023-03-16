@@ -1,4 +1,4 @@
-package user
+package search
 
 import (
 	"development/go/recipes/lib/golang"
@@ -10,20 +10,20 @@ import (
 	"net/http"
 )
 
-func GetUsers(jwtToken string) ([]response.User, error) {
-	resUsers := response.Users{}
+func SearchKeyBlockOrPodByToken(jwtToken string, searchToken string) ([]response.SearchResource, error) {
+	resSearchResources := response.SearchResources{}
 	client := &http.Client{}
-	route, err := helpers.GetRoute(golang.RouteUserGetUsers)
+	route, err := helpers.GetRoute(golang.RouteSearchSearchKeyBlockOrPodByToken, searchToken)
 	if err != nil {
 		fmt.Println(err)
-		return resUsers.Users, err
+		return resSearchResources.Results, err
 	}
 
 	var req *http.Request
 	req, err = http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
 		fmt.Println(err)
-		return resUsers.Users, err
+		return resSearchResources.Results, err
 	}
 
 	helpers.AddUserHeaders(jwtToken, req)
@@ -32,7 +32,7 @@ func GetUsers(jwtToken string) ([]response.User, error) {
 	res, err = client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return resUsers.Users, err
+		return resSearchResources.Results, err
 	}
 
 	defer helpers.CloseBody(res.Body)
@@ -41,13 +41,13 @@ func GetUsers(jwtToken string) ([]response.User, error) {
 	body, err = io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return resUsers.Users, err
+		return resSearchResources.Results, err
 	}
 
-	err = json.Unmarshal(body, &resUsers)
+	err = json.Unmarshal(body, &resSearchResources)
 	if err != nil {
 		fmt.Println(err)
-		return resUsers.Users, err
+		return resSearchResources.Results, err
 	}
-	return resUsers.Users, nil
+	return resSearchResources.Results, nil
 }

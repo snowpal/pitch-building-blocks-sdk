@@ -6,7 +6,6 @@ import (
 	keys "development/go/recipes/lib/golang/endpoints/keys.1"
 	registration "development/go/recipes/lib/golang/endpoints/registration.1"
 	"development/go/recipes/lib/golang/structs/request"
-	"development/go/recipes/lib/golang/structs/response"
 	log "github.com/sirupsen/logrus"
 
 	"fmt"
@@ -15,30 +14,47 @@ import (
 // Sign up, activate user, sign in, get all keys.
 func main() {
 	log.Info(".sign up user with email: ", golang.Email)
-	userSignUp, err := registration.Signup(golang.Email)
+	email := golang.Email
+	password := golang.Password
+	reqBody := request.UserRegistrationReqBody{
+		Email:           &email,
+		Password:        password,
+		ConfirmPassword: &password,
+	}
+	user, err := registration.RegisterNewUserByEmail(reqBody)
 	if err != nil {
 		fmt.Println(err)
+		return
 	}
 
-	log.Info(".activate user ID: ", userSignUp.User.ID)
-	registration.Activate(userSignUp.User.ID)
-
-	log.Info(".sign in user ID: ", userSignUp.User.ID)
-	var userSignIn response.UserRegistration
-	userSignIn, err = registration.SignIn(golang.Email)
+	log.Info(".activate user ID: ", user.ID)
+	err = registration.ActivateUser(user.ID)
 	if err != nil {
 		fmt.Println(err)
+		return
 	}
 
-	log.Info(".get all keys: ", userSignIn.User.ID)
-	allKeys, err := keys.GetKeys(userSignIn.User.JwtToken, 0)
+	log.Info(".sign in user ID: ", user.ID)
+	reqBody = request.UserRegistrationReqBody{
+		Email:    &email,
+		Password: password,
+	}
+
+	user, err = registration.SignInByEmail(reqBody)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	log.Info(".get all keys: ", user.ID)
+	allKeys, err := keys.GetKeys(user.JwtToken, 0)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 	log.Info(allKeys)
 
-	block, err := blocks.AddBlockBasedOnTemplate(userSignIn.User.JwtToken,
+	block, err := blocks.AddBlockBasedOnTemplate(user.JwtToken,
 		request.AddBlockReqBody{Name: "Blk by Template1"},
 		blocks.BlockByTemplateParam{KeyId: "63ceb29edb035900138d975d", TemplateId: "63c9bec50e98a800140720e3"})
 	if err != nil {

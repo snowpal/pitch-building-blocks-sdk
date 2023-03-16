@@ -1,4 +1,4 @@
-package user
+package notifications
 
 import (
 	"development/go/recipes/lib/golang"
@@ -10,20 +10,20 @@ import (
 	"net/http"
 )
 
-func GetUsers(jwtToken string) ([]response.User, error) {
-	resUsers := response.Users{}
+func GetNotifications(jwtToken string) ([]response.Notification, error) {
+	resNotifications := response.Notifications{}
 	client := &http.Client{}
-	route, err := helpers.GetRoute(golang.RouteUserGetUsers)
+	route, err := helpers.GetRoute(golang.RouteNotificationsGetNotifications)
 	if err != nil {
 		fmt.Println(err)
-		return resUsers.Users, err
+		return resNotifications.Notifications, err
 	}
 
 	var req *http.Request
 	req, err = http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
 		fmt.Println(err)
-		return resUsers.Users, err
+		return resNotifications.Notifications, err
 	}
 
 	helpers.AddUserHeaders(jwtToken, req)
@@ -32,7 +32,7 @@ func GetUsers(jwtToken string) ([]response.User, error) {
 	res, err = client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return resUsers.Users, err
+		return resNotifications.Notifications, err
 	}
 
 	defer helpers.CloseBody(res.Body)
@@ -41,13 +41,13 @@ func GetUsers(jwtToken string) ([]response.User, error) {
 	body, err = io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return resUsers.Users, err
+		return resNotifications.Notifications, err
 	}
 
-	err = json.Unmarshal(body, &resUsers)
+	err = json.Unmarshal(body, &resNotifications)
 	if err != nil {
 		fmt.Println(err)
-		return resUsers.Users, err
+		return resNotifications.Notifications, err
 	}
-	return resUsers.Users, nil
+	return resNotifications.Notifications, nil
 }
