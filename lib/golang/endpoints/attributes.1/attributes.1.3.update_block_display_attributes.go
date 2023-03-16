@@ -31,7 +31,7 @@ func UpdateBlockAttrs(jwtToken string, blockParam common.ResourceIdParam, attrib
 	}
 
 	var req *http.Request
-	req, err = http.NewRequest(http.MethodGet, route, payload)
+	req, err = http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
 		fmt.Println(err)
 		return err
