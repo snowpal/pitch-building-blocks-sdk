@@ -1,17 +1,42 @@
 package request
 
-type SearchRelationWithParam struct {
-	Token          string  `json:"token"`
-	KeyId          *string `json:"keyId"`
-	BlockId        *string `json:"blockId"`
-	CurrentKeyId   *string `json:"currentKeyId"`
-	CurrentBlockId *string `json:"currentBlockId"`
-	CurrentPodId   *string `json:"currentPodId"`
+type KeyToKeyRelationParam struct {
+	KeyId       string
+	TargetKeyId string
 }
 
-type RelationWithParam struct {
-	SourceKeyId   *string `json:"SourceKeyId"`
-	SourceBlockId *string `json:"SourceBlockId"`
-	TargetKeyId   *string `json:"TargetKeyId"`
-	TargetBlockId *string `json:"TargetBlockId"`
+type KeyToBlockRelationParam struct {
+	KeyId         string
+	TargetBlockId string
+}
+
+type KeyToPodRelationParam struct {
+	KeyId string
+
+	TargetPodId   string
+	TargetKeyId   string
+	TargetBlockId *string
+}
+
+type BlockToBlockRelationParam struct {
+	BlockId       string
+	TargetBlockId string
+}
+
+type BlockToPodRelationParam struct {
+	BlockId string
+
+	TargetPodId   string
+	TargetKeyId   string
+	TargetBlockId *string
+}
+
+type PodToPodRelationParam struct {
+	PodId         string
+	SourceKeyId   string
+	SourceBlockId *string
+
+	TargetPodId   string
+	TargetKeyId   string
+	TargetBlockId *string
 }

@@ -15,6 +15,10 @@ func GetBlockTypes(jwtToken string, includeCounts bool) ([]response.BlockType, e
 	resBlockTypes := response.BlockTypes{}
 	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteBlockTypesGetBlockTypes, strconv.FormatBool(includeCounts))
+	if err != nil {
+		fmt.Println(err)
+		return resBlockTypes.BlockTypes, err
+	}
 	req, err := http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
 		fmt.Println(err)

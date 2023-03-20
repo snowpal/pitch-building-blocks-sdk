@@ -29,7 +29,7 @@ func ReorderKeyTasks(
 		golang.RouteKeysReorderKeyTasks,
 		taskParam.KeyId,
 	)
-	req, err := http.NewRequest(http.MethodPost, route, payload)
+	req, err := http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
 		fmt.Println(err)
 		return resTasks.Tasks, err

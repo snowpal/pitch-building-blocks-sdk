@@ -22,6 +22,10 @@ func AddKey(jwtToken string, reqBody request.AddKeyReqBody) (response.Key, error
 	payload := strings.NewReader(requestBody)
 	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteKeysAddKey)
+	if err != nil {
+		fmt.Println(err)
+		return resKey, err
+	}
 	req, err := http.NewRequest(http.MethodPost, route, payload)
 	if err != nil {
 		fmt.Println(err)

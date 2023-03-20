@@ -18,14 +18,15 @@ type SearchResource struct {
 	BlockName *string `json:"blockName"`
 	PodName   *string `json:"podName"`
 
-	Key      *common.SlimKey         `json:"key"`
-	Block    *common.SlimBlock       `json:"block"`
-	Blocks   *[]common.SlimBlock     `json:"blocks"`
+	Key    *common.SlimKey     `json:"key"`
+	Block  *common.SlimBlock   `json:"block"`
+	Blocks *[]common.SlimBlock `json:"blocks"`
+
 	Modifier common.ResourceModifier `json:"modifier"`
 }
 
 type Relations struct {
-	Relations Relationships `json:"relationships"`
+	Relationships Relationships `json:"relationships"`
 }
 
 type Relationships struct {

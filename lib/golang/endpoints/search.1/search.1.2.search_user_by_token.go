@@ -10,7 +10,7 @@ import (
 	"net/http"
 )
 
-func SearchUserByToken(jwtToken string, searchToken string) ([]response.SearchUser, error) {
+func SrchUserByToken(jwtToken string, searchToken string) ([]response.SearchUser, error) {
 	resSearchUsers := response.SearchUsers{}
 	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteSearchSearchUserByToken, searchToken)

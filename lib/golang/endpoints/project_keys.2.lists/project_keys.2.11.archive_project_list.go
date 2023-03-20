@@ -1,39 +1,39 @@
 package project_keys_2
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/request"
 	"fmt"
-	"io"
 	"net/http"
-	"strings"
 )
 
-func main(jwtToken string) error {
-
-	url := "blocks/%s/project-block-lists/%s/archive?keyId=%s"
-	method := "PATCH"
-
-	payload := strings.NewReader(``)
-
+func ArchiveProjectList(jwtToken string, projectListParam request.ProjectListIdParam) error {
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodPatch, helpers.GetRoute(golang), payload)
-
+	route, err := helpers.GetRoute(
+		golang.RouteProjectKeysArchiveProjectList,
+		projectListParam.BlockId,
+		projectListParam.ProjectListId,
+		projectListParam.KeyId,
+	)
 	if err != nil {
 		fmt.Println(err)
 		return err
 	}
+
+	var req *http.Request
+	req, err = http.NewRequest(http.MethodPatch, route, nil)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	_, err = client.Do(req)
 	if err != nil {
 		fmt.Println(err)
 		return err
 	}
-	defer helpers.CloseBody(res.Body)
-
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		fmt.Println(err)
-		return err
-	}
+	return nil
 }

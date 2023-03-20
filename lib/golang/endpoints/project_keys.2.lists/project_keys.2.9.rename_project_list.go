@@ -1,41 +1,70 @@
 package project_keys_2
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/request"
+	"development/go/recipes/lib/golang/structs/response"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"strings"
 )
 
-func main(jwtToken string) error {
-
-	url := "blocks/%s/project-block-lists/%s?keyId=%s"
-	method := "PATCH"
-
-	payload := strings.NewReader(`{
-    "projectListName": "project list A2"
-}`)
-
-	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodPatch, helpers.GetRoute(golang), payload)
-
+func RenameProjectList(
+	jwtToken string,
+	reqBody request.AddProjectListReqBody,
+	projectListParam request.ProjectListIdParam,
+) (response.ProjectList, error) {
+	resProjectList := response.ProjectList{}
+	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)
-		return err
+		return resProjectList, err
 	}
+	payload := strings.NewReader(requestBody)
+	client := &http.Client{}
+	route, err := helpers.GetRoute(
+		golang.RouteProjectKeysRenameProjectList,
+		projectListParam.BlockId,
+		projectListParam.ProjectListId,
+		projectListParam.KeyId,
+	)
+	if err != nil {
+		fmt.Println(err)
+		return resProjectList, err
+	}
+
+	var req *http.Request
+	req, err = http.NewRequest(http.MethodPatch, route, payload)
+	if err != nil {
+		fmt.Println(err)
+		return resProjectList, err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	var res *http.Response
+	res, err = client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return err
+		return resProjectList, err
 	}
+
 	defer helpers.CloseBody(res.Body)
 
-	body, err := io.ReadAll(res.Body)
+	var body []byte
+	body, err = io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return err
+		return resProjectList, err
 	}
+
+	err = json.Unmarshal(body, &resProjectList)
+	if err != nil {
+		fmt.Println(err)
+		return resProjectList, err
+	}
+	return resProjectList, nil
 }

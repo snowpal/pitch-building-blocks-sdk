@@ -32,7 +32,7 @@ func UpdateBlockPodAttrs(jwtToken string, podParam common.ResourceIdParam, attri
 	}
 
 	var req *http.Request
-	req, err = http.NewRequest(http.MethodGet, route, payload)
+	req, err = http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
 		fmt.Println(err)
 		return err

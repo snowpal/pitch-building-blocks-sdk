@@ -14,26 +14,41 @@ import (
 // sign in, update key attributes, update block attributes, update pod attributes, update block pod attributes,
 // get resource attributes
 func main() {
-	log.Info(".sign in user email: ", golang.Email)
-	userSignIn, err := registration.SignInByEmail(golang.Email)
+	log.Info(".sign in user email: ", Email)
+	userSignIn, err := registration.SignInByEmail(request.SignInReqBody{
+		Email:    Email,
+		Password: golang.Password,
+	})
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	log.Info(".TODO(): get a key, and use it below")
-	attributes.UpdateKeyAttrs(userSignIn.User.JwtToken, "", request.ResourceAttribute{})
+	err = attributes.UpdateKeyAttrs(userSignIn.JwtToken, "", request.ResourceAttribute{})
+	if err != nil {
+		return
+	}
 
 	log.Info(".TODO(): get a block, and use it below")
-	attributes.UpdateBlockAttrs(userSignIn.User.JwtToken, common.ResourceIdParam{}, request.ResourceAttribute{})
+	err = attributes.UpdateBlockAttrs(userSignIn.JwtToken, common.ResourceIdParam{}, request.ResourceAttribute{})
+	if err != nil {
+		return
+	}
 
 	log.Info(".TODO(): get a pod, and use it below")
-	attributes.UpdatePodAttrs(userSignIn.User.JwtToken, common.ResourceIdParam{}, request.ResourceAttribute{})
+	err = attributes.UpdatePodAttrs(userSignIn.JwtToken, common.ResourceIdParam{}, request.ResourceAttribute{})
+	if err != nil {
+		return
+	}
 
 	log.Info(".TODO(): get a block pod, and use it below")
-	attributes.UpdateBlockPodAttrs(userSignIn.User.JwtToken, common.ResourceIdParam{}, request.ResourceAttribute{})
+	err = attributes.UpdateBlockPodAttrs(userSignIn.JwtToken, common.ResourceIdParam{}, request.ResourceAttribute{})
+	if err != nil {
+		return
+	}
 
 	log.Info(".get resource attributes")
-	resourceAttrs, _ := attributes.GetResourceAttrs(userSignIn.User.JwtToken)
+	resourceAttrs, _ := attributes.GetResourceAttrs(userSignIn.JwtToken)
 	if err != nil {
 		return
 	}

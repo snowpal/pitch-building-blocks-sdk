@@ -1,36 +1,61 @@
 package project_keys_2
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/common"
+	"development/go/recipes/lib/golang/structs/response"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 )
 
-func main(jwtToken string) error {
-
-	url := "blocks/%s/project-block-lists?keyId=%s"
-	method := "GET"
-
+func GetProjectLists(
+	jwtToken string,
+	projectListParam common.ResourceIdParam,
+) ([]response.ProjectList, error) {
+	resProjectLists := response.ProjectLists{}
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodPatch, helpers.GetRoute(golang), nil)
-
+	route, err := helpers.GetRoute(
+		golang.RouteProjectKeysGetProjectLists,
+		projectListParam.BlockId,
+		projectListParam.KeyId,
+	)
 	if err != nil {
 		fmt.Println(err)
-		return err
+		return resProjectLists.ProjectLists, err
 	}
+
+	var req *http.Request
+	req, err = http.NewRequest(http.MethodGet, route, nil)
+	if err != nil {
+		fmt.Println(err)
+		return resProjectLists.ProjectLists, err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	var res *http.Response
+	res, err = client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return err
+		return resProjectLists.ProjectLists, err
 	}
+
 	defer helpers.CloseBody(res.Body)
 
-	body, err := io.ReadAll(res.Body)
+	var body []byte
+	body, err = io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return err
+		return resProjectLists.ProjectLists, err
 	}
+
+	err = json.Unmarshal(body, &resProjectLists)
+	if err != nil {
+		fmt.Println(err)
+		return resProjectLists.ProjectLists, err
+	}
+	return resProjectLists.ProjectLists, nil
 }

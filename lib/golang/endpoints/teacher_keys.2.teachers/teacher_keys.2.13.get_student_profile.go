@@ -1,36 +1,56 @@
 package teacher_keys_2
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/request"
+	"development/go/recipes/lib/golang/structs/response"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 )
 
-func main(jwtToken string) error {
-
-	url := "classroom/students/%s/profile?blockId=%s&keyId=%s"
-	method := "GET"
-
+func GetStudentProfile(jwtToken string, classroomParam request.ClassroomIdParam) (response.Student, error) {
+	resStudent := response.Student{}
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodPatch, helpers.GetRoute(golang), nil)
-
+	route, err := helpers.GetRoute(
+		golang.RouteTeacherKeysGetStudentProfile,
+		classroomParam.StudentId,
+		classroomParam.ResourceIds.BlockId,
+		classroomParam.ResourceIds.KeyId,
+	)
 	if err != nil {
 		fmt.Println(err)
-		return err
+		return resStudent, err
 	}
+
+	req, err := http.NewRequest(http.MethodGet, route, nil)
+	if err != nil {
+		fmt.Println(err)
+		return resStudent, err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
 	res, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return err
+		return resStudent, err
 	}
+
 	defer helpers.CloseBody(res.Body)
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return err
+		return resStudent, err
 	}
+
+	err = json.Unmarshal(body, &resStudent)
+	if err != nil {
+		fmt.Println(err)
+		return resStudent, err
+	}
+	return resStudent, nil
 }

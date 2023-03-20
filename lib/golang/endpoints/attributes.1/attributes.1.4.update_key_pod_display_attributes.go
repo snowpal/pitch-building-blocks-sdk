@@ -20,14 +20,18 @@ func UpdatePodAttrs(jwtToken string, podParam common.ResourceIdParam, attribute 
 	client := &http.Client{}
 
 	var route string
-	route, err = helpers.GetRoute(golang.RouteAttributesUpdateKeyPodDisplayAttributes, podParam.PodId, podParam.KeyId)
+	route, err = helpers.GetRoute(
+		golang.RouteAttributesUpdateKeyPodDisplayAttributes,
+		podParam.PodId,
+		podParam.KeyId,
+	)
 	if err != nil {
 		fmt.Println(err)
 		return err
 	}
 
 	var req *http.Request
-	req, err = http.NewRequest(http.MethodGet, route, payload)
+	req, err = http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
 		fmt.Println(err)
 		return err

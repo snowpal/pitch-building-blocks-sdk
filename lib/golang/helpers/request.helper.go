@@ -44,5 +44,6 @@ func GetRequestBody(obj interface{}) (string, error) {
 
 func addHeaders(req *http.Request) {
 	req.Header.Add("x-api-key", golang.XApiKey)
+	req.Header.Add("x-snowpal-product-code", golang.XProductCode)
 	req.Header.Add("Content-Type", "application/json")
 }

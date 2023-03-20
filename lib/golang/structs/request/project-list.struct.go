@@ -1,34 +1,51 @@
 package request
 
-type ProjectList struct {
-	ID             string   `json:"id"`
-	Name           string   `json:"projectListName"`
-	ProjectListIds []string `json:"projectListIds"`
-	UserIds        []string `json:"userIds"`
+type AddProjectListReqBody struct {
+	Name string `json:"projectListName"`
 }
 
-type ProjectListWithParam struct {
-	KeyId          string `json:"keyId"`
-	TargetKeyId    string `json:"targetKeyId"`
-	TargetBlockId  string `json:"targetBlockIdId"`
-	TargetPosition string `json:"targetPosition"`
+type AssignProjectPodReqBody struct {
+	UserIds []string `json:"userIds"`
 }
 
-type ProjectPodWithParam struct {
-	KeyId               string `json:"keyId"`
-	BlockId             string `json:"blockId"`
-	TargetKeyId         string `json:"targetKeyId"`
-	TargetBlockId       string `json:"targetBlockIdId"`
-	TargetProjectListId string `json:"targetProjectListId"`
-
-	PodIds   *[]string `json:"podIds"`
-	AllPods  *bool     `json:"allPods"`
-	AllTasks *bool     `json:"allTasks"`
+type ProjectListIdParam struct {
+	KeyId         string
+	BlockId       string
+	ProjectListId string
+	PodId         *string
 }
 
-type ProjectPodByTemplate struct {
-	KeyId         string `json:"keyId"`
-	ProjectListId string `json:"projectListId"`
-	TemplateId    string `json:"templateId"`
-	ExcludeTasks  *bool  `json:"excludeTasks"`
+type CopyMoveProjectListParam struct {
+	KeyId         string
+	BlockId       string
+	ProjectListId string
+
+	TargetKeyId    string
+	TargetBlockId  string
+	TargetPosition int
+}
+
+type CopyMoveProjectPodParam struct {
+	PodId   string
+	BlockId string
+	KeyId   string
+
+	TargetKeyId         string
+	TargetBlockId       string
+	TargetProjectListId string
+}
+
+type CopyMoveProjectListPodsParam struct {
+	KeyId         string
+	BlockId       string
+	ProjectListId string
+
+	TargetKeyId         string
+	TargetBlockId       string
+	TargetProjectListId string
+
+	AllTasks *bool
+	AllPods  *bool
+
+	PodIds *[]string
 }

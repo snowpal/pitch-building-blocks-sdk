@@ -13,7 +13,7 @@ import (
 	"strings"
 )
 
-func SignInByEmail(reqBody request.UserRegistrationReqBody) (response.User, error) {
+func SignInByEmail(reqBody request.SignInReqBody) (response.User, error) {
 	resUserRegistration := response.UserRegistration{}
 	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {

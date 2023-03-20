@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func ResetPassword(jwtToken string, reqBody request.UserRegistrationReqBody) error {
+func ResetPassword(jwtToken string, reqBody request.ResetPasswordReqBody) error {
 	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)

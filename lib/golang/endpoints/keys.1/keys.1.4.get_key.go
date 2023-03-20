@@ -14,6 +14,10 @@ func GetKey(jwtToken string) (response.Key, error) {
 	resKey := response.Key{}
 	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteKeysGetKey)
+	if err != nil {
+		fmt.Println(err)
+		return resKey, err
+	}
 	req, err := http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
 		fmt.Println(err)

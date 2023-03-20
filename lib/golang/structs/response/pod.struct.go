@@ -60,3 +60,13 @@ type Pod struct {
 	Modifier     common.ResourceModifier `json:"modifier"`
 	LastModified string                  `json:"lastModified"`
 }
+
+type UpdatePodScaleValue struct {
+	ID           string `json:"id"`
+	Name         string `json:"name"`
+	ScaleValue   string `json:"scaleValue"`
+	NumericScale string `json:"numericScale"`
+
+	Key   common.SlimKey    `json:"key"`
+	Block *common.SlimBlock `json:"block"`
+}

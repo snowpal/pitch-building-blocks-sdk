@@ -35,7 +35,7 @@ func UpdateKeyPod(
 	}
 
 	var req *http.Request
-	req, err = http.NewRequest(http.MethodGet, route, payload)
+	req, err = http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
 		fmt.Println(err)
 		return resPod, err

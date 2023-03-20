@@ -1,6 +1,12 @@
 package request
 
-type TeacherBlock struct {
+import "development/go/recipes/lib/golang/structs/common"
+
+type PublishGradesReqBody struct {
 	StudentUserIds []string `json:"studentUserIds"`
-	PodIds         []string `json:"podIds"`
+}
+
+type ClassroomIdParam struct {
+	StudentId   string
+	ResourceIds common.ResourceIdParam
 }
