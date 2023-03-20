@@ -12,7 +12,7 @@ import (
 	"strings"
 )
 
-func RegisterNewUserByEmail(reqBody request.UserRegistrationReqBody) (response.User, error) {
+func RegisterNewUserByEmail(reqBody request.SignupReqBody) (response.User, error) {
 	resUserRegistration := response.UserRegistration{}
 	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {

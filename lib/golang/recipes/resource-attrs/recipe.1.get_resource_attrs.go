@@ -10,11 +10,13 @@ import (
 	"fmt"
 )
 
+const Email = "apiuser3@gmail.com"
+
 // sign in, get resource attributes
 func main() {
-	log.Info(".sign in user email: ", golang.Email)
-	reqBody := request.UserRegistrationReqBody{
-		Email:    golang.Email,
+	log.Info(".sign in user email: ", Email)
+	reqBody := request.SignInReqBody{
+		Email:    Email,
 		Password: golang.Password,
 	}
 	userSignIn, err := registration.SignInByEmail(reqBody)

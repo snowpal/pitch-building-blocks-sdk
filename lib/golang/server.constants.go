@@ -1,6 +1,9 @@
 package golang
 
-const XApiKey = "wf8sHELzWp9MGizZME5Zsjk4IntZS0e8mdYMYjjg"
+const (
+	XApiKey      = "60VeKLKBd5aABPy3rBU5baBLcAQEqsVT4O3YwjU4" // "wf8sHELzWp9MGizZME5Zsjk4IntZS0e8mdYMYjjg"
+	XProductCode = "1921hz7e7g4chnw3swhng5i0d"
+)
 
 const (
 	HostProd    = "https://gateway.snowpal.com/"
@@ -256,7 +259,7 @@ const (
 )
 
 const (
-	RouteKeysGetKeys               = "keys"
+	RouteKeysGetKeys               = "keys?batchIndex=%s"
 	RouteKeysAddKey                = "keys"
 	RouteKeysAddKeyBasedOnTemplate = "keys/by-template?templateId=%s&excludeBlocks=%s&excludePods=%s&excludeTasks=%s"
 	RouteKeysGetKey                = "keys/%s"

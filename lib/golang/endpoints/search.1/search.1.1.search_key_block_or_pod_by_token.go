@@ -10,7 +10,7 @@ import (
 	"net/http"
 )
 
-func SearchKeyBlockOrPodByToken(jwtToken string, searchToken string) ([]response.SearchResource, error) {
+func SrchKeyBlockOrPodByToken(jwtToken string, searchToken string) ([]response.SearchResource, error) {
 	resSearchResources := response.SearchResources{}
 	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteSearchSearchKeyBlockOrPodByToken, searchToken)
