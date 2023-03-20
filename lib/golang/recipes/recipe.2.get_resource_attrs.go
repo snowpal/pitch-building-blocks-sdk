@@ -10,8 +10,6 @@ import (
 	"fmt"
 )
 
-const Email = "apiuser3@gmail.com"
-
 // sign in, get resource attributes
 func main() {
 	log.Info(".sign in user email: ", Email)
