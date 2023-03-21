@@ -21,7 +21,7 @@ func GetScale(jwtToken string, scaleId string) (response.Scale, error) {
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resScale, err

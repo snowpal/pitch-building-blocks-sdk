@@ -32,7 +32,7 @@ func GetBlockPodNotes(jwtToken string, noteParam request.NoteIdParam) ([]respons
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resNotes.Notes, err

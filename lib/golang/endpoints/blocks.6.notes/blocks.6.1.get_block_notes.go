@@ -31,7 +31,7 @@ func GetBlockNotes(jwtToken string, noteParam request.NoteIdParam) ([]response.N
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resNotes.Notes, err

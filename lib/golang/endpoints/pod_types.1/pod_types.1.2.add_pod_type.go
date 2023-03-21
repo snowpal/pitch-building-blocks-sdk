@@ -34,7 +34,7 @@ func AddPodType(jwtToken string, reqBody request.PodTypeReqBody) (response.PodTy
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resPodType, err

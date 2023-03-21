@@ -31,7 +31,7 @@ func GetBlockChecklists(jwtToken string, checklistParam request.ChecklistIdParam
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resChecklists.Checklists, err

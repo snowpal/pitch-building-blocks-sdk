@@ -31,7 +31,7 @@ func GetBlockComments(jwtToken string, commentParam request.CommentIdParam) ([]r
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resComments.Comments, err

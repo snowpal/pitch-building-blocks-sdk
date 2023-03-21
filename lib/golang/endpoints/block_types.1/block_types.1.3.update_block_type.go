@@ -34,7 +34,7 @@ func UpdateBlockType(jwtToken string, reqBody request.BlockTypeReqBody, blockTyp
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resBlockType, err

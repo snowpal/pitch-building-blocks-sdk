@@ -34,7 +34,7 @@ func GetBlockGradesForStudents(
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resStudentGradesForBlock, err

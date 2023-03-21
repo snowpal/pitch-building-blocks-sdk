@@ -27,7 +27,7 @@ func GetStudentsInABlock(jwtToken string, blockParam common.ResourceIdParam) ([]
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resStudents.Students, err

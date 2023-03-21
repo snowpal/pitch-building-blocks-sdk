@@ -31,7 +31,7 @@ func GetKeyPodAttachments(jwtToken string, attachmentParam request.AttachmentPar
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resAttachments.Attachments, err

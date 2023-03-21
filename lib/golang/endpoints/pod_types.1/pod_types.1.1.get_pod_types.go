@@ -26,7 +26,7 @@ func GetPodTypes(jwtToken string, includeCounts bool) ([]response.PodType, error
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resPodTypes.PodTypes, err

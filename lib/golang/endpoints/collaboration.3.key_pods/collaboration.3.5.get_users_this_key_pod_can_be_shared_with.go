@@ -32,7 +32,7 @@ func GetUsersThisKeyPodCanBeSharedWith(jwtToken string, podAclParam common.AclPa
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resUsers.SearchUsers, err

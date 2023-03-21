@@ -40,7 +40,7 @@ func GetBlockPodGradesForStudents(jwtToken string, podParam common.ResourceIdPar
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resBlockPodGrades, err
