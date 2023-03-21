@@ -12,7 +12,6 @@ import (
 
 func GetAppStatus() (response.Version, error) {
 	resAppStatus := response.Version{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteVersionGetAppStatus)
 	if err != nil {
 		fmt.Println(err)
@@ -29,7 +28,7 @@ func GetAppStatus() (response.Version, error) {
 	helpers.AddAppHeaders(req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resAppStatus, err

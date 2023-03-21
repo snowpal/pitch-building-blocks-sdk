@@ -16,7 +16,6 @@ func UnassignBlockPodTask(jwtToken string, reqBody request.AssignTaskReqBody, ta
 		return err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlockPodsUnassignBlockPodTask,
 		*taskParam.TaskId,
@@ -32,7 +31,7 @@ func UnassignBlockPodTask(jwtToken string, reqBody request.AssignTaskReqBody, ta
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

@@ -20,7 +20,6 @@ func AddStandaloneEvent(jwtToken string, reqBody request.StandaloneEventReqBody)
 		return resStandaloneEvent, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteSchedulerAddStandaloneEvent)
 	if err != nil {
 		fmt.Println(err)
@@ -34,7 +33,7 @@ func AddStandaloneEvent(jwtToken string, reqBody request.StandaloneEventReqBody)
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, _ := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resStandaloneEvent, err

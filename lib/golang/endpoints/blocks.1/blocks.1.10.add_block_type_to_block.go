@@ -14,7 +14,6 @@ type AddBlockTypeIdParam struct {
 }
 
 func AddPodTypeToBlockPod(jwtToken string, podParam AddBlockTypeIdParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlocksAddBlockTypeToBlock,
 		podParam.BlockId,
@@ -35,7 +34,7 @@ func AddPodTypeToBlockPod(jwtToken string, podParam AddBlockTypeIdParam) error {
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

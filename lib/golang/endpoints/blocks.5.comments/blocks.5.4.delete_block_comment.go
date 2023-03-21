@@ -9,7 +9,6 @@ import (
 )
 
 func DeleteBlockComment(jwtToken string, commentParam request.CommentIdParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlocksDeleteBlockComment,
 		*commentParam.CommentId,
@@ -24,7 +23,7 @@ func DeleteBlockComment(jwtToken string, commentParam request.CommentIdParam) er
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

@@ -11,7 +11,6 @@ import (
 )
 
 func CopyBlock(jwtToken string, blockParam request.CopyMoveBlockParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlocksCopyBlock,
 		blockParam.BlockId,
@@ -36,7 +35,7 @@ func CopyBlock(jwtToken string, blockParam request.CopyMoveBlockParam) error {
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

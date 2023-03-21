@@ -13,7 +13,6 @@ import (
 
 func GetUsersThisBlockPodCanBeSharedWith(jwtToken string, podAclParam common.AclParam) ([]response.SearchUser, error) {
 	resUsers := response.SearchUsers{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteCollaborationGetUsersThisBlockPodCanBeSharedWith,
 		*podAclParam.PodId,

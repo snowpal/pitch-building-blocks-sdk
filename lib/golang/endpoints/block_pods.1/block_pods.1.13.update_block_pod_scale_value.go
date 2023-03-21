@@ -25,7 +25,6 @@ func UpdateBlockPodScaleValue(
 		return resPodScaleValue, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlockPodsUpdateBlockPodScaleValue,
 		podParam.PodId,
@@ -47,7 +46,7 @@ func UpdateBlockPodScaleValue(
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err = helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resPodScaleValue, err

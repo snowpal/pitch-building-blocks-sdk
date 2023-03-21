@@ -9,7 +9,6 @@ import (
 )
 
 func LinkBlockToKey(jwtToken string, blockParam common.ResourceIdParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteBlocksLinkBlockToKey, blockParam.KeyId, blockParam.BlockId)
 	if err != nil {
 		fmt.Println(err)
@@ -24,7 +23,7 @@ func LinkBlockToKey(jwtToken string, blockParam common.ResourceIdParam) error {
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

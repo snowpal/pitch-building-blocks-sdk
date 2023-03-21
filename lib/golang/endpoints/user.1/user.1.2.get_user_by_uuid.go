@@ -12,7 +12,6 @@ import (
 
 func GetUserByUuid(jwtToken string, userUuid string) (response.User, error) {
 	resUser := response.User{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteUserGetUserByUuid, userUuid)
 	if err != nil {
 		fmt.Println(err)
@@ -29,7 +28,7 @@ func GetUserByUuid(jwtToken string, userUuid string) (response.User, error) {
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resUser, err

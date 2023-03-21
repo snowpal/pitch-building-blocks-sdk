@@ -9,7 +9,6 @@ import (
 )
 
 func MoveBlock(jwtToken string, blockParam request.CopyMoveBlockParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlocksMoveBlock,
 		blockParam.BlockId,
@@ -30,7 +29,7 @@ func MoveBlock(jwtToken string, blockParam request.CopyMoveBlockParam) error {
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

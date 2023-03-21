@@ -9,7 +9,6 @@ import (
 )
 
 func MoveBlockPod(jwtToken string, podParam request.CopyMovePodParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlockPodsMoveBlockPod,
 		podParam.PodId,
@@ -32,7 +31,7 @@ func MoveBlockPod(jwtToken string, podParam request.CopyMovePodParam) error {
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

@@ -19,7 +19,6 @@ func MarkNotificationsAsReadInBulk(jwtToken string, reqBody MarkAsReadInBulkReqB
 		return err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteNotificationsMarkNotificationsAsReadInBulk)
 	if err != nil {
 		fmt.Println(err)
@@ -34,7 +33,7 @@ func MarkNotificationsAsReadInBulk(jwtToken string, reqBody MarkAsReadInBulkReqB
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

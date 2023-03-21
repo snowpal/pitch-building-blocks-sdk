@@ -16,7 +16,6 @@ func GetBlockAndPodsGradesForAStudentAsTeacher(
 	classroomParam request.ClassroomIdParam,
 ) (response.StudentGradeForBlockAndPod, error) {
 	resStudentGrades := response.StudentGradeForBlockAndPod{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteTeacherKeysGetBlockAndPodsGradesForAStudentAsTeacher,
 		classroomParam.ResourceIds.BlockId,

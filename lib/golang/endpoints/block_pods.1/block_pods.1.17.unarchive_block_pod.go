@@ -9,7 +9,6 @@ import (
 )
 
 func UnarchiveBlockPod(jwtToken string, podParam common.ResourceIdParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlockPodsUnarchiveBlockPod,
 		podParam.PodId,
@@ -30,7 +29,7 @@ func UnarchiveBlockPod(jwtToken string, podParam common.ResourceIdParam) error {
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

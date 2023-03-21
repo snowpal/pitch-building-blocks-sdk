@@ -13,7 +13,6 @@ import (
 
 func GetStudentProfile(jwtToken string, classroomParam request.ClassroomIdParam) (response.Student, error) {
 	resStudent := response.Student{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteTeacherKeysGetStudentProfile,
 		classroomParam.StudentId,

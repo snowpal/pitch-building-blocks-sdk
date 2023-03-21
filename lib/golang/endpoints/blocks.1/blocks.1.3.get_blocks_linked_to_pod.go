@@ -13,7 +13,6 @@ import (
 
 func GetBlocksLinkedToPods(jwtToken string, blockParam common.ResourceIdParam) ([]response.Block, error) {
 	resBlocks := response.Blocks{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlocksGetBlocksLinkedToPod,
 		blockParam.PodId,
@@ -31,7 +30,7 @@ func GetBlocksLinkedToPods(jwtToken string, blockParam common.ResourceIdParam) (
 	}
 
 	helpers.AddUserHeaders(jwtToken, req)
-	res, _ := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resBlocks.Blocks, err

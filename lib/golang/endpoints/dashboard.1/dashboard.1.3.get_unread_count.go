@@ -12,7 +12,6 @@ import (
 
 func GetUnreadCount(jwtToken string) (response.DashboardUnreadCount, error) {
 	dashboardUnreadCount := response.DashboardUnreadCount{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteDashboardGetUnreadCount)
 	if err != nil {
 		fmt.Println(err)
@@ -29,7 +28,7 @@ func GetUnreadCount(jwtToken string) (response.DashboardUnreadCount, error) {
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return dashboardUnreadCount, err

@@ -28,7 +28,6 @@ func ReorderProjectLists(
 		return resProjectLists.ProjectLists, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteProjectKeysReorderProjectList,
 		projectListParam.BlockId,

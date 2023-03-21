@@ -13,7 +13,6 @@ import (
 
 func UnshareBlockWithCollaborator(jwtToken string, blockAclParam common.AclParam) (response.Block, error) {
 	resBlock := response.Block{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteCollaborationUnshareBlockFromCollaborator,
 		*blockAclParam.BlockId,

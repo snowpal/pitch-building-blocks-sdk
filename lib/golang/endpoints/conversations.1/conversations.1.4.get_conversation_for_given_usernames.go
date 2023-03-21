@@ -13,7 +13,6 @@ import (
 
 func GetConversationForGivenUsernames(jwtToken string, usernames []string) ([]response.Conversation, error) {
 	resConversations := response.Conversations{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteConversationsGetConversationForGivenUsernames,
 		strings.Join(usernames, ","),
@@ -33,7 +32,7 @@ func GetConversationForGivenUsernames(jwtToken string, usernames []string) ([]re
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resConversations.Conversations, err

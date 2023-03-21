@@ -9,7 +9,6 @@ import (
 )
 
 func DeleteBlockPodTask(jwtToken string, taskParam request.TaskIdParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlockPodsDeleteBlockPodTask,
 		*taskParam.TaskId,
@@ -25,7 +24,7 @@ func DeleteBlockPodTask(jwtToken string, taskParam request.TaskIdParam) error {
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

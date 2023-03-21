@@ -9,7 +9,6 @@ import (
 )
 
 func DeleteBlockPodComment(jwtToken string, commentParam request.CommentIdParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlockPodsDeleteBlockPodComment,
 		*commentParam.CommentId,
@@ -25,7 +24,7 @@ func DeleteBlockPodComment(jwtToken string, commentParam request.CommentIdParam)
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

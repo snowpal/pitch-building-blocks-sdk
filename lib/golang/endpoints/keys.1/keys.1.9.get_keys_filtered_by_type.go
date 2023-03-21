@@ -12,7 +12,6 @@ import (
 
 func GetKeysFilteredByType(jwtToken string, keyType string) ([]response.Key, error) {
 	resKeys := response.Keys{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteKeysGetKeysFilteredByType, keyType)
 	if err != nil {
 		fmt.Println(err)
@@ -26,7 +25,7 @@ func GetKeysFilteredByType(jwtToken string, keyType string) ([]response.Key, err
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, _ := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resKeys.Keys, err

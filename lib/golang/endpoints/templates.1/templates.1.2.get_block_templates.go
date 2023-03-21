@@ -12,7 +12,6 @@ import (
 
 func GetBlockTemplates(jwtToken string) ([]response.BlockTemplate, error) {
 	resBlockTemplates := response.BlockTemplates{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteTemplatesGetBlockTemplates)
 	if err != nil {
 		fmt.Println(err)
@@ -29,7 +28,7 @@ func GetBlockTemplates(jwtToken string) ([]response.BlockTemplate, error) {
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resBlockTemplates.Templates, err

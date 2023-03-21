@@ -20,7 +20,6 @@ func AddBlock(jwtToken string, reqBody request.AddBlockReqBody, keyId string) (r
 		return resBlock, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteBlocksAddBlock, keyId)
 	if err != nil {
 		fmt.Println(err)

@@ -12,7 +12,6 @@ import (
 
 func GetPodsUsingPodType(jwtToken string, podTypeId string) ([]response.Pod, error) {
 	resPods := response.Pods{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RoutePodTypesGetPodsUsingPodType, podTypeId)
 	if err != nil {
 		fmt.Println(err)
@@ -29,7 +28,7 @@ func GetPodsUsingPodType(jwtToken string, podTypeId string) ([]response.Pod, err
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resPods.Pods, err

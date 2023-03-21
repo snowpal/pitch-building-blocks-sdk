@@ -24,7 +24,6 @@ func AddProjectPod(
 		return resProjectPod, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 
 	var route string
 	route, err = helpers.GetRoute(
@@ -48,7 +47,7 @@ func AddProjectPod(
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resProjectPod, err

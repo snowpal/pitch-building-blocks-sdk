@@ -14,7 +14,6 @@ import (
 
 func GetArchivedKeyPods(jwtToken string, podsParam request.GetPodsParam) ([]response.Pod, error) {
 	resPods := response.Pods{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteKeyPodsGetArchivedKeyPods,
 		podsParam.KeyId,
@@ -35,7 +34,7 @@ func GetArchivedKeyPods(jwtToken string, podsParam request.GetPodsParam) ([]resp
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resPods.Pods, err

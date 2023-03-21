@@ -12,7 +12,6 @@ import (
 
 func GetDashboardDetails(jwtToken string) (response.Dashboard, error) {
 	resDashboard := response.Dashboard{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteDashboardGetDashboardDetails)
 	if err != nil {
 		fmt.Println(err)
@@ -29,7 +28,7 @@ func GetDashboardDetails(jwtToken string) (response.Dashboard, error) {
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resDashboard, err

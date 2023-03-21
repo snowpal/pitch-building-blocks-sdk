@@ -20,7 +20,6 @@ func UpdatePodType(jwtToken string, reqBody request.PodTypeReqBody, podTypeId st
 		return resPodType, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RoutePodTypesUpdatePodType, podTypeId)
 	if err != nil {
 		fmt.Println(err)

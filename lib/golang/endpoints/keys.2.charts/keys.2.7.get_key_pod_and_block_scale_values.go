@@ -13,7 +13,6 @@ import (
 
 func GetKeyPodAndBlockScaleValues(jwtToken string, scaleParam request.ScaleIdParam) (response.ScaleValues, error) {
 	resScaleValues := response.ScaleValues{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteKeysGetKeyPodAndBlockScaleValues,
 		scaleParam.KeyId,
@@ -34,7 +33,7 @@ func GetKeyPodAndBlockScaleValues(jwtToken string, scaleParam request.ScaleIdPar
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resScaleValues, err

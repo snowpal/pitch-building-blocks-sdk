@@ -24,7 +24,6 @@ func AddKeyPodChecklist(
 		return resChecklist, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteKeyPodsAddKeyPodChecklist,
 		*checklistParam.PodId,

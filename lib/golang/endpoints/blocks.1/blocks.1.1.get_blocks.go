@@ -14,7 +14,6 @@ import (
 
 func GetBlocks(jwtToken string, blockParam request.GetBlocksParam) ([]response.Block, error) {
 	resBlocks := response.Blocks{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlocksGetBlocks,
 		blockParam.KeyId,
@@ -37,7 +36,7 @@ func GetBlocks(jwtToken string, blockParam request.GetBlocksParam) ([]response.B
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resBlocks.Blocks, err

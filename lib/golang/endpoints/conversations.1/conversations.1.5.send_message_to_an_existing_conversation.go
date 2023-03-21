@@ -23,7 +23,6 @@ func SendMessageToAnExistingConversation(jwtToken string, reqBody SendMessageReq
 		return resConversation, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteConversationsSendMessageToAnExistingConversation)
 	if err != nil {
 		fmt.Println(err)

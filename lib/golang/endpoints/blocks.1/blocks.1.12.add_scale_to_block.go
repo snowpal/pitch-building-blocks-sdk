@@ -9,7 +9,6 @@ import (
 )
 
 func AddScaleToBlock(jwtToken string, blockParam request.ScaleIdParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlocksAddScaleToBlock,
 		*blockParam.BlockId,
@@ -30,7 +29,7 @@ func AddScaleToBlock(jwtToken string, blockParam request.ScaleIdParam) error {
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

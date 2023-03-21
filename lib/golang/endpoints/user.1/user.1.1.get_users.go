@@ -12,7 +12,6 @@ import (
 
 func GetUsers(jwtToken string) ([]response.User, error) {
 	resUsers := response.Users{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteUserGetUsers)
 	if err != nil {
 		fmt.Println(err)
@@ -29,7 +28,7 @@ func GetUsers(jwtToken string) ([]response.User, error) {
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resUsers.Users, err

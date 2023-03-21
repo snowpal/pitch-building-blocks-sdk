@@ -9,7 +9,6 @@ import (
 )
 
 func DeleteBlockPodNote(jwtToken string, commentParam request.NoteIdParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlockPodsDeleteBlockPodNote,
 		*commentParam.NoteId,
@@ -25,7 +24,7 @@ func DeleteBlockPodNote(jwtToken string, commentParam request.NoteIdParam) error
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

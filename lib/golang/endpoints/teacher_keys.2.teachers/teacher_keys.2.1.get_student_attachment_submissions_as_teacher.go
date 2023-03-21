@@ -16,7 +16,6 @@ func GetStudentAttachmentSubmissionsAsTeacher(
 	submissionParam request.ClassroomIdParam,
 ) ([]response.Attachment, error) {
 	resAttachments := response.Attachments{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteTeacherKeysGetStudentAttachmentSubmissionsAsTeacher,
 		submissionParam.ResourceIds.PodId,

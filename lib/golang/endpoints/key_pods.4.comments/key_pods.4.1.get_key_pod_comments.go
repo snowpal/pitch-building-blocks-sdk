@@ -13,7 +13,6 @@ import (
 
 func GetKeyPodComments(jwtToken string, commentParam request.CommentIdParam) ([]response.Comment, error) {
 	resComments := response.Comments{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteKeyPodsGetKeyPodComments,
 		*commentParam.PodId,

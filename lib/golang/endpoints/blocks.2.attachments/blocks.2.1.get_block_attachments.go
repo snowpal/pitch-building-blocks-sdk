@@ -13,7 +13,6 @@ import (
 
 func GetBlockAttachments(jwtToken string, attachmentParam request.AttachmentParam) ([]response.Attachment, error) {
 	resAttachments := response.Attachments{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlocksGetBlockAttachments,
 		*attachmentParam.PodId,

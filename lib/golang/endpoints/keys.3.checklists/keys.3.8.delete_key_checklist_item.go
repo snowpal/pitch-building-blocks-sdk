@@ -9,7 +9,6 @@ import (
 )
 
 func DeleteKeyChecklistItem(jwtToken string, checklistParam request.ChecklistIdParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteKeysDeleteKeyChecklistItem,
 		*checklistParam.ChecklistId,
@@ -29,7 +28,7 @@ func DeleteKeyChecklistItem(jwtToken string, checklistParam request.ChecklistIdP
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

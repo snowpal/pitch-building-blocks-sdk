@@ -13,7 +13,6 @@ import (
 
 func GetRelationsForBlock(jwtToken string, relationParam common.ResourceIdParam) (response.Relationships, error) {
 	resRelations := response.Relations{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteRelationsGetRelationsForBlock,
 		relationParam.BlockId,
@@ -34,7 +33,7 @@ func GetRelationsForBlock(jwtToken string, relationParam common.ResourceIdParam)
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resRelations.Relationships, err

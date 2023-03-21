@@ -13,7 +13,6 @@ import (
 
 func GetTaskStatusForBlock(jwtToken string, taskParam common.ResourceIdParam) (response.TasksStatusBlock, error) {
 	resBlockTasksStatus := response.TasksStatusBlock{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlocksGetTaskStatusForBlock,
 		taskParam.KeyId,
@@ -34,7 +33,7 @@ func GetTaskStatusForBlock(jwtToken string, taskParam common.ResourceIdParam) (r
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resBlockTasksStatus, err

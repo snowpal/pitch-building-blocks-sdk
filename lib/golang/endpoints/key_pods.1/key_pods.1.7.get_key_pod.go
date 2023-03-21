@@ -13,7 +13,6 @@ import (
 
 func GetKeyPod(jwtToken string, podParam common.ResourceIdParam) (response.Pod, error) {
 	resPod := response.Pod{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteKeyPodsGetKeyPod, podParam.PodId, podParam.KeyId)
 	if err != nil {
 		fmt.Println(err)
@@ -30,7 +29,7 @@ func GetKeyPod(jwtToken string, podParam common.ResourceIdParam) (response.Pod, 
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resPod, err

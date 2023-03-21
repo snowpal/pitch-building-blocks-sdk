@@ -12,7 +12,6 @@ import (
 
 func GetTasksByStatus(jwtToken string) ([]response.TasksStatusKey, error) {
 	resTasksStatusKeys := response.TasksStatusKeys{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteDashboardGetTasksByStatus)
 	if err != nil {
 		fmt.Println(err)
@@ -29,7 +28,7 @@ func GetTasksByStatus(jwtToken string) ([]response.TasksStatusKey, error) {
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resTasksStatusKeys.Keys, err

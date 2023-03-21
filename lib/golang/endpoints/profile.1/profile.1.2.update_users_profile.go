@@ -22,7 +22,6 @@ func UpdateUsersProfile(jwtToken string, reqBody ProfileReqBody) error {
 		return err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteProfileUpdateUsersProfile)
 	if err != nil {
 		fmt.Println(err)
@@ -37,7 +36,7 @@ func UpdateUsersProfile(jwtToken string, reqBody ProfileReqBody) error {
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

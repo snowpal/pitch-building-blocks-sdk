@@ -12,7 +12,6 @@ import (
 
 func GetUsersProfile(jwtToken string) (response.Profile, error) {
 	resProfile := response.Profile{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteProfileGetUsersProfile)
 	if err != nil {
 		fmt.Println(err)
@@ -26,7 +25,7 @@ func GetUsersProfile(jwtToken string) (response.Profile, error) {
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, _ := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resProfile, err

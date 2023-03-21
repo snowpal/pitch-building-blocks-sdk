@@ -24,7 +24,6 @@ func RenameProjectList(
 		return resProjectList, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteProjectKeysRenameProjectList,
 		projectListParam.BlockId,
@@ -46,7 +45,7 @@ func RenameProjectList(
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resProjectList, err

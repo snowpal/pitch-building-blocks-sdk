@@ -9,7 +9,6 @@ import (
 )
 
 func UnrelatePodToPod(jwtToken string, relationParam request.PodToPodRelationParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteRelationsUnrelatePodFromPod,
 		relationParam.PodId,
@@ -32,7 +31,7 @@ func UnrelatePodToPod(jwtToken string, relationParam request.PodToPodRelationPar
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

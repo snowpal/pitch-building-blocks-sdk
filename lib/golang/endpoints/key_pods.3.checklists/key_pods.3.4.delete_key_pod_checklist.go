@@ -9,7 +9,6 @@ import (
 )
 
 func DeleteKeyPodChecklist(jwtToken string, checklistParam request.ChecklistIdParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteKeyPodsDeleteKeyPodChecklist,
 		*checklistParam.PodId,
@@ -29,7 +28,7 @@ func DeleteKeyPodChecklist(jwtToken string, checklistParam request.ChecklistIdPa
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

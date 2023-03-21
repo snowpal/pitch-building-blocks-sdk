@@ -13,7 +13,6 @@ import (
 
 func GetBlockNotes(jwtToken string, noteParam request.NoteIdParam) ([]response.Note, error) {
 	resNotes := response.Notes{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlocksGetBlockNotes,
 		*noteParam.BlockId,

@@ -12,7 +12,6 @@ import (
 
 func GetScalesAlongWithBlocksAndPodsBasedOnThem(jwtToken string, keyId string) (response.ScalesKey, error) {
 	resScalesKey := response.ScalesKey{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteKeysGetScalesAlongWithBlocksAndPodsBasedOnThem, keyId)
 	if err != nil {
 		fmt.Println(err)
@@ -29,7 +28,7 @@ func GetScalesAlongWithBlocksAndPodsBasedOnThem(jwtToken string, keyId string) (
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resScalesKey, err

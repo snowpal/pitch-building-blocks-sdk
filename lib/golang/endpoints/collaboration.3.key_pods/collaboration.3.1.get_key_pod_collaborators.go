@@ -13,7 +13,6 @@ import (
 
 func GetKeyPodCollaborators(jwtToken string, podParam common.ResourceIdParam) (response.Pod, error) {
 	resPod := response.Pod{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteCollaborationGetKeyPodCollaborators,
 		podParam.PodId,
@@ -34,7 +33,7 @@ func GetKeyPodCollaborators(jwtToken string, podParam common.ResourceIdParam) (r
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resPod, err

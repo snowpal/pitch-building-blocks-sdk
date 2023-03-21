@@ -24,7 +24,6 @@ func UpdateBlockNote(
 		return resNote, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlocksUpdateBlockNote,
 		*commentParam.NoteId,

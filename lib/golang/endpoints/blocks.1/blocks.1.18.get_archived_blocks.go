@@ -14,7 +14,6 @@ import (
 
 func GetArchivedBlocks(jwtToken string, blocksParam request.GetBlocksParam) ([]response.Block, error) {
 	resBlocks := response.Blocks{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlocksGetArchivedBlocks,
 		strconv.Itoa(blocksParam.BatchIndex),
@@ -35,7 +34,7 @@ func GetArchivedBlocks(jwtToken string, blocksParam request.GetBlocksParam) ([]r
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resBlocks.Blocks, err

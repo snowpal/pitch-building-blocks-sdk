@@ -17,7 +17,6 @@ func UpdatePodAttrs(jwtToken string, podParam common.ResourceIdParam, attribute 
 		return err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 
 	var route string
 	route, err = helpers.GetRoute(
@@ -39,7 +38,7 @@ func UpdatePodAttrs(jwtToken string, podParam common.ResourceIdParam, attribute 
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	_, err = helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

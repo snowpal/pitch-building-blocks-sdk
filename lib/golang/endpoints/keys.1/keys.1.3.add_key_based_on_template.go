@@ -32,7 +32,6 @@ func AddKeyBasedOnTemplate(
 		return resKey, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteKeysAddKeyBasedOnTemplate,
 		keyParam.TemplateId,
@@ -52,7 +51,7 @@ func AddKeyBasedOnTemplate(
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, _ := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resKey, err

@@ -16,7 +16,6 @@ func BulkArchiveKeyPods(jwtToken string, reqBody request.BulkArchivePodsReqBody,
 		return err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 
 	var route string
 	route, err = helpers.GetRoute(golang.RouteKeyPodsBulkArchiveKeyPods, keyId)
@@ -34,7 +33,7 @@ func BulkArchiveKeyPods(jwtToken string, reqBody request.BulkArchivePodsReqBody,
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

@@ -9,7 +9,6 @@ import (
 )
 
 func AddPodTypeToKeyPod(jwtToken string, podParam request.AddPodTypeIdParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteKeyPodsAddPodTypeToKeyPod,
 		podParam.PodId,
@@ -30,7 +29,7 @@ func AddPodTypeToKeyPod(jwtToken string, podParam request.AddPodTypeIdParam) err
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

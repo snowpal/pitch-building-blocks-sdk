@@ -9,7 +9,6 @@ import (
 )
 
 func CopyProjectPod(jwtToken string, projectPodParam request.CopyMoveProjectPodParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteProjectKeysCopyProjectPod,
 		projectPodParam.PodId,
@@ -33,7 +32,7 @@ func CopyProjectPod(jwtToken string, projectPodParam request.CopyMoveProjectPodP
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

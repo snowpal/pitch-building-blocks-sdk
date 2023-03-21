@@ -24,7 +24,6 @@ func AddKeyChecklistItem(
 		return resChecklistItem, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteKeysAddKeyChecklistItem,
 		*checklistParam.ChecklistId,

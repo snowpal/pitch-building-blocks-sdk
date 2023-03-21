@@ -13,7 +13,6 @@ import (
 
 func GetRecentlyModifiedKeys(jwtToken string) ([]common.SlimKey, error) {
 	resRecentKeys := response.RecentlyModifiedKeys{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteDashboardGetRecentlyModifiedKeys)
 	if err != nil {
 		fmt.Println(err)
@@ -30,7 +29,7 @@ func GetRecentlyModifiedKeys(jwtToken string) ([]common.SlimKey, error) {
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resRecentKeys.Keys, err

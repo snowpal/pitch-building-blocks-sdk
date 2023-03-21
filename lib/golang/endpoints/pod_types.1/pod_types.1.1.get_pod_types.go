@@ -13,7 +13,6 @@ import (
 
 func GetPodTypes(jwtToken string, includeCounts bool) ([]response.PodType, error) {
 	resPodTypes := response.PodTypes{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RoutePodTypesGetPodTypes, strconv.FormatBool(includeCounts))
 	if err != nil {
 		fmt.Println(err)

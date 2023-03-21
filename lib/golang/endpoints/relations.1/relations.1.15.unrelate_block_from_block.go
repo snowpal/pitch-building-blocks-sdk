@@ -9,7 +9,6 @@ import (
 )
 
 func UnrelateBlockToBlock(jwtToken string, relationParam request.BlockToBlockRelationParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteRelationsUnrelateBlockFromBlock,
 		relationParam.BlockId,
@@ -28,7 +27,7 @@ func UnrelateBlockToBlock(jwtToken string, relationParam request.BlockToBlockRel
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

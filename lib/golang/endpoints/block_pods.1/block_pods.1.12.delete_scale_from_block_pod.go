@@ -9,7 +9,6 @@ import (
 )
 
 func DeleteScaleFromBlockPod(jwtToken string, podParam common.ResourceIdParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlockPodsDeleteScaleFromBlockPod,
 		podParam.PodId,
@@ -30,7 +29,7 @@ func DeleteScaleFromBlockPod(jwtToken string, podParam common.ResourceIdParam) e
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	_, err = helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

@@ -24,7 +24,6 @@ func AddBlockPodChecklistItem(
 		return resChecklistItem, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlockPodsAddBlockPodChecklistItem,
 		*checklistParam.PodId,

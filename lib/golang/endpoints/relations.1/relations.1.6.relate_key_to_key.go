@@ -9,7 +9,6 @@ import (
 )
 
 func RelateKeyToKey(jwtToken string, relationParam request.KeyToKeyRelationParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteRelationsRelateKeyToKey,
 		relationParam.KeyId,
@@ -28,7 +27,7 @@ func RelateKeyToKey(jwtToken string, relationParam request.KeyToKeyRelationParam
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

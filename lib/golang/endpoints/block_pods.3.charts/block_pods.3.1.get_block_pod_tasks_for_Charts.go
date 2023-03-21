@@ -13,7 +13,6 @@ import (
 
 func GetBlockPodTasksForCharts(jwtToken string, podParam common.ResourceIdParam) ([]response.Task, error) {
 	resTasks := response.Tasks{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlockPodsGetBlockPodTasksForCharts,
 		podParam.PodId,

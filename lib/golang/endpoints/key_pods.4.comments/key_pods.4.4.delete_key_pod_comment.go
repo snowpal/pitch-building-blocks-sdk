@@ -9,7 +9,6 @@ import (
 )
 
 func DeleteKeyPodComment(jwtToken string, commentParam request.CommentIdParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteKeyPodsDeleteKeyPodComment,
 		*commentParam.CommentId,
@@ -24,7 +23,7 @@ func DeleteKeyPodComment(jwtToken string, commentParam request.CommentIdParam) e
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

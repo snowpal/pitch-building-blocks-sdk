@@ -20,7 +20,6 @@ func RenameBlockPodAttachment(
 		return err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlockPodsRenameBlockPodAttachment,
 		*attachmentParam.AttachmentId,
@@ -41,7 +40,7 @@ func RenameBlockPodAttachment(
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

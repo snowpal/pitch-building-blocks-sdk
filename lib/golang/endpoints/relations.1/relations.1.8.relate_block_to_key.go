@@ -9,7 +9,6 @@ import (
 )
 
 func RelateKeyToBlock(jwtToken string, relationParam request.KeyToBlockRelationParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteRelationsRelateBlockToKey,
 		relationParam.KeyId,
@@ -28,7 +27,7 @@ func RelateKeyToBlock(jwtToken string, relationParam request.KeyToBlockRelationP
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

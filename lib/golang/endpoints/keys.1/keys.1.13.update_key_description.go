@@ -23,7 +23,6 @@ func UpdateKeyDescription(jwtToken string, reqBody UpdateKeyDescReqBody, keyId s
 		return resKey, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 
 	var route string
 	route, err = helpers.GetRoute(golang.RouteKeysUpdateKeyDescription, keyId)
@@ -42,7 +41,7 @@ func UpdateKeyDescription(jwtToken string, reqBody UpdateKeyDescReqBody, keyId s
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resKey, err

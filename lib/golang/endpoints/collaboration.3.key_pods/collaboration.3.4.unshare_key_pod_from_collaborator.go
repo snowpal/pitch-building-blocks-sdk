@@ -13,7 +13,6 @@ import (
 
 func UnshareKeyPodWithCollaborator(jwtToken string, podAclParam common.AclParam) (response.Pod, error) {
 	resPod := response.Pod{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteCollaborationUnshareKeyPodFromCollaborator,
 		*podAclParam.PodId,

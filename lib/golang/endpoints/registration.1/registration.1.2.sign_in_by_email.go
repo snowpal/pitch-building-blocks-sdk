@@ -5,7 +5,6 @@ import (
 	"development/go/recipes/lib/golang/helpers"
 	"development/go/recipes/lib/golang/structs/request"
 	"development/go/recipes/lib/golang/structs/response"
-
 	"encoding/json"
 	"fmt"
 	"io"
@@ -21,8 +20,8 @@ func SignInByEmail(reqBody request.SignInReqBody) (response.User, error) {
 		return resUserRegistration.User, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
-	route, err := helpers.GetRoute(golang.RouteRegistrationSignInByEmail)
+	var route string
+	route, err = helpers.GetRoute(golang.RouteRegistrationSignInByEmail)
 	if err != nil {
 		fmt.Println(err)
 		return resUserRegistration.User, err
@@ -35,7 +34,7 @@ func SignInByEmail(reqBody request.SignInReqBody) (response.User, error) {
 
 	helpers.AddAppHeaders(req)
 
-	res, _ := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resUserRegistration.User, err

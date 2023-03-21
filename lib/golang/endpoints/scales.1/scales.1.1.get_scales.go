@@ -18,7 +18,6 @@ type GetScalesParam struct {
 
 func GetScales(jwtToken string, scalesParam GetScalesParam) ([]response.Scale, error) {
 	resScales := response.Scales{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteScalesGetScales,
 		strconv.FormatBool(scalesParam.includeCounts),

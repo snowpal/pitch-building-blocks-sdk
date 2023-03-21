@@ -12,7 +12,6 @@ import (
 
 func GetScale(jwtToken string, scaleId string) (response.Scale, error) {
 	resScale := response.Scale{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteScalesGetScale, scaleId)
 	req, err := http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {

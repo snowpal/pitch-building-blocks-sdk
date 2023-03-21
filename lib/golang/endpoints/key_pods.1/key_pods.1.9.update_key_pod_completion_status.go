@@ -25,7 +25,6 @@ func UpdateKeyPodCompletionStatus(
 		return resPod, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 
 	var route string
 	route, err = helpers.GetRoute(golang.RouteKeyPodsUpdateKeyPodCompletionStatus, podParam.PodId, podParam.KeyId)
@@ -44,7 +43,7 @@ func UpdateKeyPodCompletionStatus(
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resPod, err

@@ -16,7 +16,6 @@ func GetCommentSubmissionsAsStudent(
 	submissionParam common.ResourceIdParam,
 ) ([]response.Comment, error) {
 	resComments := response.Comments{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteTeacherKeysGetCommentSubmissionsAsStudent,
 		submissionParam.PodId,

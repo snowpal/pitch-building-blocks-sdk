@@ -9,7 +9,6 @@ import (
 )
 
 func LinkProjectPodToBlock(jwtToken string, podParam request.ProjectListIdParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteProjectKeysLinkProjectPodToBlock,
 		podParam.BlockId,
@@ -31,7 +30,7 @@ func LinkProjectPodToBlock(jwtToken string, podParam request.ProjectListIdParam)
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

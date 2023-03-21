@@ -21,7 +21,6 @@ func AddUserToFollowUsList(jwtToken string, reqBody FollowerReqBody) error {
 		return err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteFollowersAddUserToFollowUsList)
 	if err != nil {
 		fmt.Println(err)
@@ -37,7 +36,7 @@ func AddUserToFollowUsList(jwtToken string, reqBody FollowerReqBody) error {
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

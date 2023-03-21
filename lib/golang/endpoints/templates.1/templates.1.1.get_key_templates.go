@@ -12,7 +12,6 @@ import (
 
 func GetKeyTemplates(jwtToken string) ([]response.KeyTemplatesWithType, error) {
 	resKeyTemplates := response.KeyTemplates{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteTemplatesGetKeyTemplates)
 	if err != nil {
 		fmt.Println(err)
@@ -29,7 +28,7 @@ func GetKeyTemplates(jwtToken string) ([]response.KeyTemplatesWithType, error) {
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resKeyTemplates.Templates, err

@@ -8,7 +8,6 @@ import (
 )
 
 func DeletePodType(jwtToken string, podTypeId string) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RoutePodTypesDeletePodType, podTypeId)
 	if err != nil {
 		fmt.Println(err)
@@ -23,7 +22,7 @@ func DeletePodType(jwtToken string, podTypeId string) error {
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

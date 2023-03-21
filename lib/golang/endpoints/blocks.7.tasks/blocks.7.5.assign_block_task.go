@@ -16,7 +16,6 @@ func AssignBlockTask(jwtToken string, reqBody request.AssignTaskReqBody, taskPar
 		return err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlocksAssignBlockTask,
 		*taskParam.TaskId,
@@ -31,7 +30,7 @@ func AssignBlockTask(jwtToken string, reqBody request.AssignTaskReqBody, taskPar
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

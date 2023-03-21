@@ -25,7 +25,6 @@ func ShareKeyPodWithCollaborator(
 		return resPod, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteCollaborationShareKeyPodWithCollaborator,
 		*podAclParam.PodId,

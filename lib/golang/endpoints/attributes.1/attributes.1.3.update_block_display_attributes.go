@@ -17,7 +17,6 @@ func UpdateBlockAttrs(jwtToken string, blockParam common.ResourceIdParam, attrib
 		return err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 
 	var route string
 	route, err = helpers.GetRoute(
@@ -39,7 +38,7 @@ func UpdateBlockAttrs(jwtToken string, blockParam common.ResourceIdParam, attrib
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

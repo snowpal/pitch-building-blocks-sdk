@@ -13,7 +13,6 @@ import (
 
 func GetBlockPod(jwtToken string, podParam common.ResourceIdParam) (response.Pod, error) {
 	resPod := response.Pod{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteBlockPodsGetBlockPod, podParam.PodId, podParam.KeyId, podParam.BlockId)
 	if err != nil {
 		fmt.Println(err)
@@ -30,7 +29,7 @@ func GetBlockPod(jwtToken string, podParam common.ResourceIdParam) (response.Pod
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err = helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resPod, err

@@ -9,7 +9,6 @@ import (
 )
 
 func DeleteBlockAttachment(jwtToken string, attachmentParam request.AttachmentParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlocksDeleteBlockAttachment,
 		*attachmentParam.AttachmentId,
@@ -29,7 +28,7 @@ func DeleteBlockAttachment(jwtToken string, attachmentParam request.AttachmentPa
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

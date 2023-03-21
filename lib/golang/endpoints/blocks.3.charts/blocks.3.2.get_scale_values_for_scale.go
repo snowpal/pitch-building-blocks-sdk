@@ -13,7 +13,6 @@ import (
 
 func GetScaleValuesForScale(jwtToken string, scaleParam request.ScaleIdParam) (response.ScaleValues, error) {
 	resScaleValues := response.ScaleValues{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlocksGetScaleValuesForScale,
 		scaleParam.KeyId,
@@ -35,7 +34,7 @@ func GetScaleValuesForScale(jwtToken string, scaleParam request.ScaleIdParam) (r
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resScaleValues, err

@@ -12,7 +12,6 @@ import (
 
 func GetBlocksAvailableToBeLinkedToThisKey(jwtToken string, keyId string) ([]response.Block, error) {
 	resBlocks := response.Blocks{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteBlocksGetBlocksAvailableToBeLinkedToThisKey, keyId)
 	if err != nil {
 		fmt.Println(err)
@@ -26,7 +25,7 @@ func GetBlocksAvailableToBeLinkedToThisKey(jwtToken string, keyId string) ([]res
 	}
 
 	helpers.AddUserHeaders(jwtToken, req)
-	res, _ := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resBlocks.Blocks, err

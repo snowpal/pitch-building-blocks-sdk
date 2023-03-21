@@ -20,7 +20,6 @@ func UpdateScale(jwtToken string, reqBody request.ScaleReqBody, scaleId string) 
 		return resScale, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteScalesUpdateScale, scaleId)
 	req, err := http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {

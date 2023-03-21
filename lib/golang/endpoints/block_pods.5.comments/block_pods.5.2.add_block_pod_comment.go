@@ -24,7 +24,6 @@ func AddBlockPodComment(
 		return resComment, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlockPodsAddBlockPodComment,
 		*commentParam.PodId,

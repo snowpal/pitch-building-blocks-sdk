@@ -12,7 +12,6 @@ import (
 
 func GetPodsAvailableToBeLinked(jwtToken string, keyId string) ([]response.Pod, error) {
 	resPods := response.Pods{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteKeyPodsGetKeyPodsAvailableToBeLinkedToThisKey, keyId)
 	if err != nil {
 		fmt.Println(err)
@@ -29,7 +28,7 @@ func GetPodsAvailableToBeLinked(jwtToken string, keyId string) ([]response.Pod, 
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resPods.Pods, err

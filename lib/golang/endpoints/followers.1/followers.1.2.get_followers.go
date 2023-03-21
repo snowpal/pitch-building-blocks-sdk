@@ -21,7 +21,6 @@ type Follower struct {
 
 func GetFollowers(jwtToken string) ([]Follower, error) {
 	resFollowers := Followers{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteFollowersGetFollowers)
 	if err != nil {
 		fmt.Println(err)
@@ -38,7 +37,7 @@ func GetFollowers(jwtToken string) ([]Follower, error) {
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resFollowers.Followers, err

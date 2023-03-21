@@ -24,7 +24,6 @@ func AddBlockComment(
 		return resComment, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlocksAddBlockComment,
 		*commentParam.BlockId,

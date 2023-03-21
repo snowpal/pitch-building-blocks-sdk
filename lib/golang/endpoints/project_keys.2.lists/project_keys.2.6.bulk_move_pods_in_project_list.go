@@ -10,7 +10,6 @@ import (
 )
 
 func BulkMovePodsInProjectList(jwtToken string, projectListParam request.CopyMoveProjectListPodsParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteProjectKeysBulkMovePodsInProjectList,
 		projectListParam.ProjectListId,
@@ -35,7 +34,7 @@ func BulkMovePodsInProjectList(jwtToken string, projectListParam request.CopyMov
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

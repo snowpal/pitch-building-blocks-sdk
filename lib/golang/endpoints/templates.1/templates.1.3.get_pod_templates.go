@@ -12,7 +12,6 @@ import (
 
 func GetPodTemplates(jwtToken string) ([]response.PodTemplate, error) {
 	resPodTemplates := response.PodTemplates{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteTemplatesGetPodTemplates)
 	if err != nil {
 		fmt.Println(err)
@@ -29,7 +28,7 @@ func GetPodTemplates(jwtToken string) ([]response.PodTemplate, error) {
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resPodTemplates.Templates, err

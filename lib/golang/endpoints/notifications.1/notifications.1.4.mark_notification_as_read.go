@@ -19,7 +19,6 @@ func MarkNotificationAsRead(jwtToken string, reqBody MarkAsReadReqBody, notifica
 		return err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteNotificationsMarkNotificationAsRead, notificationId)
 	if err != nil {
 		fmt.Println(err)
@@ -34,7 +33,7 @@ func MarkNotificationAsRead(jwtToken string, reqBody MarkAsReadReqBody, notifica
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

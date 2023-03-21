@@ -12,7 +12,6 @@ import (
 
 func SrchUserByToken(jwtToken string, searchToken string) ([]response.SearchUser, error) {
 	resSearchUsers := response.SearchUsers{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteSearchSearchUserByToken, searchToken)
 	if err != nil {
 		fmt.Println(err)
@@ -29,7 +28,7 @@ func SrchUserByToken(jwtToken string, searchToken string) ([]response.SearchUser
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resSearchUsers.SearchUsers, err

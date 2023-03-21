@@ -13,7 +13,6 @@ import (
 
 func GetBlockPodChecklists(jwtToken string, checklistParam request.ChecklistIdParam) ([]response.Checklist, error) {
 	resChecklists := response.Checklists{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlockPodsGetBlockPodChecklists,
 		*checklistParam.PodId,

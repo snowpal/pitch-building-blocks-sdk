@@ -24,7 +24,6 @@ func ReorderBlockPodChecklistItems(
 		return resChecklistItems.ChecklistItems, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlockPodsReorderBlockPodChecklistItems,
 		*checklistParam.PodId,

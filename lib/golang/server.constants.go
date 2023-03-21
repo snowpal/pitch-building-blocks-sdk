@@ -5,11 +5,9 @@ const (
 	XProductCode = "1921hz7e7g4chnw3swhng5i0d"
 )
 
-const (
-	HostProd    = "https://gateway.snowpal.com/"
-	HostStaging = "https://gateway-staging.snowpal.com/"
-	HostDev     = "https://gateway-dev.snowpal.com/"
-)
+const GatewayHost = "http://localhost:3030/"
+
+//const GatewayHost = "https://gateway-dev.snowpal.com/"
 
 const (
 	RouteAttributesGetDisplayableAttributesOfKey   = "app/resource/attributes"

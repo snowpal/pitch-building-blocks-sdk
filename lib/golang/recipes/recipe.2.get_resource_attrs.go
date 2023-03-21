@@ -3,8 +3,7 @@ package main
 import (
 	"development/go/recipes/lib/golang"
 	attributes "development/go/recipes/lib/golang/endpoints/attributes.1"
-	registration "development/go/recipes/lib/golang/endpoints/registration.1"
-	"development/go/recipes/lib/golang/structs/request"
+	"development/go/recipes/lib/golang/helpers/recipes"
 	log "github.com/sirupsen/logrus"
 
 	"fmt"
@@ -13,18 +12,11 @@ import (
 // sign in, get resource attributes
 func main() {
 	log.Info("Objective: Get resource attributes")
-	log.Info(".sign in user email: ", Email)
-	reqBody := request.SignInReqBody{
-		Email:    Email,
-		Password: golang.Password,
-	}
-	userSignIn, err := registration.SignInByEmail(reqBody)
-	if err != nil {
-		fmt.Println(err)
-	}
+	log.Info("Sign in user, email: ", golang.DefaultEmail)
+	user, err := recipes.SignIn(golang.DefaultEmail, golang.Password)
 
 	log.Info(".get resource attributes")
-	resourceAttrs, _ := attributes.GetResourceAttrs(userSignIn.JwtToken)
+	resourceAttrs, _ := attributes.GetResourceAttrs(user.JwtToken)
 	if err != nil {
 		return
 	}

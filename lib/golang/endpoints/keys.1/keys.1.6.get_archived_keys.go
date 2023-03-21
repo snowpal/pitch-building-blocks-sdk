@@ -12,7 +12,6 @@ import (
 
 func GetArchivedKeys(jwtToken string) ([]response.Key, error) {
 	resKeys := response.Keys{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteKeysGetArchivedKeys)
 	if err != nil {
 		fmt.Println(err)
@@ -26,7 +25,7 @@ func GetArchivedKeys(jwtToken string) ([]response.Key, error) {
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, _ := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resKeys.Keys, err

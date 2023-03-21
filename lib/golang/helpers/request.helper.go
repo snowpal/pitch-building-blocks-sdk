@@ -4,6 +4,8 @@ import (
 	"development/go/recipes/lib/golang"
 	"encoding/json"
 	"errors"
+	"fmt"
+	"golang.org/x/exp/slices"
 	"net/http"
 	"strings"
 )
@@ -25,7 +27,7 @@ func GetRoute(route string, args ...string) (string, error) {
 	for _, arg := range args {
 		route = strings.Replace(route, "%s", arg, 1)
 	}
-	res = golang.HostDev + route
+	res = golang.GatewayHost + route
 	return res, nil
 }
 
@@ -46,4 +48,16 @@ func addHeaders(req *http.Request) {
 	req.Header.Add("x-api-key", golang.XApiKey)
 	req.Header.Add("x-snowpal-product-code", golang.XProductCode)
 	req.Header.Add("Content-Type", "application/json")
+}
+
+func MakeRequest(req *http.Request) (*http.Response, error) {
+	client := &http.Client{}
+	res, err := client.Do(req)
+	successCodes := []int{200, 201, 202, 204}
+	if err != nil || !slices.Contains(successCodes, res.StatusCode) {
+		fmt.Println(err)
+		return res, errors.New("API Request Failed")
+	}
+
+	return res, nil
 }

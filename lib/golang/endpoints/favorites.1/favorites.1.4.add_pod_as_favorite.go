@@ -13,7 +13,6 @@ import (
 
 func AddPodAsFavorite(jwtToken string, favoriteParam common.ResourceIdParam) (response.AddFavorite, error) {
 	resFavorite := response.AddFavorite{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteFavoritesAddPodAsFavorite,
 		favoriteParam.PodId,
@@ -34,7 +33,7 @@ func AddPodAsFavorite(jwtToken string, favoriteParam common.ResourceIdParam) (re
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resFavorite, err

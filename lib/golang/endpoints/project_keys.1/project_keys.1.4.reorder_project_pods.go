@@ -31,7 +31,6 @@ func ReorderProjectPods(
 		return resProjectPods.Pods, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteProjectKeysReorderProjectPods,
 		podParam.BlockId,

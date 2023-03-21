@@ -16,7 +16,6 @@ func GetProjectList(
 	projectListParam request.ProjectListIdParam,
 ) (response.ProjectList, error) {
 	resProjectList := response.ProjectList{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteProjectKeysGetProjectList,
 		projectListParam.BlockId,
@@ -38,7 +37,7 @@ func GetProjectList(
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resProjectList, err

@@ -16,7 +16,6 @@ func ResetPassword(jwtToken string, reqBody request.ResetPasswordReqBody) error 
 		return err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteRegistrationResetPassword)
 	if err != nil {
 		fmt.Println(err)
@@ -31,7 +30,7 @@ func ResetPassword(jwtToken string, reqBody request.ResetPasswordReqBody) error 
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	_, err = helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

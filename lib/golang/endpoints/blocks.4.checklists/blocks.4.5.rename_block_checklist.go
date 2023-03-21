@@ -24,7 +24,6 @@ func RenameBlockChecklist(
 		return resChecklist, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlocksRenameBlockChecklist,
 		*checklistParam.BlockId,

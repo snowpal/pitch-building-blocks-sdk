@@ -21,7 +21,6 @@ type BlockPodGradesForStudents struct {
 
 func GetBlockPodGradesForStudents(jwtToken string, podParam common.ResourceIdParam) (BlockPodGradesForStudents, error) {
 	resBlockPodGrades := BlockPodGradesForStudents{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlockPodsGetBlockPodGradesForStudents,
 		podParam.PodId,

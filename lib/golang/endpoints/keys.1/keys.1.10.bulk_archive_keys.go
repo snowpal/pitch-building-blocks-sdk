@@ -9,7 +9,6 @@ import (
 )
 
 func BulkArchiveKeys(jwtToken string, keyIds []string) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteKeysBulkArchiveKeys, strings.Join(keyIds, ","))
 	if err != nil {
 		fmt.Println(err)
@@ -25,7 +24,7 @@ func BulkArchiveKeys(jwtToken string, keyIds []string) error {
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

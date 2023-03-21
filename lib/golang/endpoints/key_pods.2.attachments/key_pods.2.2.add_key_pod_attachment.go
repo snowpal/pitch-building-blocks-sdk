@@ -24,7 +24,6 @@ func AddKeyPodAttachment(
 		return resAttachments.Attachments, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteKeyPodsAddKeyPodAttachment,
 		*attachmentParam.PodId,

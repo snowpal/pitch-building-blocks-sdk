@@ -9,7 +9,6 @@ import (
 )
 
 func AddScaleToKeyPod(jwtToken string, podParam request.ScaleIdParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteKeyPodsAddScaleToKeyPod,
 		*podParam.PodId,
@@ -30,7 +29,7 @@ func AddScaleToKeyPod(jwtToken string, podParam request.ScaleIdParam) error {
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

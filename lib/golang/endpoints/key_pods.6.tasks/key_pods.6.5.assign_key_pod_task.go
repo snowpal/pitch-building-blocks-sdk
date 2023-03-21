@@ -16,7 +16,6 @@ func AssignKeyPodTask(jwtToken string, reqBody request.AssignTaskReqBody, taskPa
 		return err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteKeyPodsAssignKeyPodTask,
 		*taskParam.TaskId,
@@ -31,7 +30,7 @@ func AssignKeyPodTask(jwtToken string, reqBody request.AssignTaskReqBody, taskPa
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

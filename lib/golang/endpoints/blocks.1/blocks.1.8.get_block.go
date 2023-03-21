@@ -13,7 +13,6 @@ import (
 
 func GetBlock(jwtToken string, blockParam common.ResourceIdParam) (response.Block, error) {
 	resBlock := response.Block{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteBlocksGetBlock, blockParam.BlockId, blockParam.KeyId)
 	if err != nil {
 		fmt.Println(err)

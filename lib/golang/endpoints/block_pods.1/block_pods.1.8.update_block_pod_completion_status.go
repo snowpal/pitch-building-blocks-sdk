@@ -25,7 +25,6 @@ func UpdateBlockPodCompletionStatus(
 		return resPod, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 
 	var route string
 	route, err = helpers.GetRoute(golang.RouteBlockPodsUpdateBlockPodCompletionStatus, podParam.PodId, podParam.KeyId, podParam.BlockId)
@@ -44,7 +43,7 @@ func UpdateBlockPodCompletionStatus(
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resPod, err

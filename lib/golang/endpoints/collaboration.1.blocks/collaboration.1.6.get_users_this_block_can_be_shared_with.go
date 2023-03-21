@@ -13,7 +13,6 @@ import (
 
 func GetUsersThisBlockCanBeSharedWith(jwtToken string, blockAclParam common.AclParam) ([]response.SearchUser, error) {
 	resUsers := response.SearchUsers{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteCollaborationGetUsersThisBlockCanBeSharedWith,
 		*blockAclParam.BlockId,

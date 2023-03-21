@@ -12,7 +12,6 @@ import (
 
 func GetRecentComments(jwtToken string) ([]response.RecentComment, error) {
 	resComments := response.RecentComments{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteCommentsGetRecentComments)
 	if err != nil {
 		fmt.Println(err)

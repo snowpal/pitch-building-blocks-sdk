@@ -9,7 +9,6 @@ import (
 )
 
 func DeleteBlockPodChecklistItem(jwtToken string, checklistParam request.ChecklistIdParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlockPodsDeleteBlockPodChecklistItem,
 		*checklistParam.PodId,
@@ -31,7 +30,7 @@ func DeleteBlockPodChecklistItem(jwtToken string, checklistParam request.Checkli
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

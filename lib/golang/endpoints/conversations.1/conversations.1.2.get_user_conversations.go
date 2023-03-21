@@ -12,7 +12,6 @@ import (
 
 func GetUserConversations(jwtToken string) ([]response.Conversation, error) {
 	resConversations := response.Conversations{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteConversationsGetUserConversations)
 	if err != nil {
 		fmt.Println(err)
@@ -29,7 +28,7 @@ func GetUserConversations(jwtToken string) ([]response.Conversation, error) {
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resConversations.Conversations, err

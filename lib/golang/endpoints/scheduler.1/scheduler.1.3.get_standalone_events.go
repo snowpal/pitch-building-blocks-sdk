@@ -12,7 +12,6 @@ import (
 
 func GetStandaloneEvents(jwtToken string) ([]response.SchedulerEvent, error) {
 	resAllEvents := response.AllEvents{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteSchedulerGetStandaloneEvents)
 	if err != nil {
 		fmt.Println(err)
@@ -26,7 +25,7 @@ func GetStandaloneEvents(jwtToken string) ([]response.SchedulerEvent, error) {
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, _ := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resAllEvents.SchedulerEvents, err

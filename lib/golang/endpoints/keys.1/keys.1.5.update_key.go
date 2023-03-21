@@ -27,7 +27,6 @@ func UpdateKey(jwtToken string, reqBody UpdateKeyReqBody, keyId string) (respons
 		return resKey, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteKeysUpdateKey, keyId)
 	if err != nil {
 		fmt.Println(err)
@@ -41,7 +40,7 @@ func UpdateKey(jwtToken string, reqBody UpdateKeyReqBody, keyId string) (respons
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, _ := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resKey, err

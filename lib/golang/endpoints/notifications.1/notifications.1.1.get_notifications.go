@@ -12,7 +12,6 @@ import (
 
 func GetNotifications(jwtToken string) ([]response.Notification, error) {
 	resNotifications := response.Notifications{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteNotificationsGetNotifications)
 	if err != nil {
 		fmt.Println(err)
@@ -29,7 +28,7 @@ func GetNotifications(jwtToken string) ([]response.Notification, error) {
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resNotifications.Notifications, err

@@ -8,7 +8,6 @@ import (
 )
 
 func DeleteScale(jwtToken string, scaleId string) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteScalesDeleteScale, scaleId)
 	if err != nil {
 		fmt.Println(err)
@@ -23,7 +22,7 @@ func DeleteScale(jwtToken string, scaleId string) error {
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

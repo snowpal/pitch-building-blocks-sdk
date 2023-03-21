@@ -13,7 +13,6 @@ import (
 
 func GetStudentsInABlock(jwtToken string, blockParam common.ResourceIdParam) ([]response.Student, error) {
 	resStudents := response.Students{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteTeacherKeysGetStudentsInABlock, blockParam.BlockId, blockParam.KeyId)
 	if err != nil {
 		fmt.Println(err)

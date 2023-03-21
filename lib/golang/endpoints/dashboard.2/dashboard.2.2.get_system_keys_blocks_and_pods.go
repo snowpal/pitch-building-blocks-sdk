@@ -12,7 +12,6 @@ import (
 
 func GetSystemKeysBlocksAndPods(jwtToken string) ([]response.UserKey, error) {
 	resUserKeys := response.UserKeys{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteDashboardGetSystemKeysBlocksAndPods)
 	if err != nil {
 		fmt.Println(err)
@@ -29,7 +28,7 @@ func GetSystemKeysBlocksAndPods(jwtToken string) ([]response.UserKey, error) {
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resUserKeys.Keys, err

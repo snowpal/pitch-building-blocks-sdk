@@ -13,7 +13,6 @@ import (
 
 func GetEventsInGivenWindow(jwtToken string, dateParam request.EventDateParam) (response.AllEvents, error) {
 	resAllEvents := response.AllEvents{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteSchedulerGetEventsInGivenWindow, dateParam.StartDate, *dateParam.EndDate)
 	if err != nil {
 		fmt.Println(err)
@@ -27,7 +26,7 @@ func GetEventsInGivenWindow(jwtToken string, dateParam request.EventDateParam) (
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, _ := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resAllEvents, err

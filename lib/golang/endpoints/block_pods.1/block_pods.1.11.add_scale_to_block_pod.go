@@ -9,7 +9,6 @@ import (
 )
 
 func AddScaleToBlockPod(jwtToken string, podParam request.ScaleIdParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlockPodsAddScaleToBlockPod,
 		*podParam.PodId,
@@ -31,7 +30,7 @@ func AddScaleToBlockPod(jwtToken string, podParam request.ScaleIdParam) error {
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	_, err = helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

@@ -24,7 +24,6 @@ func UpdateBlockComment(
 		return resComment, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlocksUpdateBlockComment,
 		*commentParam.CommentId,

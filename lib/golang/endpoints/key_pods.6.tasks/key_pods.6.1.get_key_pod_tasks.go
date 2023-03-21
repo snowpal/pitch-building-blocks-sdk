@@ -13,7 +13,6 @@ import (
 
 func GetKeyPodTasks(jwtToken string, taskParam request.TaskIdParam) ([]response.Task, error) {
 	resTasks := response.Tasks{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteKeyPodsGetKeyPodTasks,
 		*taskParam.PodId,

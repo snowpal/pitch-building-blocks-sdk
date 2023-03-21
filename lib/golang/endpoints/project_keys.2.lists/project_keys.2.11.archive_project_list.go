@@ -9,7 +9,6 @@ import (
 )
 
 func ArchiveProjectList(jwtToken string, projectListParam request.ProjectListIdParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteProjectKeysArchiveProjectList,
 		projectListParam.BlockId,
@@ -30,7 +29,7 @@ func ArchiveProjectList(jwtToken string, projectListParam request.ProjectListIdP
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

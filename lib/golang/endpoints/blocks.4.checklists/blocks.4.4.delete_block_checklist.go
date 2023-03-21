@@ -9,7 +9,6 @@ import (
 )
 
 func DeleteBlockChecklist(jwtToken string, checklistParam request.ChecklistIdParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlocksDeleteBlockChecklist,
 		*checklistParam.BlockId,
@@ -29,7 +28,7 @@ func DeleteBlockChecklist(jwtToken string, checklistParam request.ChecklistIdPar
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

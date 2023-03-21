@@ -13,7 +13,6 @@ import (
 
 func GetBlockPodComments(jwtToken string, commentParam request.CommentIdParam) ([]response.Comment, error) {
 	resComments := response.Comments{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlockPodsGetBlockPodComments,
 		*commentParam.PodId,

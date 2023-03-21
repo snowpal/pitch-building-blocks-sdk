@@ -32,7 +32,6 @@ func AddBlockBasedOnTemplate(
 		return resBlock, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	var route string
 	route, err = helpers.GetRoute(
 		golang.RouteBlocksAddBlockBasedOnTemplate,

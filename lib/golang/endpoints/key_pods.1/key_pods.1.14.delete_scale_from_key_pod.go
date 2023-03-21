@@ -9,7 +9,6 @@ import (
 )
 
 func DeleteScaleFromKeyPod(jwtToken string, podParam common.ResourceIdParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteKeyPodsDeleteScaleFromKeyPod,
 		podParam.PodId,
@@ -29,7 +28,7 @@ func DeleteScaleFromKeyPod(jwtToken string, podParam common.ResourceIdParam) err
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

@@ -24,7 +24,6 @@ func AddPrivateOrGroupConversation(jwtToken string, reqBody ConversationReqBody)
 		return resConversation, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteConversationsAddPrivateOrGroupConversation)
 	if err != nil {
 		fmt.Println(err)

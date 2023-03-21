@@ -13,7 +13,6 @@ import (
 
 func GetRelationsForBlockPod(jwtToken string, relationParam common.ResourceIdParam) (response.Relationships, error) {
 	resRelations := response.Relations{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteRelationsGetRelationsForBlockPod,
 		relationParam.PodId,
@@ -35,7 +34,7 @@ func GetRelationsForBlockPod(jwtToken string, relationParam common.ResourceIdPar
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resRelations.Relationships, err

@@ -24,7 +24,6 @@ func UpdateBlockPodNote(
 		return resNote, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlockPodsUpdateBlockPodNote,
 		*commentParam.NoteId,

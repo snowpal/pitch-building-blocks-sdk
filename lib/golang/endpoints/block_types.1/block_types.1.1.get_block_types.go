@@ -13,7 +13,6 @@ import (
 
 func GetBlockTypes(jwtToken string, includeCounts bool) ([]response.BlockType, error) {
 	resBlockTypes := response.BlockTypes{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteBlockTypesGetBlockTypes, strconv.FormatBool(includeCounts))
 	if err != nil {
 		fmt.Println(err)

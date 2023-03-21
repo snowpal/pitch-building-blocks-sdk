@@ -13,7 +13,6 @@ import (
 
 func GetBlockChecklists(jwtToken string, checklistParam request.ChecklistIdParam) ([]response.Checklist, error) {
 	resChecklists := response.Checklists{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlocksGetBlockChecklists,
 		*checklistParam.BlockId,

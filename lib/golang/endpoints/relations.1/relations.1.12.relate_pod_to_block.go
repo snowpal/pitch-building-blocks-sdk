@@ -9,7 +9,6 @@ import (
 )
 
 func RelateBlockToPod(jwtToken string, relationParam request.BlockToPodRelationParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteRelationsRelatePodToBlock,
 		relationParam.BlockId,
@@ -30,7 +29,7 @@ func RelateBlockToPod(jwtToken string, relationParam request.BlockToPodRelationP
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

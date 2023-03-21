@@ -17,7 +17,6 @@ func BulkArchiveBlockPods(jwtToken string, reqBody request.BulkArchivePodsReqBod
 		return err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 
 	var route string
 	route, err = helpers.GetRoute(golang.RouteBlockPodsBulkArchiveBlockPods, podParam.KeyId, podParam.BlockId)
@@ -35,7 +34,7 @@ func BulkArchiveBlockPods(jwtToken string, reqBody request.BulkArchivePodsReqBod
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

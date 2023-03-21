@@ -24,7 +24,6 @@ func UpdateKeyPodChecklistItem(
 		return resChecklistItem, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteKeyPodsUpdateKeyPodChecklistItem,
 		*checklistParam.PodId,

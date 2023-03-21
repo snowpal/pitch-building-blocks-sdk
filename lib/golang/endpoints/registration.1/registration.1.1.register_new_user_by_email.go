@@ -20,7 +20,6 @@ func RegisterNewUserByEmail(reqBody request.SignupReqBody) (response.User, error
 		return resUserRegistration.User, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteRegistrationRegisterNewUserByEmail)
 	if err != nil {
 		fmt.Println(err)
@@ -35,7 +34,7 @@ func RegisterNewUserByEmail(reqBody request.SignupReqBody) (response.User, error
 
 	helpers.AddAppHeaders(req)
 
-	res, _ := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resUserRegistration.User, err

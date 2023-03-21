@@ -12,7 +12,6 @@ import (
 
 func GetRelationsForKey(jwtToken string, keyId string) (response.Relationships, error) {
 	resRelations := response.Relations{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteRelationsGetRelationsForKey, keyId)
 	if err != nil {
 		fmt.Println(err)
@@ -29,7 +28,7 @@ func GetRelationsForKey(jwtToken string, keyId string) (response.Relationships, 
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resRelations.Relationships, err

@@ -13,7 +13,6 @@ import (
 
 func GetBlockCollaborators(jwtToken string, blockParam common.ResourceIdParam) (response.Block, error) {
 	resBlock := response.Block{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteCollaborationGetBlockCollaborators,
 		blockParam.BlockId,
@@ -34,7 +33,7 @@ func GetBlockCollaborators(jwtToken string, blockParam common.ResourceIdParam) (
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resBlock, err

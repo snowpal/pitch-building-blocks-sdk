@@ -9,7 +9,6 @@ import (
 )
 
 func UnarchiveBlock(jwtToken string, blockParam common.ResourceIdParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlocksUnarchiveBlock,
 		blockParam.BlockId,
@@ -29,7 +28,7 @@ func UnarchiveBlock(jwtToken string, blockParam common.ResourceIdParam) error {
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

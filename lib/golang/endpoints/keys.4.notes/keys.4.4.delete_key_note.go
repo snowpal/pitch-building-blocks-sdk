@@ -9,7 +9,6 @@ import (
 )
 
 func DeleteKeyNote(jwtToken string, commentParam request.NoteIdParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteKeysDeleteKeyNote,
 		*commentParam.NoteId,
@@ -23,7 +22,7 @@ func DeleteKeyNote(jwtToken string, commentParam request.NoteIdParam) error {
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

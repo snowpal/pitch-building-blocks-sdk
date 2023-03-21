@@ -12,7 +12,6 @@ import (
 
 func GetFilteredUserKeysBlocksAndPods(jwtToken string) ([]response.FilteredKey, error) {
 	resFilteredUserKeys := response.FilteredKeys{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteDashboardGetFilteredUserKeysBlocksAndPods)
 	if err != nil {
 		fmt.Println(err)
@@ -29,7 +28,7 @@ func GetFilteredUserKeysBlocksAndPods(jwtToken string) ([]response.FilteredKey, 
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resFilteredUserKeys.Keys, err

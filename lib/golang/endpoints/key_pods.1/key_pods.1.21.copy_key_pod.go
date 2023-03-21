@@ -10,7 +10,6 @@ import (
 )
 
 func CopyKeyPod(jwtToken string, podParam request.CopyMovePodParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteKeyPodsCopyKeyPod,
 		podParam.PodId,
@@ -34,7 +33,7 @@ func CopyKeyPod(jwtToken string, podParam request.CopyMovePodParam) error {
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

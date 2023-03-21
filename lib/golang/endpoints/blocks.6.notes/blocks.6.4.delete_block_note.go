@@ -9,7 +9,6 @@ import (
 )
 
 func DeleteBlockNote(jwtToken string, commentParam request.NoteIdParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlocksDeleteBlockNote,
 		*commentParam.NoteId,
@@ -24,7 +23,7 @@ func DeleteBlockNote(jwtToken string, commentParam request.NoteIdParam) error {
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

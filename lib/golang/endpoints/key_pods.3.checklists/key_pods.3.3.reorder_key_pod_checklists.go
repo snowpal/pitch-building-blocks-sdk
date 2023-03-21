@@ -24,7 +24,6 @@ func ReorderKeyPodChecklists(
 		return resChecklists.Checklists, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteKeyPodsReorderKeyPodChecklists,
 		*checklistParam.PodId,

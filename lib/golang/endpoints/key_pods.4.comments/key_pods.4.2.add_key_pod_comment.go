@@ -24,7 +24,6 @@ func AddKeyPodComment(
 		return resComment, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteKeyPodsAddKeyPodComment,
 		*commentParam.PodId,

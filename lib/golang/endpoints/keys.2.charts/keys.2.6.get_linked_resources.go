@@ -12,7 +12,6 @@ import (
 
 func GetLinkedResources(jwtToken string, keyId string) (response.LinkedResources, error) {
 	resLinkedResources := response.LinkedResources{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteKeysGetLinkedResources, keyId)
 	if err != nil {
 		fmt.Println(err)
@@ -29,7 +28,7 @@ func GetLinkedResources(jwtToken string, keyId string) (response.LinkedResources
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resLinkedResources, err

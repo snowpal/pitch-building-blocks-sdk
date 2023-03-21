@@ -33,7 +33,6 @@ func UpdateBlock(jwtToken string, reqBody UpdateBlockReqBody, blockParam common.
 		return resBlock, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteBlocksUpdateBlock, blockParam.BlockId, blockParam.KeyId)
 	if err != nil {
 		fmt.Println(err)

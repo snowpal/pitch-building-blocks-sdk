@@ -8,7 +8,6 @@ import (
 )
 
 func ArchiveKey(jwtToken string, keyId string) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteKeysArchiveKey, keyId)
 	if err != nil {
 		fmt.Println(err)
@@ -24,7 +23,7 @@ func ArchiveKey(jwtToken string, keyId string) error {
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

@@ -24,7 +24,6 @@ func ReorderBlockTasks(
 		return resTasks.Tasks, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlocksReorderBlockTasks,
 		*taskParam.BlockId,

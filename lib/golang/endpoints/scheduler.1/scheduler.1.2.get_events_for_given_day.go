@@ -13,7 +13,6 @@ import (
 
 func GetEventsForGivenDay(jwtToken string, dateParam request.EventDateParam) (response.AllEvents, error) {
 	resAllEvents := response.AllEvents{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteSchedulerGetEventsForGivenDay, dateParam.StartDate)
 	if err != nil {
 		fmt.Println(err)
@@ -27,7 +26,7 @@ func GetEventsForGivenDay(jwtToken string, dateParam request.EventDateParam) (re
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, _ := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resAllEvents, err

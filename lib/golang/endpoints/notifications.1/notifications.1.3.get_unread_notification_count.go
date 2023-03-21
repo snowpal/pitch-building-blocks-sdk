@@ -12,7 +12,6 @@ import (
 
 func GetUnreadNotificationCount(jwtToken string) (int, error) {
 	resUnreadCount := common.UnreadCount{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteNotificationsGetUnreadNotificationCount)
 	if err != nil {
 		fmt.Println(err)
@@ -29,7 +28,7 @@ func GetUnreadNotificationCount(jwtToken string) (int, error) {
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resUnreadCount.UnreadCount, err

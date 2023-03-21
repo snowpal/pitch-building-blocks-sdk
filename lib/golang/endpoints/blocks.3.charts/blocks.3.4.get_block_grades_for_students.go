@@ -18,7 +18,6 @@ type BlockGradesForStudents struct {
 
 func GetBlockGradesForStudents(jwtToken string, gradeParam common.ResourceIdParam) (BlockGradesForStudents, error) {
 	resBlockGrades := BlockGradesForStudents{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlocksGetBlockGradesForStudents,
 		gradeParam.BlockId,
@@ -39,7 +38,7 @@ func GetBlockGradesForStudents(jwtToken string, gradeParam common.ResourceIdPara
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resBlockGrades, err

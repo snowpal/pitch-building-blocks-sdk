@@ -8,7 +8,6 @@ import (
 )
 
 func DeleteBlockType(jwtToken string, blockTypeId string) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteBlockTypesDeleteBlockType, blockTypeId)
 	if err != nil {
 		fmt.Println(err)
@@ -23,7 +22,7 @@ func DeleteBlockType(jwtToken string, blockTypeId string) error {
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

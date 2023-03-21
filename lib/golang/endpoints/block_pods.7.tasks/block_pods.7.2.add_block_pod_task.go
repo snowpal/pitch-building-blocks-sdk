@@ -24,7 +24,6 @@ func AddBlockPodTask(
 		return resTask, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteBlockPodsAddBlockPodTask,
 		*taskParam.PodId,

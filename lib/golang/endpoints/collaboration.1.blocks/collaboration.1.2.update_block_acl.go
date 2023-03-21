@@ -25,7 +25,6 @@ func UpdateBlockAcl(
 		return resBlock, err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteCollaborationUpdateBlockAcl,
 		*blockAclParam.BlockId,

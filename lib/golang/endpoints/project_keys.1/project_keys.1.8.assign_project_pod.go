@@ -21,7 +21,6 @@ func AssignProjectPod(
 		return err
 	}
 	payload := strings.NewReader(requestBody)
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteProjectKeysAssignProjectPod,
 		projectPodParam.PodId,
@@ -42,7 +41,7 @@ func AssignProjectPod(
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

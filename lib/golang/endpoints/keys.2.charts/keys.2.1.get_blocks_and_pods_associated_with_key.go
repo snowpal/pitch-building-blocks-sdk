@@ -12,7 +12,6 @@ import (
 
 func GetBlocksAndPodsAssociatedWithKey(jwtToken string, keyId string) (response.UserKey, error) {
 	resUserKey := response.UserKey{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteKeysGetBlocksAndPodsAssociatedWithKey, keyId)
 	if err != nil {
 		fmt.Println(err)
@@ -29,7 +28,7 @@ func GetBlocksAndPodsAssociatedWithKey(jwtToken string, keyId string) (response.
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resUserKey, err

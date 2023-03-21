@@ -12,7 +12,6 @@ import (
 
 func GetFavorites(jwtToken string) ([]response.Favorite, error) {
 	resFavorites := response.Favorites{}
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteFavoritesGetFavorites)
 	if err != nil {
 		fmt.Println(err)
@@ -29,7 +28,7 @@ func GetFavorites(jwtToken string) ([]response.Favorite, error) {
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resFavorites.Favorites, err

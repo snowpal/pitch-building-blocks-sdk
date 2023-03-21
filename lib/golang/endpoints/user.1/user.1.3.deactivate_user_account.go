@@ -8,7 +8,6 @@ import (
 )
 
 func DeactivateUserAccount(jwtToken string) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(golang.RouteUserDeactivateUserAccount)
 	if err != nil {
 		fmt.Println(err)
@@ -24,7 +23,7 @@ func DeactivateUserAccount(jwtToken string) error {
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

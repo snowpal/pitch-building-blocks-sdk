@@ -9,7 +9,6 @@ import (
 )
 
 func UnrelateKeyFromPod(jwtToken string, relationParam request.KeyToPodRelationParam) error {
-	client := &http.Client{}
 	route, err := helpers.GetRoute(
 		golang.RouteRelationsUnrelatePodFromKey,
 		relationParam.KeyId,
@@ -30,7 +29,7 @@ func UnrelateKeyFromPod(jwtToken string, relationParam request.KeyToPodRelationP
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	_, err = client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err
