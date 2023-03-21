@@ -121,11 +121,16 @@ func linkResources(
 func addResources(user response.User, newKey response.Key) (response.Pod, response.Block, response.Pod, error) {
 	log.Info("Add a new key pod into this key")
 	helpers.SleepBefore()
+
+	var (
+		pod   response.Pod
+		block response.Block
+	)
 	newPod, err := keyPods.AddKeyPod(user.JwtToken, request.AddPodReqBody{
 		Name: Pod1Name,
 	}, newKey.ID)
 	if err != nil {
-		return response.Pod{}, response.Block{}, response.Pod{}, err
+		return pod, block, pod, err
 	}
 	log.Printf(".Key Pod, %s is created successfully in %s Key.", newPod.Name, newKey.Name)
 	helpers.SleepAfter()
@@ -133,20 +138,22 @@ func addResources(user response.User, newKey response.Key) (response.Pod, respon
 	var newBlock response.Block
 	newBlock, err = addBlock(user, Block1Name, newKey)
 	if err != nil {
-		return response.Pod{}, response.Block{}, response.Pod{}, err
+		return pod, block, pod, err
 	}
 
 	log.Info("Add a new block pod in this block")
 	helpers.SleepBefore()
 	var newBlockPod response.Pod
-	newBlockPod, err = block_pods.AddBlockPod(user.JwtToken, request.AddPodReqBody{
-		Name: BlockPod1Name,
-	}, common.ResourceIdParam{
-		BlockId: newBlock.ID,
-		KeyId:   newKey.ID,
-	})
+	newBlockPod, err = block_pods.AddBlockPod(user.JwtToken,
+		request.AddPodReqBody{
+			Name: BlockPod1Name,
+		},
+		common.ResourceIdParam{
+			BlockId: newBlock.ID,
+			KeyId:   newKey.ID,
+		})
 	if err != nil {
-		return response.Pod{}, response.Block{}, response.Pod{}, err
+		return pod, block, pod, err
 	}
 	log.Printf(".Block Pod, %s is created successfully in %s Block.", newBlockPod.Name, newBlock.Name)
 	helpers.SleepAfter()
