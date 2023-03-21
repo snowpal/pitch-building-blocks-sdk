@@ -26,7 +26,7 @@ const (
 
 // Add block, pod & block pod to a key and link them into another key
 func main() {
-	log.Info("PURPOSE: ")
+	log.Info("Objective: Add keys and blocks, and link blocks")
 	user, err := signUserIn("tax_user@yopmail.com", golang.Password)
 	if err != nil {
 		return
@@ -136,7 +136,7 @@ func addResources(user response.User, newKey response.Key) (response.Pod, respon
 		return response.Pod{}, response.Block{}, response.Pod{}, err
 	}
 
-	log.Info("Add a new block pod into this block")
+	log.Info("Add a new block pod in this block")
 	helpers.SleepBefore()
 	var newBlockPod response.Pod
 	newBlockPod, err = block_pods.AddBlockPod(user.JwtToken, request.AddPodReqBody{

@@ -20,8 +20,8 @@ const (
 	ShareTrialBlockName = "ShareTrailBlock"
 )
 
-// Create block, share users as read & write, make 1 of them as admin.
 func main() {
+	log.Info("Objective: Create block, share users as read & write, make 1 of them as admin.")
 	user, err := signInToShareBlock(ActiveUser, golang.Password)
 	if err != nil {
 		return
