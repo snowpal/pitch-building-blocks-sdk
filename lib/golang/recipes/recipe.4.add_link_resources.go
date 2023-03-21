@@ -6,7 +6,6 @@ import (
 	blocks "development/go/recipes/lib/golang/endpoints/blocks.1"
 	keyPods "development/go/recipes/lib/golang/endpoints/key_pods.1"
 	keys "development/go/recipes/lib/golang/endpoints/keys.1"
-	registration "development/go/recipes/lib/golang/endpoints/registration.1"
 	"development/go/recipes/lib/golang/helpers"
 	"development/go/recipes/lib/golang/structs/common"
 	"development/go/recipes/lib/golang/structs/request"
@@ -27,7 +26,7 @@ const (
 // Add block, pod & block pod to a key and link them into another key
 func main() {
 	log.Info("Objective: Add keys and blocks, and link blocks")
-	user, err := signUserIn("tax_user@yopmail.com", golang.Password)
+	user, err := helpers.SignIn("tax_user@yopmail.com", golang.Password)
 	if err != nil {
 		return
 	}
@@ -194,19 +193,4 @@ func addCustomKey(user response.User, keyName string) (response.Key, error) {
 	log.Printf(".Key, %s is created successfully.", newKey.Name)
 	helpers.SleepAfter()
 	return newKey, nil
-}
-
-func signUserIn(email string, password string) (response.User, error) {
-	log.Info("Sign in user with email: ", email)
-	helpers.SleepBefore()
-	user, err := registration.SignInByEmail(request.SignInReqBody{
-		Email:    email,
-		Password: password,
-	})
-	if err != nil {
-		return response.User{}, err
-	}
-	log.Info(".User successfully signed in, acquired JWT token")
-	helpers.SleepAfter()
-	return user, nil
 }
