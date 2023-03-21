@@ -10,10 +10,10 @@ import (
 	"fmt"
 )
 
+const Email = "apiuser3@gmail.com"
+
 func main() {
 	log.Info("Objective: Sign up, activate user, sign in, get all keys")
-
-	const Email = "apiuser3@gmail.com"
 	log.Info(".sign up user with email: ", Email)
 	signUpReqBody := request.SignupReqBody{
 		Email:           Email,

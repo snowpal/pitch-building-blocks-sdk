@@ -14,7 +14,7 @@ import (
 // sign in, update key attributes, update block attributes, update pod attributes, update block pod attributes,
 // get resource attributes
 func main() {
-	log.Info("PURPOSE: ")
+	log.Info("Objective: ")
 	log.Info(".sign in user email: ", Email)
 	userSignIn, err := registration.SignInByEmail(request.SignInReqBody{
 		Email:    Email,
