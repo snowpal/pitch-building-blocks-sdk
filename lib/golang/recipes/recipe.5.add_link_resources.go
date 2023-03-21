@@ -16,37 +16,40 @@ import (
 
 const (
 	CustomKeyType    = "CustomKey"
-	Key1Name         = "CKey1"
-	AnotherKeyName   = "CKey2"
-	Block1Name       = "CBlock1"
-	AnotherBlockName = "CBlock2"
-	Pod1Name         = "CKeyPod1"
-	BlockPod1Name    = "CBlockPod1"
+	Key1Name         = "Taxes"
+	AnotherKeyName   = "State Taxes"
+	Block1Name       = "Form 1040"
+	AnotherBlockName = "Form 1120S"
+	Pod1Name         = "Income"
+	BlockPod1Name    = "Expenses"
 )
 
 // Add block, pod & block pod to a key and link them into another key
 func main() {
-	const Email = "api_code_user1@yopmail.com"
-	user, err := signInToAddAndLink(Email, golang.Password)
+	log.Info("PURPOSE: ")
+	user, err := signUserIn("tax_user@yopmail.com", golang.Password)
 	if err != nil {
 		return
 	}
 
 	var newKey response.Key
+	log.Info("Add a new custom key")
 	newKey, err = addCustomKey(user, Key1Name)
 	if err != nil {
 		return
 	}
 
-	var newPod response.Pod
-	var newBlock response.Block
-	var newBlockPod response.Pod
+	var (
+		newPod      response.Pod
+		newBlock    response.Block
+		newBlockPod response.Pod
+	)
 	newPod, newBlock, newBlockPod, err = addResources(user, newKey)
 	if err != nil {
 		return
 	}
 
-	log.Info("Add another key to link block & pod")
+	log.Info("Add another key")
 	helpers.SleepBefore()
 	var anotherKey response.Key
 	anotherKey, err = addCustomKey(user, AnotherKeyName)
@@ -54,7 +57,7 @@ func main() {
 		return
 	}
 
-	log.Info("Add another block to link pod")
+	log.Info("Add block")
 	helpers.SleepBefore()
 	var anotherBlock response.Block
 	anotherBlock, err = addBlock(user, AnotherBlockName, newKey)
@@ -76,7 +79,7 @@ func linkResources(
 	newBlockPod response.Pod,
 	newPod response.Pod,
 ) error {
-	log.Info("Link key pod into this another key")
+	log.Info("Link key pod into the other key")
 	helpers.SleepBefore()
 	err := keyPods.LinkPodToKey(user.JwtToken, common.ResourceIdParam{
 		PodId: newBlockPod.ID,
@@ -88,7 +91,7 @@ func linkResources(
 	log.Printf(".Block Pod, %s is linked successfully to %s Key.", newBlockPod.Name, anotherKey.Name)
 	helpers.SleepAfter()
 
-	log.Info("Link block into this another key")
+	log.Info("Link block into the other key")
 	helpers.SleepBefore()
 	err = blocks.LinkBlockToKey(user.JwtToken, common.ResourceIdParam{
 		BlockId: newBlock.ID,
@@ -100,7 +103,7 @@ func linkResources(
 	log.Printf(".Block, %s is linked successfully to %s Key.", newBlock.Name, anotherKey.Name)
 	helpers.SleepAfter()
 
-	log.Info("Link key pod into this another block")
+	log.Info("Link key pod into the other block")
 	helpers.SleepBefore()
 	err = block_pods.LinkPodToBlock(user.JwtToken, common.ResourceIdParam{
 		PodId:   newPod.ID,
@@ -165,7 +168,6 @@ func addBlock(user response.User, blockName string, newKey response.Key) (respon
 }
 
 func addCustomKey(user response.User, keyName string) (response.Key, error) {
-	log.Info("Add a new custom key")
 	helpers.SleepBefore()
 	newKey, err := keys.AddKey(user.JwtToken, request.AddKeyReqBody{
 		Name: keyName,
@@ -179,7 +181,7 @@ func addCustomKey(user response.User, keyName string) (response.Key, error) {
 	return newKey, nil
 }
 
-func signInToAddAndLink(email string, password string) (response.User, error) {
+func signUserIn(email string, password string) (response.User, error) {
 	log.Info("Sign in user with email: ", email)
 	helpers.SleepBefore()
 	user, err := registration.SignInByEmail(request.SignInReqBody{

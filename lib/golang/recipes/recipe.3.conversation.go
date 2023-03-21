@@ -12,12 +12,13 @@ import (
 
 const Password string = "Welcome1!"
 const (
-	User1Email string = "rajesh@yopmail.com"
-	User2Email string = "milan@yopmail.com"
+	User1Email string = "mike@yopmail.com"
+	User2Email string = "george@yopmail.com"
 )
 
 // Sign up, activate user, sign in, get all keys.
 func main() {
+	log.Info("PURPOSE: ")
 	user, err := signIn()
 	if err != nil {
 		return
