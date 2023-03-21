@@ -12,9 +12,8 @@ import (
 
 const Email = "apiuser3@gmail.com"
 
-// Sign up, activate user, sign in, get all keys.
 func main() {
-	log.Info("PURPOSE: ")
+	log.Info("Objective: Sign up, activate user, sign in, get all keys")
 	log.Info(".sign up user with email: ", Email)
 	signUpReqBody := request.SignupReqBody{
 		Email:           Email,

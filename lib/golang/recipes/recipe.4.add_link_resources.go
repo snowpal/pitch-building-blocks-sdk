@@ -26,7 +26,7 @@ const (
 
 // Add block, pod & block pod to a key and link them into another key
 func main() {
-	log.Info("PURPOSE: ")
+	log.Info("Objective: Add keys and blocks, and link blocks")
 	user, err := signUserIn("tax_user@yopmail.com", golang.Password)
 	if err != nil {
 		return
@@ -44,7 +44,7 @@ func main() {
 		newBlock    response.Block
 		newBlockPod response.Pod
 	)
-	newPod, newBlock, newBlockPod, err = addResources(user, newKey)
+	newPod, newBlock, newBlockPod, err = addBlocksAndPods(user, newKey)
 	if err != nil {
 		return
 	}
@@ -81,10 +81,11 @@ func linkResources(
 ) error {
 	log.Info("Link key pod into the other key")
 	helpers.SleepBefore()
-	err := keyPods.LinkPodToKey(user.JwtToken, common.ResourceIdParam{
-		PodId: newBlockPod.ID,
-		KeyId: anotherKey.ID,
-	})
+	err := keyPods.LinkPodToKey(user.JwtToken,
+		common.ResourceIdParam{
+			PodId: newBlockPod.ID,
+			KeyId: anotherKey.ID,
+		})
 	if err != nil {
 		return err
 	}
@@ -93,10 +94,11 @@ func linkResources(
 
 	log.Info("Link block into the other key")
 	helpers.SleepBefore()
-	err = blocks.LinkBlockToKey(user.JwtToken, common.ResourceIdParam{
-		BlockId: newBlock.ID,
-		KeyId:   anotherKey.ID,
-	})
+	err = blocks.LinkBlockToKey(user.JwtToken,
+		common.ResourceIdParam{
+			BlockId: newBlock.ID,
+			KeyId:   anotherKey.ID,
+		})
 	if err != nil {
 		return err
 	}
@@ -105,11 +107,12 @@ func linkResources(
 
 	log.Info("Link key pod into the other block")
 	helpers.SleepBefore()
-	err = block_pods.LinkPodToBlock(user.JwtToken, common.ResourceIdParam{
-		PodId:   newPod.ID,
-		BlockId: anotherBlock.ID,
-		KeyId:   anotherKey.ID,
-	})
+	err = block_pods.LinkPodToBlock(user.JwtToken,
+		common.ResourceIdParam{
+			PodId:   newPod.ID,
+			BlockId: anotherBlock.ID,
+			KeyId:   anotherKey.ID,
+		})
 	if err != nil {
 		return err
 	}
@@ -118,14 +121,21 @@ func linkResources(
 	return nil
 }
 
-func addResources(user response.User, newKey response.Key) (response.Pod, response.Block, response.Pod, error) {
+func addBlocksAndPods(user response.User, newKey response.Key) (response.Pod, response.Block, response.Pod, error) {
 	log.Info("Add a new key pod into this key")
 	helpers.SleepBefore()
-	newPod, err := keyPods.AddKeyPod(user.JwtToken, request.AddPodReqBody{
-		Name: Pod1Name,
-	}, newKey.ID)
+
+	var (
+		pod   response.Pod
+		block response.Block
+	)
+	newPod, err := keyPods.AddKeyPod(user.JwtToken,
+		request.AddPodReqBody{
+			Name: Pod1Name,
+		},
+		newKey.ID)
 	if err != nil {
-		return response.Pod{}, response.Block{}, response.Pod{}, err
+		return pod, block, pod, err
 	}
 	log.Printf(".Key Pod, %s is created successfully in %s Key.", newPod.Name, newKey.Name)
 	helpers.SleepAfter()
@@ -133,20 +143,22 @@ func addResources(user response.User, newKey response.Key) (response.Pod, respon
 	var newBlock response.Block
 	newBlock, err = addBlock(user, Block1Name, newKey)
 	if err != nil {
-		return response.Pod{}, response.Block{}, response.Pod{}, err
+		return pod, block, pod, err
 	}
 
-	log.Info("Add a new block pod into this block")
+	log.Info("Add a new block pod in this block")
 	helpers.SleepBefore()
 	var newBlockPod response.Pod
-	newBlockPod, err = block_pods.AddBlockPod(user.JwtToken, request.AddPodReqBody{
-		Name: BlockPod1Name,
-	}, common.ResourceIdParam{
-		BlockId: newBlock.ID,
-		KeyId:   newKey.ID,
-	})
+	newBlockPod, err = block_pods.AddBlockPod(user.JwtToken,
+		request.AddPodReqBody{
+			Name: BlockPod1Name,
+		},
+		common.ResourceIdParam{
+			BlockId: newBlock.ID,
+			KeyId:   newKey.ID,
+		})
 	if err != nil {
-		return response.Pod{}, response.Block{}, response.Pod{}, err
+		return pod, block, pod, err
 	}
 	log.Printf(".Block Pod, %s is created successfully in %s Block.", newBlockPod.Name, newBlock.Name)
 	helpers.SleepAfter()
@@ -156,9 +168,11 @@ func addResources(user response.User, newKey response.Key) (response.Pod, respon
 func addBlock(user response.User, blockName string, newKey response.Key) (response.Block, error) {
 	log.Info("Add a new block into this key")
 	helpers.SleepBefore()
-	newBlock, err := blocks.AddBlock(user.JwtToken, request.AddBlockReqBody{
-		Name: blockName,
-	}, newKey.ID)
+	newBlock, err := blocks.AddBlock(user.JwtToken,
+		request.AddBlockReqBody{
+			Name: blockName,
+		},
+		newKey.ID)
 	if err != nil {
 		return response.Block{}, err
 	}
@@ -169,10 +183,11 @@ func addBlock(user response.User, blockName string, newKey response.Key) (respon
 
 func addCustomKey(user response.User, keyName string) (response.Key, error) {
 	helpers.SleepBefore()
-	newKey, err := keys.AddKey(user.JwtToken, request.AddKeyReqBody{
-		Name: keyName,
-		Type: CustomKeyType,
-	})
+	newKey, err := keys.AddKey(user.JwtToken,
+		request.AddKeyReqBody{
+			Name: keyName,
+			Type: CustomKeyType,
+		})
 	if err != nil {
 		return response.Key{}, err
 	}

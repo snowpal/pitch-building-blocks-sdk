@@ -12,7 +12,7 @@ import (
 
 // sign in, get resource attributes
 func main() {
-	log.Info("PURPOSE: ")
+	log.Info("Objective: Get resource attributes")
 	log.Info(".sign in user email: ", Email)
 	reqBody := request.SignInReqBody{
 		Email:    Email,

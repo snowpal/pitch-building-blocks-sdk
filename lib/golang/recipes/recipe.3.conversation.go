@@ -18,7 +18,7 @@ const (
 
 // Sign up, activate user, sign in, get all keys.
 func main() {
-	log.Info("PURPOSE: ")
+	log.Info("Objective: Send messages to a private conversation")
 	user, err := signIn()
 	if err != nil {
 		return
