@@ -36,7 +36,7 @@ func GetBlocks(jwtToken string, blockParam request.GetBlocksParam) ([]response.B
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err := helpers.MakeRequest(req)
+	res, err = helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resBlocks.Blocks, err

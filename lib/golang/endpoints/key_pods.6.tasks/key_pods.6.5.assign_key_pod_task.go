@@ -30,7 +30,7 @@ func AssignKeyPodTask(jwtToken string, reqBody request.AssignTaskReqBody, taskPa
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := helpers.MakeRequest(req)
+	_, err = helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

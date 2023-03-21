@@ -26,7 +26,7 @@ func GetBlockTypes(jwtToken string, includeCounts bool) ([]response.BlockType, e
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resBlockTypes.BlockTypes, err

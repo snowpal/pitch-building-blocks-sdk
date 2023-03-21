@@ -23,7 +23,7 @@ func LeaveBlockPod(jwtToken string, podParam common.ResourceIdParam) error {
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := helpers.MakeRequest(req)
+	_, err = helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

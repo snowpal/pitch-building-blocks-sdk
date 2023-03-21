@@ -38,7 +38,7 @@ func AddKeyPod(jwtToken string, reqBody request.AddPodReqBody, keyId string) (re
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err := helpers.MakeRequest(req)
+	res, err = helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resPod, err

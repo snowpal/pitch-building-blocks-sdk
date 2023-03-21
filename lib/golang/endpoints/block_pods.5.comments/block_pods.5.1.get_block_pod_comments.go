@@ -32,7 +32,7 @@ func GetBlockPodComments(jwtToken string, commentParam request.CommentIdParam) (
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resComments.Comments, err

@@ -27,7 +27,7 @@ func GetBlock(jwtToken string, blockParam common.ResourceIdParam) (response.Bloc
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resBlock, err

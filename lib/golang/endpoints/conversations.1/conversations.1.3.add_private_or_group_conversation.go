@@ -38,7 +38,7 @@ func AddPrivateOrGroupConversation(jwtToken string, reqBody ConversationReqBody)
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resConversation, err

@@ -33,7 +33,7 @@ func GetUsersThisBlockPodCanBeSharedWith(jwtToken string, podAclParam common.Acl
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resUsers.SearchUsers, err

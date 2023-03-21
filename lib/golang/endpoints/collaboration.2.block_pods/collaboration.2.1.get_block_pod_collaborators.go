@@ -34,7 +34,7 @@ func GetBlockPodCollaborators(jwtToken string, podParam common.ResourceIdParam) 
 	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err := helpers.MakeRequest(req)
+	res, err = helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resPod, err

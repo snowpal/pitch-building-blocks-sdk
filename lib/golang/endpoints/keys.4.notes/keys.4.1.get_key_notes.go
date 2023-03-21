@@ -30,7 +30,7 @@ func GetKeyNotes(jwtToken string, noteParam request.NoteIdParam) ([]response.Not
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resNotes.Notes, err

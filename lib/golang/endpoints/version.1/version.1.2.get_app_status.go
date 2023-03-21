@@ -28,7 +28,7 @@ func GetAppStatus() (response.Version, error) {
 	helpers.AddAppHeaders(req)
 
 	var res *http.Response
-	res, err := helpers.MakeRequest(req)
+	res, err = helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resAppStatus, err

@@ -30,7 +30,7 @@ func DeleteBlockPodChecklistItem(jwtToken string, checklistParam request.Checkli
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := helpers.MakeRequest(req)
+	_, err = helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err

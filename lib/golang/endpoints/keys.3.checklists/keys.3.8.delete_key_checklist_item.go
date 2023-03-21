@@ -28,7 +28,7 @@ func DeleteKeyChecklistItem(jwtToken string, checklistParam request.ChecklistIdP
 
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := helpers.MakeRequest(req)
+	_, err = helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return err
