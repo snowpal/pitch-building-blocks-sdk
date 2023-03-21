@@ -22,7 +22,7 @@ func SleepAfter() {
 // ValidateDependencies We require that the first recipe be run before anything else as it registers a bunch of users.
 // To verify if it was actually run, we do this "random" check.
 func ValidateDependencies() (response.User, error) {
-	user, err := SignIn("a3@gmail.com", golang.Password)
+	user, err := SignIn(golang.DefaultEmail, golang.Password)
 	fmt.Println(user)
 	fmt.Println(err)
 	if err != nil {
