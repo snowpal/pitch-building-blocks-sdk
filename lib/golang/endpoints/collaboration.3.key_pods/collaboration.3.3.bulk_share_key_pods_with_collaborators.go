@@ -24,7 +24,7 @@ func ShareKeyPodsWithCollaborators(
 	route, err := helpers.GetRoute(
 		golang.RouteCollaborationBulkShareKeyPodsWithCollaborators,
 		podAclParam.UserId,
-		podAclParam.KeyId,
+		podAclParam.ResourceIds.KeyId,
 	)
 	if err != nil {
 		fmt.Println(err)

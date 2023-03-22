@@ -27,9 +27,9 @@ func UpdateKeyPodAcl(
 	payload := strings.NewReader(requestBody)
 	route, err := helpers.GetRoute(
 		golang.RouteCollaborationUpdateKeyPodAcl,
-		*podAclParam.PodId,
+		podAclParam.ResourceIds.PodId,
 		podAclParam.UserId,
-		podAclParam.KeyId,
+		podAclParam.ResourceIds.KeyId,
 	)
 	req, err := http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {

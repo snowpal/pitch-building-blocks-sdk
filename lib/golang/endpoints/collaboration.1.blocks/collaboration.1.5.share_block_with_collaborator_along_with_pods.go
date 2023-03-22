@@ -31,9 +31,9 @@ func ShareBlockWithUserWithPods(
 	payload := strings.NewReader(requestBody)
 	route, err := helpers.GetRoute(
 		golang.RouteCollaborationShareBlockWithCollaboratorAlongWithPods,
-		*blockAclParam.BlockId,
+		blockAclParam.ResourceIds.BlockId,
 		blockAclParam.UserId,
-		blockAclParam.KeyId,
+		blockAclParam.ResourceIds.KeyId,
 	)
 	req, err := http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {

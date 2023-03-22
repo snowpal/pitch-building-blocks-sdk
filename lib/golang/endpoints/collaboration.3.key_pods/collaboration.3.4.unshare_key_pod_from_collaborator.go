@@ -15,10 +15,9 @@ func UnshareKeyPodWithCollaborator(jwtToken string, podAclParam common.AclParam)
 	resPod := response.Pod{}
 	route, err := helpers.GetRoute(
 		golang.RouteCollaborationUnshareKeyPodFromCollaborator,
-		*podAclParam.PodId,
+		podAclParam.ResourceIds.PodId,
 		podAclParam.UserId,
-		podAclParam.KeyId,
-		*podAclParam.BlockId,
+		podAclParam.ResourceIds.KeyId,
 	)
 	req, err := http.NewRequest(http.MethodPatch, route, nil)
 	if err != nil {

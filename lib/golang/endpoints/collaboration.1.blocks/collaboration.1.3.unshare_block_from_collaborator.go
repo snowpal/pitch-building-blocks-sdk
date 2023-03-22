@@ -15,9 +15,9 @@ func UnshareBlockWithCollaborator(jwtToken string, blockAclParam common.AclParam
 	resBlock := response.Block{}
 	route, err := helpers.GetRoute(
 		golang.RouteCollaborationUnshareBlockFromCollaborator,
-		*blockAclParam.BlockId,
+		blockAclParam.ResourceIds.BlockId,
 		blockAclParam.UserId,
-		blockAclParam.KeyId,
+		blockAclParam.ResourceIds.KeyId,
 	)
 	req, err := http.NewRequest(http.MethodPatch, route, nil)
 	if err != nil {

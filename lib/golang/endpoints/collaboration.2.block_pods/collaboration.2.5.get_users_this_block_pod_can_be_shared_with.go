@@ -11,14 +11,17 @@ import (
 	"net/http"
 )
 
-func GetUsersThisBlockPodCanBeSharedWith(jwtToken string, podAclParam common.AclParam) ([]response.SearchUser, error) {
+func GetUsersThisBlockPodCanBeSharedWith(
+	jwtToken string,
+	podAclParam common.SearchUsersParam,
+) ([]response.SearchUser, error) {
 	resUsers := response.SearchUsers{}
 	route, err := helpers.GetRoute(
 		golang.RouteCollaborationGetUsersThisBlockPodCanBeSharedWith,
-		*podAclParam.PodId,
-		podAclParam.KeyId,
-		*podAclParam.BlockId,
-		*podAclParam.SearchToken,
+		podAclParam.ResourceIds.PodId,
+		podAclParam.ResourceIds.KeyId,
+		podAclParam.ResourceIds.BlockId,
+		podAclParam.SearchToken,
 	)
 	if err != nil {
 		fmt.Println(err)

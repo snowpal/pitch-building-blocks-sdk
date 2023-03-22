@@ -58,6 +58,5 @@ func MakeRequest(req *http.Request) (*http.Response, error) {
 		fmt.Println(err)
 		return res, errors.New("API Request Failed")
 	}
-
 	return res, nil
 }

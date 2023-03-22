@@ -5,7 +5,6 @@ import (
 	"development/go/recipes/lib/golang/endpoints/block_pods.1"
 	blocks "development/go/recipes/lib/golang/endpoints/blocks.1"
 	keyPods "development/go/recipes/lib/golang/endpoints/key_pods.1"
-	keys "development/go/recipes/lib/golang/endpoints/keys.1"
 	"development/go/recipes/lib/golang/helpers/recipes"
 	"development/go/recipes/lib/golang/structs/common"
 	"development/go/recipes/lib/golang/structs/request"
@@ -14,7 +13,6 @@ import (
 )
 
 const (
-	CustomKeyType    = "CustomKey"
 	Key1Name         = "Taxes"
 	AnotherKeyName   = "State Taxes"
 	Block1Name       = "Form 1040"
@@ -38,10 +36,13 @@ func main() {
 
 	var newKey response.Key
 	log.Info("Add a new custom key")
-	newKey, err = addCustomKey(user, Key1Name)
+	recipes.SleepBefore()
+	newKey, err = recipes.AddCustomKey(user, Key1Name)
 	if err != nil {
 		return
 	}
+	log.Printf(".Key, %s is added successfully.", newKey.Name)
+	recipes.SleepAfter()
 
 	var (
 		newPod      response.Pod
@@ -56,7 +57,7 @@ func main() {
 	log.Info("Add another key")
 	recipes.SleepBefore()
 	var anotherKey response.Key
-	anotherKey, err = addCustomKey(user, AnotherKeyName)
+	anotherKey, err = recipes.AddCustomKey(user, AnotherKeyName)
 	if err != nil {
 		return
 	}
@@ -64,10 +65,12 @@ func main() {
 	log.Info("Add block")
 	recipes.SleepBefore()
 	var anotherBlock response.Block
-	anotherBlock, err = addBlock(user, AnotherBlockName, newKey)
+	anotherBlock, err = recipes.AddBlock(user, AnotherBlockName, newKey)
 	if err != nil {
 		return
 	}
+	log.Printf(".Block, %s is created successfully.", newBlock.Name)
+	recipes.SleepAfter()
 
 	err = linkResources(user, anotherKey, anotherBlock, newBlock, newBlockPod, newPod)
 	if err != nil {
@@ -144,11 +147,15 @@ func addBlocksAndPods(user response.User, newKey response.Key) (response.Pod, re
 	log.Printf(".Key Pod, %s is created successfully in %s Key.", newPod.Name, newKey.Name)
 	recipes.SleepAfter()
 
+	log.Info("Add a new block")
+	recipes.SleepBefore()
 	var newBlock response.Block
-	newBlock, err = addBlock(user, Block1Name, newKey)
+	newBlock, err = recipes.AddBlock(user, Block1Name, newKey)
 	if err != nil {
 		return pod, block, pod, err
 	}
+	log.Printf(".Block, %s is created successfully.", newBlock.Name)
+	recipes.SleepAfter()
 
 	log.Info("Add a new block pod in this block")
 	recipes.SleepBefore()
@@ -167,35 +174,4 @@ func addBlocksAndPods(user response.User, newKey response.Key) (response.Pod, re
 	log.Printf(".Block Pod, %s is created successfully in %s Block.", newBlockPod.Name, newBlock.Name)
 	recipes.SleepAfter()
 	return newPod, newBlock, newBlockPod, nil
-}
-
-func addBlock(user response.User, blockName string, key response.Key) (response.Block, error) {
-	log.Info("Add a new block into this key")
-	recipes.SleepBefore()
-	newBlock, err := blocks.AddBlock(user.JwtToken,
-		request.AddBlockReqBody{
-			Name: blockName,
-		},
-		key.ID)
-	if err != nil {
-		return response.Block{}, err
-	}
-	log.Printf(".Block, %s is created successfully in %s Key.", newBlock.Name, key.Name)
-	recipes.SleepAfter()
-	return newBlock, nil
-}
-
-func addCustomKey(user response.User, keyName string) (response.Key, error) {
-	recipes.SleepBefore()
-	newKey, err := keys.AddKey(user.JwtToken,
-		request.AddKeyReqBody{
-			Name: keyName,
-			Type: CustomKeyType,
-		})
-	if err != nil {
-		return response.Key{}, err
-	}
-	log.Printf(".Key, %s is created successfully.", newKey.Name)
-	recipes.SleepAfter()
-	return newKey, nil
 }

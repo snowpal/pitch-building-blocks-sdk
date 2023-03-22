@@ -29,10 +29,12 @@ type ResourceIdParam struct {
 	PodId   string
 }
 
+type SearchUsersParam struct {
+	SearchToken string
+	ResourceIds ResourceIdParam
+}
+
 type AclParam struct {
 	UserId      string
-	KeyId       string
-	BlockId     *string
-	PodId       *string
-	SearchToken *string
+	ResourceIds ResourceIdParam
 }

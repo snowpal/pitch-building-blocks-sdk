@@ -27,9 +27,9 @@ func ShareBlockWithCollaborator(
 	payload := strings.NewReader(requestBody)
 	route, err := helpers.GetRoute(
 		golang.RouteCollaborationShareBlockWithCollaborator,
-		*blockAclParam.BlockId,
+		blockAclParam.ResourceIds.BlockId,
 		blockAclParam.UserId,
-		blockAclParam.KeyId,
+		blockAclParam.ResourceIds.KeyId,
 	)
 	req, err := http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {

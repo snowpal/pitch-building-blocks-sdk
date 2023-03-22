@@ -510,6 +510,7 @@ const (
 const (
 	RouteUserGetUsers              = "users"
 	RouteUserGetUserByUuid         = "users/uuid/%s"
+	RouteUserGetUserByEmail        = "users/email/%s"
 	RouteUserDeactivateUserAccount = "users/deactivate-account"
 )
 

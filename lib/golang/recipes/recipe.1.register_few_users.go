@@ -23,12 +23,12 @@ func main() {
 		return
 	}
 
-	_, err = recipes.RegisterUser(golang.UserWithRead)
+	_, err = recipes.RegisterUser(golang.ReadUser)
 	if err != nil {
 		return
 	}
 
-	_, err = recipes.RegisterUser(golang.UserWithWrite)
+	_, err = recipes.RegisterUser(golang.WriteUser)
 	if err != nil {
 		return
 	}

@@ -34,11 +34,11 @@ type SearchUsers struct {
 }
 
 type SearchUser struct {
-	ID        string `json:"userId"`
+	ID        string `json:"id"`
 	ProfileID string `json:"profileId"`
 	Username  string `json:"userName"`
 	FirstName string `json:"firstName"`
-	FullName  string `json:"FullName"`
+	FullName  string `json:"fullName"`
 }
 
 type SharedUser struct {

@@ -27,10 +27,10 @@ func UpdateBlockPodAcl(
 	payload := strings.NewReader(requestBody)
 	route, err := helpers.GetRoute(
 		golang.RouteCollaborationUpdateBlockPodAcl,
-		*podAclParam.PodId,
+		podAclParam.ResourceIds.PodId,
 		podAclParam.UserId,
-		podAclParam.KeyId,
-		*podAclParam.BlockId,
+		podAclParam.ResourceIds.KeyId,
+		podAclParam.ResourceIds.BlockId,
 	)
 	req, err := http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {

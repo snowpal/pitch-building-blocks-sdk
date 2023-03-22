@@ -15,10 +15,10 @@ func UnshareBlockPodWithCollaborator(jwtToken string, podAclParam common.AclPara
 	resPod := response.Pod{}
 	route, err := helpers.GetRoute(
 		golang.RouteCollaborationUnshareBlockPodFromCollaborator,
-		*podAclParam.PodId,
+		podAclParam.ResourceIds.PodId,
 		podAclParam.UserId,
-		podAclParam.KeyId,
-		*podAclParam.BlockId,
+		podAclParam.ResourceIds.KeyId,
+		podAclParam.ResourceIds.BlockId,
 	)
 	req, err := http.NewRequest(http.MethodPatch, route, nil)
 	if err != nil {

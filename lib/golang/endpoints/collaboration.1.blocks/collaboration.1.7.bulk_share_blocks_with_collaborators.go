@@ -28,7 +28,7 @@ func ShareBlocksWithCollaborators(
 	route, err := helpers.GetRoute(
 		golang.RouteCollaborationBulkShareBlocksWithCollaborators,
 		blockAclParam.UserId,
-		blockAclParam.KeyId,
+		blockAclParam.ResourceIds.KeyId,
 	)
 	if err != nil {
 		fmt.Println(err)
