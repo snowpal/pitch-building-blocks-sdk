@@ -13,6 +13,11 @@ const (
 
 func main() {
 	log.Info("Objective: Create block, share users as read & write, make 1 of them as admin.")
+	_, err := recipes.ValidateDependencies()
+	if err != nil {
+		return
+	}
+
 	user, err := recipes.SignIn(golang.UserWithRead, golang.Password)
 	if err != nil {
 		return

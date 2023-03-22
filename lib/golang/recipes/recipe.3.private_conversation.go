@@ -20,6 +20,11 @@ const (
 // Sign up, activate user, sign in, get all keys.
 func main() {
 	log.Info("Objective: Send messages to a private conversation")
+	_, err := recipes.ValidateDependencies()
+	if err != nil {
+		return
+	}
+
 	user, err := recipes.SignIn(golang.DefaultEmail, golang.Password)
 	if err != nil {
 		return

@@ -26,6 +26,11 @@ const (
 // Add block, pod & block pod to a key and link them into another key
 func main() {
 	log.Info("Objective: Add keys and blocks, and link blocks")
+	_, err := recipes.ValidateDependencies()
+	if err != nil {
+		return
+	}
+
 	user, err := recipes.SignIn(golang.DefaultEmail, golang.Password)
 	if err != nil {
 		return
@@ -164,18 +169,18 @@ func addBlocksAndPods(user response.User, newKey response.Key) (response.Pod, re
 	return newPod, newBlock, newBlockPod, nil
 }
 
-func addBlock(user response.User, blockName string, newKey response.Key) (response.Block, error) {
+func addBlock(user response.User, blockName string, key response.Key) (response.Block, error) {
 	log.Info("Add a new block into this key")
 	recipes.SleepBefore()
 	newBlock, err := blocks.AddBlock(user.JwtToken,
 		request.AddBlockReqBody{
 			Name: blockName,
 		},
-		newKey.ID)
+		key.ID)
 	if err != nil {
 		return response.Block{}, err
 	}
-	log.Printf(".Block, %s is created successfully in %s Key.", newBlock.Name, newKey.Name)
+	log.Printf(".Block, %s is created successfully in %s Key.", newBlock.Name, key.Name)
 	recipes.SleepAfter()
 	return newBlock, nil
 }

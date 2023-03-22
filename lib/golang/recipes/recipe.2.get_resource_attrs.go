@@ -12,6 +12,11 @@ import (
 // sign in, get resource attributes
 func main() {
 	log.Info("Objective: Get resource attributes")
+	_, err := recipes.ValidateDependencies()
+	if err != nil {
+		return
+	}
+	
 	log.Info("Sign in user, email: ", golang.DefaultEmail)
 	user, err := recipes.SignIn(golang.DefaultEmail, golang.Password)
 
