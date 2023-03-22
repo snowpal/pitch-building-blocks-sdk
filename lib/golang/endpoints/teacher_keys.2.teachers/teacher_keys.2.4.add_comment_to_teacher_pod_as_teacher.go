@@ -1,47 +1,61 @@
 package teacher_keys_2
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/request"
+	"development/go/recipes/lib/golang/structs/response"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"strings"
 )
 
-func main(jwtToken string) {
-
-	url := "classroom-pods/%s/comments/as-teacher?blockId=%s&keyId=%s"
-	method := "POST"
-
-	payload := strings.NewReader(`{
-    "commentText": "comment[comment_text] in teacher pod"
-}`)
-
-	client := &http.Client{}
-	req, err := http.NewRequest(method, url, payload)
-
+func AddCommentToTeacherPodAsTeacher(
+	jwtToken string,
+	reqBody request.CommentReqBody,
+	commentParam request.CommentIdParam,
+) (response.Comment, error) {
+	resComment := response.Comment{}
+	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resComment, err
 	}
+	payload := strings.NewReader(requestBody)
+	route, err := helpers.GetRoute(
+		golang.RouteTeacherKeysAddCommentToTeacherPodAsTeacher,
+		*commentParam.PodId,
+		commentParam.KeyId,
+		*commentParam.BlockId,
+	)
+	req, err := http.NewRequest(http.MethodPost, route, payload)
+	if err != nil {
+		fmt.Println(err)
+		return resComment, err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resComment, err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
+
+	defer helpers.CloseBody(res.Body)
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resComment, err
 	}
-	fmt.Println(string(body))
+
+	err = json.Unmarshal(body, &resComment)
+	if err != nil {
+		fmt.Println(err)
+		return resComment, err
+	}
+	return resComment, nil
 }

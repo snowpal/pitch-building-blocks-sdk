@@ -1,42 +1,54 @@
 package key_pods_2
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/request"
+	"development/go/recipes/lib/golang/structs/response"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 )
 
-func main(jwtToken string) {
-
-	url := "pods/%s/attachments?keyId=%s"
-	method := "GET"
-
-	client := &http.Client{}
-	req, err := http.NewRequest(method, url, nil)
-
+func GetKeyPodAttachments(jwtToken string, attachmentParam request.AttachmentParam) ([]response.Attachment, error) {
+	resAttachments := response.Attachments{}
+	route, err := helpers.GetRoute(
+		golang.RouteKeyPodsGetKeyPodAttachments,
+		*attachmentParam.PodId,
+		attachmentParam.KeyId,
+	)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resAttachments.Attachments, err
 	}
+
+	req, err := http.NewRequest(http.MethodGet, route, nil)
+	if err != nil {
+		fmt.Println(err)
+		return resAttachments.Attachments, err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resAttachments.Attachments, err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
+
+	defer helpers.CloseBody(res.Body)
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resAttachments.Attachments, err
 	}
-	fmt.Println(string(body))
+
+	err = json.Unmarshal(body, &resAttachments)
+	if err != nil {
+		fmt.Println(err)
+		return resAttachments.Attachments, err
+	}
+	return resAttachments.Attachments, nil
 }

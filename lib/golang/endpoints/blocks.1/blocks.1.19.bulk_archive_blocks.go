@@ -1,45 +1,45 @@
 package blocks_1
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
 	"fmt"
-	"io"
 	"net/http"
 	"strings"
 )
 
-func main(jwtToken string) {
+type BulkArchiveBlocksReqBody struct {
+	BlockIds []string `json:"blockIds"`
+}
 
-	url := "blocks/archive?keyId=%s"
-	method := "PATCH"
-
-	payload := strings.NewReader(`{"blockIds":"course_ids"}`)
-
-	client := &http.Client{}
-	req, err := http.NewRequest(method, url, payload)
-
+func BulkArchiveBlocks(jwtToken string, reqBody BulkArchiveBlocksReqBody, keyId string) error {
+	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
+	payload := strings.NewReader(requestBody)
+
+	var route string
+	route, err = helpers.GetRoute(golang.RouteBlocksBulkArchiveBlocks, keyId)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	var req *http.Request
+	req, err = http.NewRequest(http.MethodPatch, route, payload)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	_, err = helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
-
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Println(string(body))
+	return nil
 }

@@ -1,45 +1,40 @@
 package block_pods_7
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/request"
 	"fmt"
-	"io"
 	"net/http"
 	"strings"
 )
 
-func main(jwtToken string) {
-
-	url := "block-pod-tasks/%s/assign?keyId=%s&blockId=%s&podId=%s"
-	method := "PATCH"
-
-	payload := strings.NewReader(`{"userIds":"user_ids"}`)
-
-	client := &http.Client{}
-	req, err := http.NewRequest(method, url, payload)
-
+func AssignBlockPodTask(jwtToken string, reqBody request.AssignTaskReqBody, taskParam request.TaskIdParam) error {
+	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
+	payload := strings.NewReader(requestBody)
+	route, err := helpers.GetRoute(
+		golang.RouteBlockPodsAssignBlockPodTask,
+		*taskParam.TaskId,
+		taskParam.KeyId,
+		*taskParam.BlockId,
+		*taskParam.PodId,
+	)
+	req, err := http.NewRequest(http.MethodPatch, route, payload)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	_, err = helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
-
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Println(string(body))
+	return nil
 }

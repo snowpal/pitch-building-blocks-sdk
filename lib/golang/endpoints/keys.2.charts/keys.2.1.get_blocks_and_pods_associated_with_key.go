@@ -1,42 +1,52 @@
 package keys_2
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/response"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 )
 
-func main(jwtToken string) {
-
-	url := "charts/keys/%s/blocks-pods"
-	method := "GET"
-
-	client := &http.Client{}
-	req, err := http.NewRequest(method, url, nil)
-
+func GetBlocksAndPodsAssociatedWithKey(jwtToken string, keyId string) (response.UserKey, error) {
+	resUserKey := response.UserKey{}
+	route, err := helpers.GetRoute(golang.RouteKeysGetBlocksAndPodsAssociatedWithKey, keyId)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resUserKey, err
 	}
+
+	var req *http.Request
+	req, err = http.NewRequest(http.MethodGet, route, nil)
+	if err != nil {
+		fmt.Println(err)
+		return resUserKey, err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	var res *http.Response
+	res, err = helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resUserKey, err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
 
-	body, err := io.ReadAll(res.Body)
+	defer helpers.CloseBody(res.Body)
+
+	var body []byte
+	body, err = io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resUserKey, err
 	}
-	fmt.Println(string(body))
+
+	err = json.Unmarshal(body, &resUserKey)
+	if err != nil {
+		fmt.Println(err)
+		return resUserKey, err
+	}
+	return resUserKey, nil
 }

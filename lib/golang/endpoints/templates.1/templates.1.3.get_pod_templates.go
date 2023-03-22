@@ -1,42 +1,52 @@
 package templates
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/response"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 )
 
-func main(jwtToken string) {
-
-	url := "templates/pods"
-	method := "GET"
-
-	client := &http.Client{}
-	req, err := http.NewRequest(method, url, nil)
-
+func GetPodTemplates(jwtToken string) ([]response.PodTemplate, error) {
+	resPodTemplates := response.PodTemplates{}
+	route, err := helpers.GetRoute(golang.RouteTemplatesGetPodTemplates)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resPodTemplates.Templates, err
 	}
+
+	var req *http.Request
+	req, err = http.NewRequest(http.MethodGet, route, nil)
+	if err != nil {
+		fmt.Println(err)
+		return resPodTemplates.Templates, err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	var res *http.Response
+	res, err = helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resPodTemplates.Templates, err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
 
-	body, err := io.ReadAll(res.Body)
+	defer helpers.CloseBody(res.Body)
+
+	var body []byte
+	body, err = io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resPodTemplates.Templates, err
 	}
-	fmt.Println(string(body))
+
+	err = json.Unmarshal(body, &resPodTemplates)
+	if err != nil {
+		fmt.Println(err)
+		return resPodTemplates.Templates, err
+	}
+	return resPodTemplates.Templates, nil
 }

@@ -1,42 +1,58 @@
 package teacher_keys_2
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/request"
+	"development/go/recipes/lib/golang/structs/response"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 )
 
-func main(jwtToken string) {
-
-	url := "classroom-blocks/%s/student-grades/as-teacher?studentUserId=%s&keyId=%s"
-	method := "GET"
-
-	client := &http.Client{}
-	req, err := http.NewRequest(method, url, nil)
-
+func GetBlockAndPodsGradesForAStudentAsTeacher(
+	jwtToken string,
+	classroomParam request.ClassroomIdParam,
+) (response.StudentGradeForBlockAndPod, error) {
+	resStudentGrades := response.StudentGradeForBlockAndPod{}
+	route, err := helpers.GetRoute(
+		golang.RouteTeacherKeysGetBlockAndPodsGradesForAStudentAsTeacher,
+		classroomParam.ResourceIds.BlockId,
+		classroomParam.StudentId,
+		classroomParam.ResourceIds.KeyId,
+	)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resStudentGrades, err
 	}
+
+	req, err := http.NewRequest(http.MethodGet, route, nil)
+	if err != nil {
+		fmt.Println(err)
+		return resStudentGrades, err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resStudentGrades, err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
+
+	defer helpers.CloseBody(res.Body)
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resStudentGrades, err
 	}
-	fmt.Println(string(body))
+
+	err = json.Unmarshal(body, &resStudentGrades)
+	if err != nil {
+		fmt.Println(err)
+		return resStudentGrades, err
+	}
+	return resStudentGrades, nil
 }

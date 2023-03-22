@@ -1,45 +1,68 @@
 package block_pods_4
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/request"
+	"development/go/recipes/lib/golang/structs/response"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"strings"
 )
 
-func main(jwtToken string) {
-
-	url := "block-pods/%s/checklists/%s/checklist-items/%s?keyId=%s&blockId=%s"
-	method := "PATCH"
-
-	payload := strings.NewReader(`{"checklistItemText":"checklist_item[checklist_item_title]","taggedUserIds":"checklist_item[tagged_user_ids]","completed":"checklist_item[completed]"}`)
-
-	client := &http.Client{}
-	req, err := http.NewRequest(method, url, payload)
-
+func UpdateBlockPodChecklistItem(
+	jwtToken string,
+	reqBody request.ChecklistItemReqBody,
+	checklistParam request.ChecklistIdParam,
+) (response.ChecklistItem, error) {
+	resChecklistItem := response.ChecklistItem{}
+	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resChecklistItem, err
 	}
+	payload := strings.NewReader(requestBody)
+	route, err := helpers.GetRoute(
+		golang.RouteBlockPodsUpdateBlockPodChecklistItem,
+		*checklistParam.PodId,
+		*checklistParam.ChecklistId,
+		*checklistParam.ChecklistItemId,
+		checklistParam.KeyId,
+		*checklistParam.BlockId,
+	)
+	if err != nil {
+		fmt.Println(err)
+		return resChecklistItem, err
+	}
+
+	req, err := http.NewRequest(http.MethodPatch, route, payload)
+	if err != nil {
+		fmt.Println(err)
+		return resChecklistItem, err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resChecklistItem, err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
+
+	defer helpers.CloseBody(res.Body)
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resChecklistItem, err
 	}
-	fmt.Println(string(body))
+
+	err = json.Unmarshal(body, &resChecklistItem)
+	if err != nil {
+		fmt.Println(err)
+		return resChecklistItem, err
+	}
+	return resChecklistItem, nil
 }

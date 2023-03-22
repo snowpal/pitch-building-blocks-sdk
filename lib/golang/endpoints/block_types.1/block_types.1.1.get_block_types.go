@@ -1,42 +1,49 @@
 package block_types
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/response"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
+	"strconv"
 )
 
-func main(jwtToken string) {
-
-	url := "block-types"
-	method := "GET"
-
-	client := &http.Client{}
-	req, err := http.NewRequest(method, url, nil)
-
+func GetBlockTypes(jwtToken string, includeCounts bool) ([]response.BlockType, error) {
+	resBlockTypes := response.BlockTypes{}
+	route, err := helpers.GetRoute(golang.RouteBlockTypesGetBlockTypes, strconv.FormatBool(includeCounts))
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resBlockTypes.BlockTypes, err
 	}
+	req, err := http.NewRequest(http.MethodGet, route, nil)
+	if err != nil {
+		fmt.Println(err)
+		return resBlockTypes.BlockTypes, err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resBlockTypes.BlockTypes, err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
+
+	defer helpers.CloseBody(res.Body)
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resBlockTypes.BlockTypes, err
 	}
-	fmt.Println(string(body))
+
+	err = json.Unmarshal(body, &resBlockTypes)
+	if err != nil {
+		fmt.Println(err)
+		return resBlockTypes.BlockTypes, err
+	}
+	return resBlockTypes.BlockTypes, nil
 }

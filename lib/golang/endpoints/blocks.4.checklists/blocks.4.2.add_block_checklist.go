@@ -1,45 +1,65 @@
 package blocks_4
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/request"
+	"development/go/recipes/lib/golang/structs/response"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"strings"
 )
 
-func main(jwtToken string) {
-
-	url := "blocks/%s/checklists?keyId=%s"
-	method := "POST"
-
-	payload := strings.NewReader(`{"checklistTitle":"checklist[checklist_title]"}`)
-
-	client := &http.Client{}
-	req, err := http.NewRequest(method, url, payload)
-
+func AddBlockChecklist(
+	jwtToken string,
+	reqBody request.ChecklistReqBody,
+	checklistParam request.ChecklistIdParam,
+) (response.Checklist, error) {
+	resChecklist := response.Checklist{}
+	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resChecklist, err
 	}
+	payload := strings.NewReader(requestBody)
+	route, err := helpers.GetRoute(
+		golang.RouteBlocksAddBlockChecklist,
+		*checklistParam.BlockId,
+		checklistParam.KeyId,
+	)
+	if err != nil {
+		fmt.Println(err)
+		return resChecklist, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, route, payload)
+	if err != nil {
+		fmt.Println(err)
+		return resChecklist, err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resChecklist, err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
+
+	defer helpers.CloseBody(res.Body)
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resChecklist, err
 	}
-	fmt.Println(string(body))
+
+	err = json.Unmarshal(body, &resChecklist)
+	if err != nil {
+		fmt.Println(err)
+		return resChecklist, err
+	}
+	return resChecklist, nil
 }

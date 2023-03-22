@@ -1,42 +1,54 @@
 package blocks_5
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/request"
+	"development/go/recipes/lib/golang/structs/response"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 )
 
-func main(jwtToken string) {
-
-	url := "blocks/%s/comments?keyId=%s"
-	method := "GET"
-
-	client := &http.Client{}
-	req, err := http.NewRequest(method, url, nil)
-
+func GetBlockComments(jwtToken string, commentParam request.CommentIdParam) ([]response.Comment, error) {
+	resComments := response.Comments{}
+	route, err := helpers.GetRoute(
+		golang.RouteBlocksGetBlockComments,
+		*commentParam.BlockId,
+		commentParam.KeyId,
+	)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resComments.Comments, err
 	}
+
+	req, err := http.NewRequest(http.MethodGet, route, nil)
+	if err != nil {
+		fmt.Println(err)
+		return resComments.Comments, err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resComments.Comments, err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
+
+	defer helpers.CloseBody(res.Body)
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resComments.Comments, err
 	}
-	fmt.Println(string(body))
+
+	err = json.Unmarshal(body, &resComments)
+	if err != nil {
+		fmt.Println(err)
+		return resComments.Comments, err
+	}
+	return resComments.Comments, nil
 }

@@ -1,45 +1,38 @@
 package blocks_1
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/request"
 	"fmt"
-	"io"
 	"net/http"
-	"strings"
 )
 
-func main(jwtToken string) {
-
-	url := "blocks/%s/move?keyId=%s&targetKeyId=%s"
-	method := "PATCH"
-
-	payload := strings.NewReader(``)
-
-	client := &http.Client{}
-	req, err := http.NewRequest(method, url, payload)
-
+func MoveBlock(jwtToken string, blockParam request.CopyMoveBlockParam) error {
+	route, err := helpers.GetRoute(
+		golang.RouteBlocksMoveBlock,
+		blockParam.BlockId,
+		blockParam.KeyId,
+		blockParam.TargetKeyId,
+	)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
+
+	var req *http.Request
+	req, err = http.NewRequest(http.MethodPatch, route, nil)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	_, err = helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
-
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Println(string(body))
+	return nil
 }

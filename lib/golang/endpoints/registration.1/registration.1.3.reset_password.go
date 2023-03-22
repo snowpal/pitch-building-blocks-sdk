@@ -1,45 +1,39 @@
 package registration_1
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/request"
 	"fmt"
-	"io"
 	"net/http"
 	"strings"
 )
 
-func main() {
-
-	url := "app/users/reset-password"
-	method := "PATCH"
-
-	payload := strings.NewReader(`{"password":"Welcome2@","confirmPassword":"Welcome2@"}`)
-
-	client := &http.Client{}
-	req, err := http.NewRequest(method, url, payload)
-
+func ResetPassword(jwtToken string, reqBody request.ResetPasswordReqBody) error {
+	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
-	helpers.AddAppHeaders(req)
-
-	res, err := client.Do(req)
+	payload := strings.NewReader(requestBody)
+	route, err := helpers.GetRoute(golang.RouteRegistrationResetPassword)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
 
-	body, err := io.ReadAll(res.Body)
+	req, err := http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
-	fmt.Println(string(body))
+
+	helpers.AddUserHeaders(jwtToken, req)
+
+	_, err = helpers.MakeRequest(req)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	return nil
 }

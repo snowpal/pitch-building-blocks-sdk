@@ -1,42 +1,52 @@
 package keys_2
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/response"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 )
 
-func main(jwtToken string) {
-
-	url := "charts/keys/%s/task-status"
-	method := "GET"
-
-	client := &http.Client{}
-	req, err := http.NewRequest(method, url, nil)
-
+func GetTasksByStatus(jwtToken string, keyId string) (response.TasksStatusKey, error) {
+	resTasksStatusKey := response.TasksStatusKey{}
+	route, err := helpers.GetRoute(golang.RouteKeysGetTaskStatus, keyId)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resTasksStatusKey, err
 	}
+
+	var req *http.Request
+	req, err = http.NewRequest(http.MethodGet, route, nil)
+	if err != nil {
+		fmt.Println(err)
+		return resTasksStatusKey, err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	var res *http.Response
+	res, err = helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resTasksStatusKey, err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
 
-	body, err := io.ReadAll(res.Body)
+	defer helpers.CloseBody(res.Body)
+
+	var body []byte
+	body, err = io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resTasksStatusKey, err
 	}
-	fmt.Println(string(body))
+
+	err = json.Unmarshal(body, &resTasksStatusKey)
+	if err != nil {
+		fmt.Println(err)
+		return resTasksStatusKey, err
+	}
+	return resTasksStatusKey, nil
 }

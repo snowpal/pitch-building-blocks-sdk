@@ -3,48 +3,50 @@ package attributes_1
 import (
 	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
-	"development/go/recipes/lib/golang/structs"
+	"development/go/recipes/lib/golang/structs/response"
 	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 )
 
-func GetResourceAttrs(jwtToken string) (structs.ResourceAttributes, error) {
-	var resourceAttrs structs.ResourceAttributes
-
-	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodGet, golang.RouteAttributesGetDisplayableAttributesOfKey, nil)
-
+func GetResourceAttrs(jwtToken string) (response.ResourceAttributes, error) {
+	var resAttributes response.ResourceAttributes
+	route, err := helpers.GetRoute(golang.RouteAttributesGetDisplayableAttributesOfKey)
 	if err != nil {
 		fmt.Println(err)
-		return resourceAttrs, err
+		return resAttributes, err
 	}
+
+	var req *http.Request
+	req, err = http.NewRequest(http.MethodGet, route, nil)
+	if err != nil {
+		fmt.Println(err)
+		return resAttributes, err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, _ := client.Do(req)
+	var res *http.Response
+	res, err = helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
-		return resourceAttrs, err
+		return resAttributes, err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
+
+	defer helpers.CloseBody(res.Body)
 
 	body, _ := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return resourceAttrs, err
+		return resAttributes, err
 	}
-	fmt.Println(string(body))
 
-	err = json.Unmarshal(body, &resourceAttrs)
+	err = json.Unmarshal(body, &resAttributes)
 	if err != nil {
-		return resourceAttrs, err
+		fmt.Println(err)
+		return resAttributes, err
 	}
 
-	return resourceAttrs, nil
+	return resAttributes, nil
 }

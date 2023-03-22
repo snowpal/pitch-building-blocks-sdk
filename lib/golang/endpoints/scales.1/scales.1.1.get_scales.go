@@ -1,42 +1,54 @@
 package scales
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/response"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
+	"strconv"
 )
 
-func main(jwtToken string) {
+type GetScalesParam struct {
+	includeCounts bool
+	excludeEmpty  bool
+}
 
-	url := "scales?includeCounts=%s&excludeEmpty=%s"
-	method := "GET"
-
-	client := &http.Client{}
-	req, err := http.NewRequest(method, url, nil)
-
+func GetScales(jwtToken string, scalesParam GetScalesParam) ([]response.Scale, error) {
+	resScales := response.Scales{}
+	route, err := helpers.GetRoute(
+		golang.RouteScalesGetScales,
+		strconv.FormatBool(scalesParam.includeCounts),
+		strconv.FormatBool(scalesParam.excludeEmpty),
+	)
+	req, err := http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resScales.Scales, err
 	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resScales.Scales, err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
+
+	defer helpers.CloseBody(res.Body)
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resScales.Scales, err
 	}
-	fmt.Println(string(body))
+
+	err = json.Unmarshal(body, &resScales)
+	if err != nil {
+		fmt.Println(err)
+		return resScales.Scales, err
+	}
+	return resScales.Scales, nil
 }

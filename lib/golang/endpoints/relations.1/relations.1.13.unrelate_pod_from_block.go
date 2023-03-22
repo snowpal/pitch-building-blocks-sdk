@@ -1,45 +1,38 @@
 package relations
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/request"
 	"fmt"
-	"io"
 	"net/http"
-	"strings"
 )
 
-func main(jwtToken string) {
-
-	url := "blocks/%s/pods/%s/unrelate?targetKeyId=%s&targetBlockId=%s"
-	method := "PATCH"
-
-	payload := strings.NewReader(``)
-
-	client := &http.Client{}
-	req, err := http.NewRequest(method, url, payload)
-
+func UnrelateBlockToPod(jwtToken string, relationParam request.BlockToPodRelationParam) error {
+	route, err := helpers.GetRoute(
+		golang.RouteRelationsUnrelatePodFromBlock,
+		relationParam.BlockId,
+		relationParam.TargetPodId,
+		relationParam.TargetKeyId,
+		*relationParam.TargetBlockId,
+	)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
+
+	req, err := http.NewRequest(http.MethodPatch, route, nil)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	_, err = helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
-
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Println(string(body))
+	return nil
 }

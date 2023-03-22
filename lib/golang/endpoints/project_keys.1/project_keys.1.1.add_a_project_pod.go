@@ -1,47 +1,71 @@
 package project_keys_1
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/request"
+	"development/go/recipes/lib/golang/structs/response"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"strings"
 )
 
-func main(jwtToken string) {
-
-	url := "blocks/%s/project-pods?keyId=%s&projectListId=%s"
-	method := "POST"
-
-	payload := strings.NewReader(`{
-    "podName": "prj pod1"
-}`)
-
-	client := &http.Client{}
-	req, err := http.NewRequest(method, url, payload)
-
+func AddProjectPod(
+	jwtToken string,
+	reqBody request.AddPodReqBody,
+	projectListParam request.ProjectListIdParam,
+) (response.Pod, error) {
+	resProjectPod := response.Pod{}
+	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resProjectPod, err
 	}
+	payload := strings.NewReader(requestBody)
+
+	var route string
+	route, err = helpers.GetRoute(
+		golang.RouteProjectKeysAddAProjectPod,
+		projectListParam.BlockId,
+		projectListParam.KeyId,
+		projectListParam.ProjectListId,
+	)
+	if err != nil {
+		fmt.Println(err)
+		return resProjectPod, err
+	}
+
+	var req *http.Request
+	req, err = http.NewRequest(http.MethodPost, route, payload)
+	if err != nil {
+		fmt.Println(err)
+		return resProjectPod, err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	var res *http.Response
+	res, err = helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resProjectPod, err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
 
-	body, err := io.ReadAll(res.Body)
+	defer helpers.CloseBody(res.Body)
+
+	var body []byte
+	body, err = io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resProjectPod, err
 	}
-	fmt.Println(string(body))
+
+	err = json.Unmarshal(body, &resProjectPod)
+	if err != nil {
+		fmt.Println(err)
+		return resProjectPod, err
+	}
+	return resProjectPod, nil
 }

@@ -1,45 +1,69 @@
 package teacher_keys_2
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/request"
+	"development/go/recipes/lib/golang/structs/response"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"strings"
 )
 
-func main(jwtToken string) {
-
-	url := "classroom-blocks/%s/student/grade?keyId=%s&studentUserId=%s"
-	method := "PATCH"
-
-	payload := strings.NewReader(`{"scaleValue":"70"}`)
-
-	client := &http.Client{}
-	req, err := http.NewRequest(method, url, payload)
-
+func AssignBlockGradeToStudent(
+	jwtToken string,
+	reqBody request.UpdateScaleValueReqBody,
+	classroomParam request.ClassroomIdParam,
+) (response.UpdateBlockScaleValue, error) {
+	resBlockScaleValue := response.UpdateBlockScaleValue{}
+	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resBlockScaleValue, err
 	}
+	payload := strings.NewReader(requestBody)
+	route, err := helpers.GetRoute(
+		golang.RouteTeacherKeysAssignGradeToStudent,
+		classroomParam.ResourceIds.BlockId,
+		classroomParam.StudentId,
+		classroomParam.ResourceIds.KeyId,
+	)
+	if err != nil {
+		fmt.Println(err)
+		return resBlockScaleValue, err
+	}
+
+	var req *http.Request
+	req, err = http.NewRequest(http.MethodPatch, route, payload)
+	if err != nil {
+		fmt.Println(err)
+		return resBlockScaleValue, err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	var res *http.Response
+	res, err = helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resBlockScaleValue, err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
 
-	body, err := io.ReadAll(res.Body)
+	defer helpers.CloseBody(res.Body)
+
+	var body []byte
+	body, err = io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resBlockScaleValue, err
 	}
-	fmt.Println(string(body))
+
+	err = json.Unmarshal(body, &resBlockScaleValue)
+	if err != nil {
+		fmt.Println(err)
+		return resBlockScaleValue, err
+	}
+	return resBlockScaleValue, nil
 }

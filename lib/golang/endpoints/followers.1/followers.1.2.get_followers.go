@@ -1,45 +1,61 @@
 package followers
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
-	"strings"
 )
 
-func main(jwtToken string) {
+type Followers struct {
+	Followers []Follower `json:"followers"`
+}
 
-	url := "app/followers"
-	method := "PATCH"
+type Follower struct {
+	FirstName string `json:"firstName"`
+	LastName  string `json:"lastName"`
+	Email     string `json:"email"`
+}
 
-	payload := strings.NewReader(``)
-
-	client := &http.Client{}
-	req, err := http.NewRequest(method, url, payload)
-
+func GetFollowers(jwtToken string) ([]Follower, error) {
+	resFollowers := Followers{}
+	route, err := helpers.GetRoute(golang.RouteFollowersGetFollowers)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resFollowers.Followers, err
 	}
+
+	var req *http.Request
+	req, err = http.NewRequest(http.MethodGet, route, nil)
+	if err != nil {
+		fmt.Println(err)
+		return resFollowers.Followers, err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	var res *http.Response
+	res, err = helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resFollowers.Followers, err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
 
-	body, err := io.ReadAll(res.Body)
+	defer helpers.CloseBody(res.Body)
+
+	var body []byte
+	body, err = io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resFollowers.Followers, err
 	}
-	fmt.Println(string(body))
+
+	err = json.Unmarshal(body, &resFollowers)
+	if err != nil {
+		fmt.Println(err)
+		return resFollowers.Followers, err
+	}
+	return resFollowers.Followers, nil
 }

@@ -1,42 +1,31 @@
 package scales
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
 	"fmt"
-	"io"
 	"net/http"
 )
 
-func main(jwtToken string) {
-
-	url := "scales/%s"
-	method := "DELETE"
-
-	client := &http.Client{}
-	req, err := http.NewRequest(method, url, nil)
-
+func DeleteScale(jwtToken string, scaleId string) error {
+	route, err := helpers.GetRoute(golang.RouteScalesDeleteScale, scaleId)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
+
+	req, err := http.NewRequest(http.MethodDelete, route, nil)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	_, err = helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
-
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Println(string(body))
+	return nil
 }

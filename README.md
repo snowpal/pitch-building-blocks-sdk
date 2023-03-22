@@ -1,4 +1,4 @@
-# pitch-api-gateway-test
+# pitch-api-gateway-sdk
 
 Polyglot test code for API Gateway Services.
 

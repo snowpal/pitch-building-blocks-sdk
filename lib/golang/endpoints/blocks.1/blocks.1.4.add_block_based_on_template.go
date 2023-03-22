@@ -1,45 +1,75 @@
 package blocks_1
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/request"
+	"development/go/recipes/lib/golang/structs/response"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
+	"strconv"
 	"strings"
 )
 
-func main(jwtToken string) {
+type BlockByTemplateParam struct {
+	KeyId        string
+	TemplateId   string
+	ExcludePods  bool
+	ExcludeTasks bool
+}
 
-	url := "keys/%s/blocks/by-template?templateId=%s&excludeTasks=%s"
-	method := "POST"
-
-	payload := strings.NewReader(`{"blockName":"course[course_name]"}`)
-
-	client := &http.Client{}
-	req, err := http.NewRequest(method, url, payload)
-
+func AddBlockBasedOnTemplate(
+	jwtToken string,
+	reqBody request.AddBlockReqBody,
+	blockParam BlockByTemplateParam,
+) (response.Block, error) {
+	resBlock := response.Block{}
+	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resBlock, err
 	}
+	payload := strings.NewReader(requestBody)
+	var route string
+	route, err = helpers.GetRoute(
+		golang.RouteBlocksAddBlockBasedOnTemplate,
+		blockParam.KeyId,
+		blockParam.TemplateId,
+		strconv.FormatBool(blockParam.ExcludePods),
+		strconv.FormatBool(blockParam.ExcludeTasks),
+	)
+	if err != nil {
+		fmt.Println(err)
+		return resBlock, err
+	}
+	req, err := http.NewRequest(http.MethodPost, route, payload)
+	if err != nil {
+		fmt.Println(err)
+		return resBlock, err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resBlock, err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
+
+	defer helpers.CloseBody(res.Body)
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resBlock, err
 	}
-	fmt.Println(string(body))
+
+	err = json.Unmarshal(body, &resBlock)
+	if err != nil {
+		fmt.Println(err)
+		return resBlock, err
+	}
+	return resBlock, nil
 }

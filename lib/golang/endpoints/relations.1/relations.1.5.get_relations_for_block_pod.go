@@ -1,42 +1,58 @@
 package relations
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/common"
+	"development/go/recipes/lib/golang/structs/response"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 )
 
-func main(jwtToken string) {
-
-	url := "block-pods/%s/relations?keyId=%s&blockId=%s"
-	method := "GET"
-
-	client := &http.Client{}
-	req, err := http.NewRequest(method, url, nil)
-
+func GetRelationsForBlockPod(jwtToken string, relationParam common.ResourceIdParam) (response.Relationships, error) {
+	resRelations := response.Relations{}
+	route, err := helpers.GetRoute(
+		golang.RouteRelationsGetRelationsForBlockPod,
+		relationParam.PodId,
+		relationParam.KeyId,
+		relationParam.BlockId,
+	)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resRelations.Relationships, err
 	}
+
+	var req *http.Request
+	req, err = http.NewRequest(http.MethodGet, route, nil)
+	if err != nil {
+		fmt.Println(err)
+		return resRelations.Relationships, err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	var res *http.Response
+	res, err = helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resRelations.Relationships, err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
 
-	body, err := io.ReadAll(res.Body)
+	defer helpers.CloseBody(res.Body)
+
+	var body []byte
+	body, err = io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resRelations.Relationships, err
 	}
-	fmt.Println(string(body))
+
+	err = json.Unmarshal(body, &resRelations)
+	if err != nil {
+		fmt.Println(err)
+		return resRelations.Relationships, err
+	}
+	return resRelations.Relationships, nil
 }

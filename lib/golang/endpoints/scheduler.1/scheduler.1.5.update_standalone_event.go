@@ -1,45 +1,60 @@
 package scheduler
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/request"
+	"development/go/recipes/lib/golang/structs/response"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"strings"
 )
 
-func main(jwtToken string) {
-
-	url := "scheduler/standalone-events/%s"
-	method := "PATCH"
-
-	payload := strings.NewReader(`{"description":"scheduler_event[description]","eventStartTime":"scheduler_event[event_start_time]","eventEndTime":"scheduler_event[event_end_time]"}`)
-
-	client := &http.Client{}
-	req, err := http.NewRequest(method, url, payload)
-
+func UpdateStandaloneEvent(
+	jwtToken string,
+	reqBody request.StandaloneEventReqBody,
+	standaloneEventId string,
+) (response.StandaloneEvent, error) {
+	resStandaloneEvent := response.StandaloneEvent{}
+	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resStandaloneEvent, err
 	}
+	payload := strings.NewReader(requestBody)
+	route, err := helpers.GetRoute(golang.RouteSchedulerUpdateStandaloneEvent, standaloneEventId)
+	if err != nil {
+		fmt.Println(err)
+		return resStandaloneEvent, err
+	}
+	req, err := http.NewRequest(http.MethodPatch, route, payload)
+	if err != nil {
+		fmt.Println(err)
+		return resStandaloneEvent, err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	res, err := helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resStandaloneEvent, err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
 
-	body, err := io.ReadAll(res.Body)
+	defer helpers.CloseBody(res.Body)
+
+	body, _ := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resStandaloneEvent, err
 	}
-	fmt.Println(string(body))
+
+	err = json.Unmarshal(body, &resStandaloneEvent)
+	if err != nil {
+		fmt.Println(err)
+		return resStandaloneEvent, err
+	}
+	return resStandaloneEvent, nil
 }

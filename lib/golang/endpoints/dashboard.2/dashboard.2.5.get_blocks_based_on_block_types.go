@@ -1,42 +1,52 @@
 package dashboard_2
 
 import (
+	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers"
+	"development/go/recipes/lib/golang/structs/response"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 )
 
-func main(jwtToken string) {
-
-	url := "charts/dashboard/block-types"
-	method := "GET"
-
-	client := &http.Client{}
-	req, err := http.NewRequest(method, url, nil)
-
+func GetBlocksBasedOnBlockTypes(jwtToken string) ([]response.BlockTypesKey, error) {
+	resBlockTypesKeys := response.BlockTypesKeys{}
+	route, err := helpers.GetRoute(golang.RouteDashboardGetBlocksBasedOnBlockTypes)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resBlockTypesKeys.Keys, err
 	}
+
+	var req *http.Request
+	req, err = http.NewRequest(http.MethodGet, route, nil)
+	if err != nil {
+		fmt.Println(err)
+		return resBlockTypesKeys.Keys, err
+	}
+
 	helpers.AddUserHeaders(jwtToken, req)
 
-	res, err := client.Do(req)
+	var res *http.Response
+	res, err = helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resBlockTypesKeys.Keys, err
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
 
-	body, err := io.ReadAll(res.Body)
+	defer helpers.CloseBody(res.Body)
+
+	var body []byte
+	body, err = io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return resBlockTypesKeys.Keys, err
 	}
-	fmt.Println(string(body))
+
+	err = json.Unmarshal(body, &resBlockTypesKeys)
+	if err != nil {
+		fmt.Println(err)
+		return resBlockTypesKeys.Keys, err
+	}
+	return resBlockTypesKeys.Keys, nil
 }
