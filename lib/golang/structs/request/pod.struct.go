@@ -5,16 +5,16 @@ type AddPodReqBody struct {
 }
 
 type UpdatePodDescReqBody struct {
-	Description   string    `json:"podDescription"`
-	TaggedUserIds *[]string `json:"taggedUserIds"`
+	Description   string  `json:"podDescription"`
+	TaggedUserIds *string `json:"taggedUserIds"`
 }
 
 type BulkArchivePodsReqBody struct {
-	PodIds []string `json:"podIds"`
+	PodIds string `json:"podIds"`
 }
 
 type UpdatePodStatusReqBody struct {
-	Completed *bool `json:"podCompleted"`
+	Completed bool `json:"podCompleted"`
 }
 
 type UpdatePodReqBody struct {
@@ -31,8 +31,8 @@ type PodAclReqBody struct {
 }
 
 type PodBulkShareReqBody struct {
-	Acl    string   `json:"podAcl"`
-	PodIds []string `json:"podIds"`
+	Acl    string `json:"podAcl"`
+	PodIds string `json:"podIds"`
 }
 
 type GetPodsParam struct {

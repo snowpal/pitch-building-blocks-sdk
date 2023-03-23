@@ -9,7 +9,7 @@ import (
 )
 
 type BulkArchiveBlocksReqBody struct {
-	BlockIds []string `json:"blockIds"`
+	BlockIds string `json:"blockIds"`
 }
 
 func BulkArchiveBlocks(jwtToken string, reqBody BulkArchiveBlocksReqBody, keyId string) error {

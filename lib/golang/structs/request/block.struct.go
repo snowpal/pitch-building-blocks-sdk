@@ -20,7 +20,7 @@ type CopyMoveBlockParam struct {
 	KeyId       string
 	TargetKeyId string
 
-	PodIds        *[]string
+	PodIds        *string
 	AllPods       *bool
 	AllTasks      *bool
 	AllChecklists *bool

@@ -13,15 +13,15 @@ type ChecklistReqBody struct {
 }
 
 type ReorderChecklistsReqBody struct {
-	ChecklistIds []string `json:"checklistIds"`
+	ChecklistIds string `json:"checklistIds"`
 }
 
 type ChecklistItemReqBody struct {
-	Title         string    `json:"title"`
-	Completed     *bool     `json:"completed"`
-	TaggedUserIds *[]string `json:"taggedUserIds"`
+	Title         string  `json:"title"`
+	Completed     *bool   `json:"completed"`
+	TaggedUserIds *string `json:"taggedUserIds"`
 }
 
 type ReorderChecklistItemsReqBody struct {
-	ChecklistItemIds []string `json:"checklistItemIds"`
+	ChecklistItemIds string `json:"checklistItemIds"`
 }

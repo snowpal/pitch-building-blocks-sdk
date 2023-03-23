@@ -13,7 +13,7 @@ import (
 )
 
 type ReorderProjectListsReqBody struct {
-	ProjectListIds []string `json:"projectListIds"`
+	ProjectListIds string `json:"projectListIds"`
 }
 
 func ReorderProjectLists(

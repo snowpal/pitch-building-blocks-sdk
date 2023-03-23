@@ -5,7 +5,7 @@ type AddProjectListReqBody struct {
 }
 
 type AssignProjectPodReqBody struct {
-	UserIds []string `json:"userIds"`
+	UserIds string `json:"userIds"`
 }
 
 type ProjectListIdParam struct {
@@ -47,5 +47,5 @@ type CopyMoveProjectListPodsParam struct {
 	AllTasks *bool
 	AllPods  *bool
 
-	PodIds *[]string
+	PodIds *string
 }

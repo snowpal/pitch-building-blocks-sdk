@@ -10,8 +10,8 @@ import (
 )
 
 type BlockBulkShareReqBody struct {
-	Acl      string   `json:"blockAcl"`
-	BlockIds []string `json:"blockIds"`
+	Acl      string `json:"blockAcl"`
+	BlockIds string `json:"blockIds"`
 }
 
 func ShareBlocksWithCollaborators(

@@ -11,11 +11,11 @@ type UpdateTaskReqBody struct {
 }
 
 type AssignTaskReqBody struct {
-	UserIds []string `json:"userIds"`
+	UserIds string `json:"userIds"`
 }
 
 type ReorderTasksReqBody struct {
-	TaskIds []string `json:"taskIds"`
+	TaskIds string `json:"taskIds"`
 }
 
 type TaskIdParam struct {

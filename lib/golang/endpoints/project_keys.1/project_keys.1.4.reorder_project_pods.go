@@ -13,10 +13,10 @@ import (
 )
 
 type ReorderProjectPodsReqBody struct {
-	ProjectListId       string   `json:"sourceProjectListId"`
-	ProjectPodIds       []string `json:"sourceProjectListPodIds"`
-	TargetProjectListId string   `json:"targetProjectListId"`
-	TargetProjectPodIds []string `json:"targetProjectListPodIds"`
+	ProjectListId       string `json:"sourceProjectListId"`
+	ProjectPodIds       string `json:"sourceProjectListPodIds"`
+	TargetProjectListId string `json:"targetProjectListId"`
+	TargetProjectPodIds string `json:"targetProjectListPodIds"`
 }
 
 func ReorderProjectPods(

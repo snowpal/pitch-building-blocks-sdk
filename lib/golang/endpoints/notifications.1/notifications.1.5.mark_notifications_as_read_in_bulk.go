@@ -9,7 +9,7 @@ import (
 )
 
 type MarkAsReadInBulkReqBody struct {
-	NotificationIds []string `json:"notificationIds"`
+	NotificationIds string `json:"notificationIds"`
 }
 
 func MarkNotificationsAsReadInBulk(jwtToken string, reqBody MarkAsReadInBulkReqBody) error {

@@ -13,8 +13,8 @@ import (
 )
 
 type UpdateBlockDescReqBody struct {
-	Description   string    `json:"blockDescription"`
-	TaggedUserIds *[]string `json:"taggedUserIds"`
+	Description   string  `json:"blockDescription"`
+	TaggedUserIds *string `json:"taggedUserIds"`
 }
 
 func UpdateBlockPodDescription(

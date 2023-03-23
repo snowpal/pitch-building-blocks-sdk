@@ -13,8 +13,8 @@ import (
 )
 
 type ShareBlockWithPodsReqBody struct {
-	Acl    string   `json:"blockAcl"`
-	PodIds []string `json:"podIds"`
+	Acl    string `json:"blockAcl"`
+	PodIds string `json:"podIds"`
 }
 
 func ShareBlockWithUserWithPods(
