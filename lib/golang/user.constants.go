@@ -12,7 +12,7 @@ const (
 
 const (
 	ReadUserToken  = "api"
-	WriteUserToken = "api_code"
+	WriteUserToken = "code_user1"
 )
 
 const (

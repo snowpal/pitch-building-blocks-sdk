@@ -3,7 +3,7 @@ package response
 import "development/go/recipes/lib/golang/structs/common"
 
 type Notifications struct {
-	Notifications []Notification `json:"notifications"`
+	Notifications []Notification `json:"badges"`
 }
 
 type Notification struct {

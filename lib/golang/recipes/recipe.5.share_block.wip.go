@@ -2,21 +2,24 @@ package main
 
 import (
 	"development/go/recipes/lib/golang"
-	blocks "development/go/recipes/lib/golang/endpoints/blocks.1"
-	collaboration "development/go/recipes/lib/golang/endpoints/collaboration.1.blocks"
 	"development/go/recipes/lib/golang/endpoints/notifications.1"
-	user2 "development/go/recipes/lib/golang/endpoints/user.1"
 	"development/go/recipes/lib/golang/helpers/recipes"
 	"development/go/recipes/lib/golang/structs/common"
 	"development/go/recipes/lib/golang/structs/request"
 	"development/go/recipes/lib/golang/structs/response"
+	"fmt"
+
+	blocks "development/go/recipes/lib/golang/endpoints/blocks.1"
+	collaboration "development/go/recipes/lib/golang/endpoints/collaboration.1.blocks"
+	keys "development/go/recipes/lib/golang/endpoints/keys.1"
+	user2 "development/go/recipes/lib/golang/endpoints/user.1"
 	log "github.com/sirupsen/logrus"
 )
 
 const (
-	KeyName          = "Diwali Festival"
-	BlockName        = "Diwali Function"
-	UpdatedBlockName = "Diwali Celebration"
+	KeyName          = "Diwali Festival11"
+	BlockName        = "Diwali Function11"
+	UpdatedBlockName = "Diwali Celebration11"
 )
 
 func main() {
@@ -39,24 +42,29 @@ func main() {
 		return
 	}
 
-	log.Info("Show notifications of recent block share")
-	recipes.SleepBefore()
+	writeUser, err := getWriteUser(user, block)
+	fmt.Println(user.JwtToken)
+	if err != nil {
+		return
+	}
 
-	err = showNotifications(user, block)
+	log.Info("Show notifications as write user")
+	recipes.SleepBefore()
+	err = showNotificationsAsWriteUser(writeUser)
 	if err != nil {
 		return
 	}
 	log.Printf(".Notifications for the recent share displayed successfully")
 	recipes.SleepAfter()
 
-	log.Printf("Update block name by user with write access")
+	log.Printf("Update block name as a write user")
 	recipes.SleepBefore()
 	var resBlock response.Block
-	resBlock, err = updateBlockName(user, block)
+	resBlock, err = updateBlockAsWriteUser(writeUser, block)
 	if err != nil {
 		return
 	}
-	log.Printf(".Block name updated to %s successfully", resBlock.Name)
+	log.Printf(".Write user updated block name to %s successfully", resBlock.Name)
 	recipes.SleepAfter()
 
 	log.Printf("Grant admin access to a user with read access")
@@ -148,15 +156,12 @@ func searchUserAndShareBlock(user response.User, block response.Block, searchTok
 	return nil
 }
 
-func showNotifications(user response.User, block response.Block) error {
-	writeUser, err := getWriteUser(user, block)
+func showNotificationsAsWriteUser(writeUser response.User) error {
+	unreadNotifications, err := notifications.GetNotifications(writeUser.JwtToken)
 	if err != nil {
 		return err
 	}
-	unreadNotifications, err := notifications.GetUnreadNotifications(writeUser.JwtToken)
-	if err != nil {
-		return err
-	}
+	fmt.Println(len(unreadNotifications))
 	for index, notification := range unreadNotifications {
 		if notification.Type == "acl" {
 			log.Printf(".Notification %d: %s", index, notification.Text)
@@ -165,19 +170,26 @@ func showNotifications(user response.User, block response.Block) error {
 	return nil
 }
 
-func updateBlockName(user response.User, block response.Block) (response.Block, error) {
-	var resBlock response.Block
-	writeUser, err := getWriteUser(user, block)
-	if err != nil {
-		return resBlock, err
+func updateBlockAsWriteUser(writeUser response.User, block response.Block) (response.Block, error) {
+	const (
+		SystemKeyType       = "system"
+		customSystemKeyType = "SharedCustomKey"
+	)
+	systemKeys, err := keys.GetKeysFilteredByType(writeUser.JwtToken, SystemKeyType)
+	var customSystemKey response.Key
+	for _, systemKey := range systemKeys {
+		if systemKey.Type == customSystemKeyType {
+			customSystemKey = systemKey
+			break
+		}
 	}
 	updatedBlockName := UpdatedBlockName
-	resBlock, err = blocks.UpdateBlock(
+	resBlock, err := blocks.UpdateBlock(
 		writeUser.JwtToken,
 		blocks.UpdateBlockReqBody{Name: &updatedBlockName},
 		common.ResourceIdParam{
 			BlockId: block.ID,
-			KeyId:   block.Key.ID,
+			KeyId:   customSystemKey.ID,
 		})
 	if err != nil {
 		return resBlock, err
