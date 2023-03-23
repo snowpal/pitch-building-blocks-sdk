@@ -9,13 +9,14 @@ type Blocks struct {
 }
 
 type Block struct {
-	ID                string `json:"id"`
-	Name              string `json:"blockName"`
-	BlockId           string `json:"blockId"`
-	Description       string `json:"blockDescription"`
-	SimpleDescription string `json:"simpleDescription"`
-	Color             string `json:"color"`
-	Tags              string `json:"tags"`
+	ID                string  `json:"id"`
+	Name              string  `json:"blockName"`
+	BlockId           string  `json:"blockId"`
+	Description       string  `json:"blockDescription"`
+	SimpleDescription string  `json:"simpleDescription"`
+	Color             string  `json:"color"`
+	Tags              string  `json:"tags"`
+	ScaleValue        *string `json:"scaleValue"`
 
 	Attributes  []common.DisplayAttribute `json:"attributes"`
 	BlockType   *BlockType                `json:"blockType"`
@@ -65,7 +66,7 @@ type UpdateBlockScaleValue struct {
 	ID           string `json:"id"`
 	Name         string `json:"name"`
 	ScaleValue   string `json:"scaleValue"`
-	NumericScale string `json:"numericScale"`
+	NumericScale int    `json:"numericScale"`
 
 	Key common.SlimKey `json:"key"`
 }

@@ -12,16 +12,16 @@ import (
 )
 
 type GetScalesParam struct {
-	includeCounts bool
-	excludeEmpty  bool
+	IncludeCounts bool
+	ExcludeEmpty  bool
 }
 
 func GetScales(jwtToken string, scalesParam GetScalesParam) ([]response.Scale, error) {
 	resScales := response.Scales{}
 	route, err := helpers.GetRoute(
 		golang.RouteScalesGetScales,
-		strconv.FormatBool(scalesParam.includeCounts),
-		strconv.FormatBool(scalesParam.excludeEmpty),
+		strconv.FormatBool(scalesParam.IncludeCounts),
+		strconv.FormatBool(scalesParam.ExcludeEmpty),
 	)
 	req, err := http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {

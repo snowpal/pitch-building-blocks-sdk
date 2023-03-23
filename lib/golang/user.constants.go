@@ -5,9 +5,9 @@ const Password = "Welcome1!"
 const (
 	DefaultEmail = "apiuserkp5@gmail.com"
 	ActiveUser   = "apiuser3@gmail.com"
-	ReadUser     = "apiuser2@gmail.com"
+	ReadUser     = "apiuser1@gmail.com"
 	WriteUser    = "api_code_user1@yopmail.com"
-	AdminUser    = "apiuser1@gmail.com"
+	AdminUser    = "apiuser2@gmail.com"
 )
 
 const (
@@ -26,4 +26,9 @@ const (
 	TeacherKeyType = "TeacherKey"
 	StudentKeyType = "StudentKey"
 	ProjectKeyType = "ProjectKey"
+)
+
+const (
+	AlphabeticScaleType = "Alphabetic"
+	NumericScaleType    = "Numeric"
 )

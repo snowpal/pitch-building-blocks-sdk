@@ -27,7 +27,12 @@ func UpdateBlockPodCompletionStatus(
 	payload := strings.NewReader(requestBody)
 
 	var route string
-	route, err = helpers.GetRoute(golang.RouteBlockPodsUpdateBlockPodCompletionStatus, podParam.PodId, podParam.KeyId, podParam.BlockId)
+	route, err = helpers.GetRoute(
+		golang.RouteBlockPodsUpdateBlockPodCompletionStatus,
+		podParam.PodId,
+		podParam.KeyId,
+		podParam.BlockId,
+	)
 	if err != nil {
 		fmt.Println(err)
 		return resPod, err

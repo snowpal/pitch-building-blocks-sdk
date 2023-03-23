@@ -145,14 +145,14 @@ type BlockScaleValue struct {
 	ID           string `json:"id"`
 	Name         string `json:"blockName"`
 	ScaleValue   string `json:"scaleValue"`
-	NumericScale string `json:"numericScale"`
+	NumericScale int    `json:"numericScale"`
 }
 
 type PodScaleValue struct {
 	ID           string `json:"id"`
 	Name         string `json:"podName"`
 	ScaleValue   string `json:"scaleValue"`
-	NumericScale string `json:"numericScale"`
+	NumericScale int    `json:"numericScale"`
 }
 
 type ScaleValues struct {

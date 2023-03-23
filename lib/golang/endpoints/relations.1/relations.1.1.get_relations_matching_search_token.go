@@ -10,36 +10,33 @@ import (
 	"net/http"
 )
 
-type SearchRelationParam struct {
-	Token          string
-	KeyId          *string
-	BlockId        *string
-	CurrentKeyId   *string
-	CurrentBlockId *string
-	CurrentPodId   *string
+type SearchKeyRelationParam struct {
+	Token        string
+	CurrentKeyId string
 }
 
-func SearchRelationsMatchingSearchToken(
-	jwtToken string,
-	relationParam SearchRelationParam,
-) ([]response.SearchResource, error) {
-	resSearchResources := response.SearchResources{}
-	route, err := helpers.GetRoute(
-		golang.RouteRelationsGetRelationsMatchingSearchToken,
-		relationParam.Token,
-		*relationParam.CurrentKeyId,
-		*relationParam.CurrentBlockId,
-		*relationParam.CurrentPodId,
-		*relationParam.KeyId,
-		*relationParam.BlockId,
-	)
-	if err != nil {
-		fmt.Println(err)
-		return resSearchResources.Results, err
-	}
+type SearchBlockRelationParam struct {
+	Token          string
+	CurrentBlockId string
+	KeyId          string
+}
 
-	var req *http.Request
-	req, err = http.NewRequest(http.MethodGet, route, nil)
+type SearchPodRelationParam struct {
+	Token        string
+	CurrentPodId string
+	KeyId        string
+}
+
+type SearchBlockPodRelationParam struct {
+	Token        string
+	CurrentPodId string
+	KeyId        string
+	BlockId      string
+}
+
+func searchRelationsMatchingSearchToken(jwtToken string, route string) ([]response.SearchResource, error) {
+	resSearchResources := response.SearchResources{}
+	req, err := http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
 		fmt.Println(err)
 		return resSearchResources.Results, err
@@ -69,4 +66,96 @@ func SearchRelationsMatchingSearchToken(
 		return resSearchResources.Results, err
 	}
 	return resSearchResources.Results, nil
+}
+
+func SearchRelationsForKeyMatchingSearchToken(
+	jwtToken string,
+	relationParam SearchKeyRelationParam,
+) ([]response.SearchResource, error) {
+	var searchResults []response.SearchResource
+	route, err := helpers.GetRoute(
+		golang.RouteRelationsGetRelationsForKeyMatchingSearchToken,
+		relationParam.Token,
+		relationParam.CurrentKeyId,
+	)
+	if err != nil {
+		fmt.Println(err)
+		return searchResults, err
+	}
+	searchResults, err = searchRelationsMatchingSearchToken(jwtToken, route)
+	if err != nil {
+		fmt.Println(err)
+		return searchResults, err
+	}
+	return searchResults, nil
+}
+
+func SearchRelationsForBlockMatchingSearchToken(
+	jwtToken string,
+	relationParam SearchBlockRelationParam,
+) ([]response.SearchResource, error) {
+	var searchResults []response.SearchResource
+	route, err := helpers.GetRoute(
+		golang.RouteRelationsGetRelationsForBlockMatchingSearchToken,
+		relationParam.Token,
+		relationParam.CurrentBlockId,
+		relationParam.KeyId,
+	)
+	if err != nil {
+		fmt.Println(err)
+		return searchResults, err
+	}
+	searchResults, err = searchRelationsMatchingSearchToken(jwtToken, route)
+	if err != nil {
+		fmt.Println(err)
+		return searchResults, err
+	}
+	return searchResults, nil
+}
+
+func SearchRelationsForPodMatchingSearchToken(
+	jwtToken string,
+	relationParam SearchPodRelationParam,
+) ([]response.SearchResource, error) {
+	var searchResults []response.SearchResource
+	route, err := helpers.GetRoute(
+		golang.RouteRelationsGetRelationsForKeyMatchingSearchToken,
+		relationParam.Token,
+		relationParam.CurrentPodId,
+		relationParam.KeyId,
+	)
+	if err != nil {
+		fmt.Println(err)
+		return searchResults, err
+	}
+	searchResults, err = searchRelationsMatchingSearchToken(jwtToken, route)
+	if err != nil {
+		fmt.Println(err)
+		return searchResults, err
+	}
+	return searchResults, nil
+}
+
+func SearchRelationsForBlockPodMatchingSearchToken(
+	jwtToken string,
+	relationParam SearchBlockPodRelationParam,
+) ([]response.SearchResource, error) {
+	var searchResults []response.SearchResource
+	route, err := helpers.GetRoute(
+		golang.RouteRelationsGetRelationsForBlockPodMatchingSearchToken,
+		relationParam.Token,
+		relationParam.CurrentPodId,
+		relationParam.KeyId,
+		relationParam.BlockId,
+	)
+	if err != nil {
+		fmt.Println(err)
+		return searchResults, err
+	}
+	searchResults, err = searchRelationsMatchingSearchToken(jwtToken, route)
+	if err != nil {
+		fmt.Println(err)
+		return searchResults, err
+	}
+	return searchResults, nil
 }

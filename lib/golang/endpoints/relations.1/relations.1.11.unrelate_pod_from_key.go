@@ -8,19 +8,7 @@ import (
 	"net/http"
 )
 
-func UnrelateKeyFromPod(jwtToken string, relationParam request.KeyToPodRelationParam) error {
-	route, err := helpers.GetRoute(
-		golang.RouteRelationsUnrelatePodFromKey,
-		relationParam.KeyId,
-		relationParam.TargetPodId,
-		relationParam.TargetKeyId,
-		*relationParam.TargetBlockId,
-	)
-	if err != nil {
-		fmt.Println(err)
-		return err
-	}
-
+func unrelateKeyFromPod(jwtToken string, route string) error {
 	req, err := http.NewRequest(http.MethodPatch, route, nil)
 	if err != nil {
 		fmt.Println(err)
@@ -30,6 +18,45 @@ func UnrelateKeyFromPod(jwtToken string, relationParam request.KeyToPodRelationP
 	helpers.AddUserHeaders(jwtToken, req)
 
 	_, err = helpers.MakeRequest(req)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	return nil
+}
+
+func UnrelateKeyFromKeyPod(jwtToken string, relationParam request.BlockToPodRelationParam) error {
+	route, err := helpers.GetRoute(
+		golang.RouteRelationsUnrelatePodFromBlock,
+		relationParam.BlockId,
+		relationParam.TargetPodId,
+		relationParam.TargetKeyId,
+	)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	err = unrelateKeyFromPod(jwtToken, route)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	return nil
+}
+
+func UnrelateKeyFromBlockPod(jwtToken string, relationParam request.BlockToBlockPodRelationParam) error {
+	route, err := helpers.GetRoute(
+		golang.RouteRelationsUnrelateBlockPodFromBlock,
+		relationParam.BlockId,
+		relationParam.TargetPodId,
+		relationParam.TargetKeyId,
+		relationParam.TargetBlockId,
+	)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	err = unrelateKeyFromPod(jwtToken, route)
 	if err != nil {
 		fmt.Println(err)
 		return err

@@ -435,24 +435,41 @@ const (
 	RouteRegistrationActivateUser           = "app/user-verified/%s"
 )
 
+// TODO(Anish,3,03/23/23): As the endpoint is same for key pod & block pod. We need to create these constants to
+// support both with the same endpoint with different query string params.
 const (
-	RouteRelationsGetRelationsMatchingSearchToken = "search/relations?token=%s&currentKeyId=%s&currentBlockId=%s&currentPodId=%s&keyId=%s&blockId=%s"
-	RouteRelationsGetRelationsForKey              = "keys/%s/relations"
-	RouteRelationsGetRelationsForBlock            = "blocks/%s/relations?keyId=%s"
-	RouteRelationsGetRelationsForPod              = "pods/%s/relations?keyId=%s"
-	RouteRelationsGetRelationsForBlockPod         = "block-pods/%s/relations?keyId=%s&blockId=%s"
-	RouteRelationsRelateKeyToKey                  = "keys/%s/keys/%s/relate"
-	RouteRelationsUnrelateKeyFromKey              = "keys/%s/keys/%s/unrelate"
-	RouteRelationsRelateBlockToKey                = "keys/%s/blocks/%s/relate"
-	RouteRelationsUnrelateBlockFromKey            = "keys/%s/blocks/%s/unrelate"
-	RouteRelationsRelatePodToKey                  = "keys/%s/pods/%s/relate?targetKeyId=%s&targetBlockId=%s"
-	RouteRelationsUnrelatePodFromKey              = "keys/%s/pods/%s/unrelate?targetKeyId=%s&targetBlockId=%s"
-	RouteRelationsRelatePodToBlock                = "blocks/%s/pods/%s/relate?targetKeyId=%s&targetBlockId=%s"
-	RouteRelationsUnrelatePodFromBlock            = "blocks/%s/pods/%s/unrelate?targetKeyId=%s&targetBlockId=%s"
-	RouteRelationsRelateBlockToBlock              = "blocks/%s/blocks/%s/relate"
-	RouteRelationsUnrelateBlockFromBlock          = "blocks/%s/blocks/%s/unrelate"
-	RouteRelationsRelatePodToPod                  = "pods/%s/pods/%s/relate?sourceKeyId=%s&sourceBlockId=%s&targetKeyId=%s&targetBlockId=%s"
-	RouteRelationsUnrelatePodFromPod              = "pods/%s/pods/%s/unrelate?sourceKeyId=%s&sourceBlockId=%s&targetKeyId=%s&targetBlockId=%s"
+	RouteRelationsGetRelationsForKeyMatchingSearchToken      = "search/relations?token=%s&currentKeyId=%s"
+	RouteRelationsGetRelationsForBlockMatchingSearchToken    = "search/relations?token=%s&currentBlockId=%s"
+	RouteRelationsGetRelationsForPodMatchingSearchToken      = "search/relations?token=%s&currentPodId=%s&keyId=%s"
+	RouteRelationsGetRelationsForBlockPodMatchingSearchToken = "search/relations?token=%s&currentPodId=%s&keyId=%s&blockId=%s"
+
+	RouteRelationsRelateBlockPodToKey          = "keys/%s/pods/%s/relate?targetKeyId=%s&targetBlockId=%s"
+	RouteRelationsUnrelateBlockPodFromKey      = "keys/%s/pods/%s/unrelate?targetKeyId=%s&targetBlockId=%s"
+	RouteRelationsRelateBlockPodToBlock        = "blocks/%s/pods/%s/relate?targetKeyId=%s&targetBlockId=%s"
+	RouteRelationsUnrelateBlockPodFromBlock    = "blocks/%s/pods/%s/unrelate?targetKeyId=%s&targetBlockId=%s"
+	RouteRelationsRelatePodToBlockPod          = "pods/%s/pods/%s/relate?sourceKeyId=%s&targetKeyId=%s&targetBlockId=%s"
+	RouteRelationsUnrelatePodFromBlockPod      = "pods/%s/pods/%s/unrelate?sourceKeyId=%s&targetKeyId=%s&targetBlockId=%s"
+	RouteRelationsRelateBlockPodToBlockPod     = "pods/%s/pods/%s/relate?sourceKeyId=%s&sourceBlockId=%s&targetKeyId=%s&targetBlockId=%s"
+	RouteRelationsUnrelateBlockPodFromBlockPod = "pods/%s/pods/%s/unrelate?sourceKeyId=%s&sourceBlockId=%s&targetKeyId=%s&targetBlockId=%s"
+)
+
+const (
+	RouteRelationsGetRelationsForKey      = "keys/%s/relations"
+	RouteRelationsGetRelationsForBlock    = "blocks/%s/relations?keyId=%s"
+	RouteRelationsGetRelationsForPod      = "pods/%s/relations?keyId=%s"
+	RouteRelationsGetRelationsForBlockPod = "block-pods/%s/relations?keyId=%s&blockId=%s"
+	RouteRelationsRelateKeyToKey          = "keys/%s/keys/%s/relate"
+	RouteRelationsUnrelateKeyFromKey      = "keys/%s/keys/%s/unrelate"
+	RouteRelationsRelateBlockToKey        = "keys/%s/blocks/%s/relate"
+	RouteRelationsUnrelateBlockFromKey    = "keys/%s/blocks/%s/unrelate"
+	RouteRelationsRelatePodToKey          = "keys/%s/pods/%s/relate?targetKeyId=%s"
+	RouteRelationsUnrelatePodFromKey      = "keys/%s/pods/%s/unrelate?targetKeyId=%s"
+	RouteRelationsRelatePodToBlock        = "blocks/%s/pods/%s/relate?targetKeyId=%s"
+	RouteRelationsUnrelatePodFromBlock    = "blocks/%s/pods/%s/unrelate?targetKeyId=%s"
+	RouteRelationsRelateBlockToBlock      = "blocks/%s/blocks/%s/relate"
+	RouteRelationsUnrelateBlockFromBlock  = "blocks/%s/blocks/%s/unrelate"
+	RouteRelationsRelatePodToPod          = "pods/%s/pods/%s/relate?sourceKeyId=%s&targetKeyId=%s"
+	RouteRelationsUnrelatePodFromPod      = "pods/%s/pods/%s/unrelate?sourceKeyId=%s&targetKeyId=%s"
 )
 
 const (

@@ -3,13 +3,14 @@ package response
 import "development/go/recipes/lib/golang/structs/common"
 
 type Notifications struct {
+	//TODO(Anish,3,03/23/23): Rename `badges` to `notifications` first on gateway post processor and then here.
 	Notifications []Notification `json:"badges"`
 }
 
 type Notification struct {
 	ID       string               `json:"id"`
-	Type     string               `json:"badgeType"`
-	Text     string               `json:"badgeText"`
+	Type     string               `json:"badgeType"` // See above
+	Text     string               `json:"badgeText"` // See above
 	Unread   bool                 `json:"unread"`
 	Resource NotificationResource `json:"resource"`
 }

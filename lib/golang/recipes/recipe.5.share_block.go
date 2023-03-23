@@ -13,6 +13,7 @@ import (
 	collaboration "development/go/recipes/lib/golang/endpoints/collaboration.1.blocks"
 	keys "development/go/recipes/lib/golang/endpoints/keys.1"
 	user2 "development/go/recipes/lib/golang/endpoints/user.1"
+
 	log "github.com/sirupsen/logrus"
 )
 
@@ -116,44 +117,15 @@ func shareBlock(user response.User) (response.Block, error) {
 	if err != nil {
 		return block, err
 	}
-	err = searchUserAndShareBlock(user, block, golang.ReadUserToken, golang.ReadAcl)
+	err = recipes.SearchUserAndShareBlock(user, block, golang.ReadUserToken, golang.ReadAcl)
 	if err != nil {
 		return block, err
 	}
-	err = searchUserAndShareBlock(user, block, golang.WriteUserToken, golang.WriteAcl)
+	err = recipes.SearchUserAndShareBlock(user, block, golang.WriteUserToken, golang.WriteAcl)
 	if err != nil {
 		return block, err
 	}
 	return block, nil
-}
-
-func searchUserAndShareBlock(user response.User, block response.Block, searchToken string, acl string) error {
-	blockIdParam := common.ResourceIdParam{
-		BlockId: block.ID,
-		KeyId:   block.Key.ID,
-	}
-
-	searchedUsers, err := collaboration.GetUsersThisBlockCanBeSharedWith(
-		user.JwtToken,
-		common.SearchUsersParam{
-			SearchToken: searchToken,
-			ResourceIds: blockIdParam,
-		})
-	if err != nil {
-		return err
-	}
-
-	_, err = collaboration.ShareBlockWithCollaborator(
-		user.JwtToken,
-		request.BlockAclReqBody{Acl: acl},
-		common.AclParam{
-			UserId:      searchedUsers[0].ID,
-			ResourceIds: blockIdParam,
-		})
-	if err != nil {
-		return err
-	}
-	return nil
 }
 
 func showNotificationsAsWriteUser(writeUser response.User) error {

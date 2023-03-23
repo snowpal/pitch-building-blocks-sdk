@@ -9,12 +9,13 @@ type Pods struct {
 }
 
 type Pod struct {
-	ID                string `json:"id"`
-	Name              string `json:"podName"`
-	Description       string `json:"podDescription"`
-	SimpleDescription string `json:"simpleDescription"`
-	Color             string `json:"color"`
-	Tags              string `json:"tags"`
+	ID                string  `json:"id"`
+	Name              string  `json:"podName"`
+	Description       string  `json:"podDescription"`
+	SimpleDescription string  `json:"simpleDescription"`
+	Color             string  `json:"color"`
+	Tags              string  `json:"tags"`
+	ScaleValue        *string `json:"scaleValue"`
 
 	Attributes  []common.DisplayAttribute `json:"attributes"`
 	PodType     *PodType                  `json:"podType"`
@@ -65,7 +66,7 @@ type UpdatePodScaleValue struct {
 	ID           string `json:"id"`
 	Name         string `json:"name"`
 	ScaleValue   string `json:"scaleValue"`
-	NumericScale string `json:"numericScale"`
+	NumericScale int    `json:"numericScale"`
 
 	Key   common.SlimKey    `json:"key"`
 	Block *common.SlimBlock `json:"block"`

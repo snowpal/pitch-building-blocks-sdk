@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-func UnrelateBlockToBlock(jwtToken string, relationParam request.BlockToBlockRelationParam) error {
+func UnrelateBlockFromBlock(jwtToken string, relationParam request.BlockToBlockRelationParam) error {
 	route, err := helpers.GetRoute(
 		golang.RouteRelationsUnrelateBlockFromBlock,
 		relationParam.BlockId,
