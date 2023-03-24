@@ -69,6 +69,14 @@ func AddTeacherKey(user response.User, keyName string) (response.Key, error) {
 	return newKey, nil
 }
 
+func AddProjectKey(user response.User, keyName string) (response.Key, error) {
+	newKey, err := addKey(user, keyName, golang.ProjectKeyType)
+	if err != nil {
+		return newKey, err
+	}
+	return newKey, nil
+}
+
 func AddBlock(user response.User, blockName string, key response.Key) (response.Block, error) {
 	newBlock, err := blocks.AddBlock(
 		user.JwtToken,

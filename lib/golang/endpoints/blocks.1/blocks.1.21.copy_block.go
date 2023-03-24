@@ -16,7 +16,7 @@ func CopyBlock(jwtToken string, blockParam request.CopyMoveBlockParam) error {
 		blockParam.BlockId,
 		blockParam.KeyId,
 		blockParam.TargetKeyId,
-		strings.Join(*blockParam.PodIds, ","),
+		strings.Join(blockParam.PodIds, ","),
 		strconv.FormatBool(*blockParam.AllPods),
 		strconv.FormatBool(*blockParam.AllTasks),
 		strconv.FormatBool(*blockParam.AllChecklists),

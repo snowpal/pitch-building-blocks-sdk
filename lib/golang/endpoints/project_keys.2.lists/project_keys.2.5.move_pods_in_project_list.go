@@ -18,7 +18,7 @@ func MovePodsInProjectList(jwtToken string, projectListParam request.CopyMovePro
 		projectListParam.TargetKeyId,
 		projectListParam.TargetBlockId,
 		projectListParam.TargetProjectListId,
-		strconv.FormatBool(*projectListParam.AllPods),
+		strconv.FormatBool(projectListParam.AllPods),
 	)
 	if err != nil {
 		fmt.Println(err)

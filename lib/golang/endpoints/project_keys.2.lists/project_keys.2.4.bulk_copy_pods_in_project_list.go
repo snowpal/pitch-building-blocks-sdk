@@ -19,8 +19,8 @@ func BulkCopyPodsInProjectList(jwtToken string, projectListParam request.CopyMov
 		projectListParam.TargetKeyId,
 		projectListParam.TargetBlockId,
 		projectListParam.TargetProjectListId,
-		strconv.FormatBool(*projectListParam.AllTasks),
-		strings.Join(*projectListParam.PodIds, ","),
+		strconv.FormatBool(projectListParam.AllTasks),
+		strings.Join(projectListParam.PodIds, ","),
 	)
 	if err != nil {
 		fmt.Println(err)

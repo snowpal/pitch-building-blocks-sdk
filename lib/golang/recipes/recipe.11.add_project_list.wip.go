@@ -3,8 +3,21 @@ package main
 import (
 	"development/go/recipes/lib/golang"
 	"development/go/recipes/lib/golang/helpers/recipes"
+	"development/go/recipes/lib/golang/structs/common"
+	"development/go/recipes/lib/golang/structs/request"
 	"development/go/recipes/lib/golang/structs/response"
+
+	projectKeys "development/go/recipes/lib/golang/endpoints/project_keys.1"
+	projectLists "development/go/recipes/lib/golang/endpoints/project_keys.2.lists"
 	log "github.com/sirupsen/logrus"
+)
+
+const (
+	ProjectKeyName   = "Go Development"
+	ProjectBlockName = "Status API"
+	ProjectPodName   = "Define Endpoints"
+	ProjectList1Name = "Statuses"
+	ProjectList2Name = "Teams"
 )
 
 func main() {
@@ -14,27 +27,99 @@ func main() {
 		return
 	}
 
-	user, err := recipes.SignIn(golang.DefaultEmail, golang.Password)
+	user, err := recipes.SignIn(golang.ActiveUser, golang.Password)
 	if err != nil {
 		return
 	}
 
-	key, err := addKey(user, "")
-	block, err := addBlock(user, "", key)
-	pod, err := addBlockPod(user, "", key, block)
-	projectList1, err := addProjectList(user, "", key, block)
-	projectList2, err := addProjectList(user, "", key, block)
-	movePodBetweenLists(projectList1, projectList2, pod)
+	projectKey, err := recipes.AddProjectKey(user, ProjectKeyName)
+	if err != nil {
+		return
+	}
+
+	projectBlock, err := recipes.AddBlock(user, ProjectBlockName, projectKey)
+	if err != nil {
+		return
+	}
+
+	log.Info("Add 2 project lists")
+	recipes.SleepBefore()
+	projectList1, err := addProjectList(user, ProjectList1Name, projectBlock)
+	if err != nil {
+		return
+	}
+	projectList2, err := addProjectList(user, ProjectList2Name, projectBlock)
+	if err != nil {
+		return
+	}
+	log.Print(".Both project lists, %s and %s created successfully", projectList1.Name, projectList2.Name)
+	recipes.SleepAfter()
+
+	log.Info("Add a project pod into a project list")
+	recipes.SleepBefore()
+	projectPod, err := addProjectPod(user, ProjectPodName, projectList1)
+	if err != nil {
+		return
+	}
+	log.Printf(".Project pod %s created inside %s successfully", projectPod.Name, projectList1.Name)
+	recipes.SleepAfter()
+
+	log.Printf("Move project pod %s between project lists", projectPod.Name)
+	recipes.SleepBefore()
+	err = movePodBetweenLists(user, projectList1, projectList2, projectPod)
+	if err != nil {
+		return
+	}
+	log.Printf(".Project pod %s moved from list %s to list %s successfully", projectPod.Name,
+		projectList1.Name, projectList2.Name)
+	recipes.SleepAfter()
 }
 
-func addBlockPod(user response.User, podName string, key response.Key, block response.Block) (response.Pod, error) {
-	return response.Pod{}, nil
+func addProjectPod(user response.User, podName string, projectList response.ProjectList) (response.Pod, error) {
+	newPod, err := projectKeys.AddProjectPod(
+		user.JwtToken,
+		request.AddPodReqBody{Name: podName},
+		request.ProjectListIdParam{
+			ProjectListId: projectList.ID,
+			BlockId:       projectList.Block.ID,
+			KeyId:         projectList.Key.ID,
+		},
+	)
+	if err != nil {
+		return newPod, err
+	}
+	return newPod, nil
 }
 
-func movePodBetweenLists(projectList1 response.ProjectList, projectList2 response.ProjectList, pod response.Pod) {
+func addProjectList(user response.User, projectListName string, block response.Block) (response.ProjectList, error) {
+	newProjectList, err := projectLists.AddProjectBlockList(
+		user.JwtToken,
+		request.AddProjectListReqBody{Name: projectListName},
+		common.ResourceIdParam{BlockId: block.ID, KeyId: block.Key.ID},
+	)
+	if err != nil {
+		return newProjectList, err
+	}
+	return newProjectList, nil
 }
 
-func addProjectList(user response.User, projectListName string, key response.Key,
-	block response.Block) (response.ProjectList, error) {
-	return response.ProjectList{}, nil
+func movePodBetweenLists(
+	user response.User,
+	list1 response.ProjectList,
+	list2 response.ProjectList,
+	pod response.Pod,
+) error {
+	err := projectLists.BulkMovePodsInProjectList(user.JwtToken, request.CopyMoveProjectListPodsParam{
+		ProjectListId:       list1.ID,
+		BlockId:             pod.Block.ID,
+		KeyId:               pod.Key.ID,
+		TargetProjectListId: list2.ID,
+		TargetBlockId:       list2.Block.ID,
+		TargetKeyId:         list2.Key.ID,
+		PodIds:              []string{pod.ID},
+	})
+	if err != nil {
+		return err
+	}
+	return nil
 }

@@ -44,8 +44,8 @@ type CopyMoveProjectListPodsParam struct {
 	TargetBlockId       string
 	TargetProjectListId string
 
-	AllTasks *bool
-	AllPods  *bool
+	AllTasks bool
+	AllPods  bool
 
-	PodIds *string
+	PodIds []string
 }
