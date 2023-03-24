@@ -1,7 +1,7 @@
 package main
 
 import (
-	"development/go/recipes/lib/building-blocks"
+	building_blocks "development/go/recipes/lib/building-blocks"
 	"development/go/recipes/lib/building-blocks/endpoints/notifications.1"
 	"development/go/recipes/lib/building-blocks/helpers/recipes"
 	"development/go/recipes/lib/building-blocks/structs/common"
@@ -117,11 +117,11 @@ func shareBlock(user response.User) (response.Block, error) {
 	if err != nil {
 		return block, err
 	}
-	err = recipes.SearchUserAndShareBlock(user, block, building_blocks.ReadUserToken, building_blocks.ReadAcl)
+	err = recipes.SearchUserAndShareBlock(user, block, "api", building_blocks.ReadAcl)
 	if err != nil {
 		return block, err
 	}
-	err = recipes.SearchUserAndShareBlock(user, block, building_blocks.WriteUserToken, building_blocks.WriteAcl)
+	err = recipes.SearchUserAndShareBlock(user, block, "code_user1", building_blocks.WriteAcl)
 	if err != nil {
 		return block, err
 	}

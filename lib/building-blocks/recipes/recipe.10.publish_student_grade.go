@@ -1,7 +1,7 @@
 package main
 
 import (
-	"development/go/recipes/lib/building-blocks"
+	building_blocks "development/go/recipes/lib/building-blocks"
 	"development/go/recipes/lib/building-blocks/endpoints/block_pods.1"
 	"development/go/recipes/lib/building-blocks/endpoints/scales.1"
 	teacherKeys2 "development/go/recipes/lib/building-blocks/endpoints/teacher_keys.2.teachers"
@@ -9,6 +9,7 @@ import (
 	"development/go/recipes/lib/building-blocks/structs/common"
 	"development/go/recipes/lib/building-blocks/structs/request"
 	"development/go/recipes/lib/building-blocks/structs/response"
+
 	log "github.com/sirupsen/logrus"
 )
 
@@ -49,7 +50,7 @@ func PublishStudentGrade() {
 		return
 	}
 
-	err = recipes.SearchUserAndShareBlock(user, block, building_blocks.ReadUserToken, building_blocks.ReadAcl)
+	err = recipes.SearchUserAndShareBlock(user, block, "api", building_blocks.ReadAcl)
 	if err != nil {
 		return
 	}

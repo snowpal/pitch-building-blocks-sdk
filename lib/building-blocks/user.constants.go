@@ -11,11 +11,6 @@ const (
 )
 
 const (
-	ReadUserToken  = "api"
-	WriteUserToken = "code_user1"
-)
-
-const (
 	ReadAcl  = "read"
 	WriteAcl = "write"
 	AdminAcl = "admin"

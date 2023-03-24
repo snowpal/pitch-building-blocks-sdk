@@ -1,12 +1,13 @@
 package main
 
 import (
-	"development/go/recipes/lib/building-blocks"
+	building_blocks "development/go/recipes/lib/building-blocks"
 	"development/go/recipes/lib/building-blocks/helpers/recipes"
 	"development/go/recipes/lib/building-blocks/structs/request"
 	"development/go/recipes/lib/building-blocks/structs/response"
 
 	blocks "development/go/recipes/lib/building-blocks/endpoints/blocks.1"
+
 	log "github.com/sirupsen/logrus"
 )
 
@@ -43,7 +44,7 @@ func GrantAclOnCustomBlock() {
 
 	log.Info("Share block with read access")
 	recipes.SleepBefore()
-	err = recipes.SearchUserAndShareBlock(user, block, building_blocks.ReadUserToken, building_blocks.ReadAcl)
+	err = recipes.SearchUserAndShareBlock(user, block, "api", building_blocks.ReadAcl)
 	if err != nil {
 		return
 	}
@@ -61,7 +62,7 @@ func GrantAclOnCustomBlock() {
 
 	log.Info("Share block with admin access")
 	recipes.SleepBefore()
-	err = recipes.SearchUserAndShareBlock(user, anotherBlock, building_blocks.ReadUserToken, building_blocks.AdminAcl)
+	err = recipes.SearchUserAndShareBlock(user, anotherBlock, "api", building_blocks.AdminAcl)
 	if err != nil {
 		return
 	}
