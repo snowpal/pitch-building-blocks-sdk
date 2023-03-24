@@ -20,7 +20,7 @@ const (
 	ProjectList2Name = "Teams"
 )
 
-func main() {
+func AddProjectList() {
 	log.Info("Objective: Add Project Lists, Project Pods, Move Pod between Lists")
 	_, err := recipes.ValidateDependencies()
 	if err != nil {

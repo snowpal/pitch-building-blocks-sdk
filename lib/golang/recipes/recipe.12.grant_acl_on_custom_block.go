@@ -15,7 +15,7 @@ const (
 	CopyBlockName = "Car Insurance"
 )
 
-func main() {
+func GrantAclOnCustomBlock() {
 	log.Info("Objective: Add Custom Block, Share Block, Grant Read Access, Copy Block, Grant Admin Access")
 	_, err := recipes.ValidateDependencies()
 	if err != nil {

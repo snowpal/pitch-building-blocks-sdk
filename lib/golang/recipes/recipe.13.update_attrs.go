@@ -14,9 +14,9 @@ const (
 	AttrsBlockName = "Parrot"
 )
 
-// sign in, update key attributes, update block attributes, update pod attributes, update block pod attributes,
+// UpdateAttributes sign in, update key attributes, update block attributes, update pod attributes, update block pod attributes,
 // get resource attributes
-func main() {
+func UpdateAttributes() {
 	log.Info("Objective: Update show/hide of key, block, pod & block pod attributes")
 	_, err := recipes.ValidateDependencies()
 	if err != nil {

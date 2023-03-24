@@ -21,8 +21,8 @@ const (
 	BlockPod1Name    = "Expenses"
 )
 
-// Add block, pod & block pod to a key and link them into another key
-func main() {
+// AddAndLinkResources Add block, pod & block pod to a key and link them into another key
+func AddAndLinkResources() {
 	log.Info("Objective: Add keys and blocks, and link blocks")
 	_, err := recipes.ValidateDependencies()
 	if err != nil {

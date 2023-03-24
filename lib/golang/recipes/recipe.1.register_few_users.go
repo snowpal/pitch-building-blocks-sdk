@@ -6,7 +6,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func main() {
+func RegisterFewUsers() {
 	log.Info("Objective: Sign up a few new users")
 	_, err := recipes.RegisterUser(golang.DefaultEmail)
 	if err != nil {

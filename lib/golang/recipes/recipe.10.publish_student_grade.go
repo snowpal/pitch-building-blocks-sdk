@@ -18,7 +18,7 @@ const (
 	TeacherPodName   = "Final Exam"
 )
 
-func main() {
+func PublishStudentGrade() {
 	log.Info("Objective: Assign and Publish Pod Grades for a Student")
 	_, err := recipes.ValidateDependencies()
 	if err != nil {

@@ -8,7 +8,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func main() {
+func GetAllKeys() {
 	log.Info("Objective: Sign up, activate user, sign in, get all keys")
 	_, err := recipes.ValidateDependencies()
 	if err != nil {

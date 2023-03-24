@@ -18,12 +18,12 @@ import (
 )
 
 const (
-	KeyName          = "Diwali Festival11"
-	BlockName        = "Diwali Function11"
-	UpdatedBlockName = "Diwali Celebration11"
+	KeyName          = "Diwali Festival"
+	BlockName        = "Diwali Function"
+	UpdatedBlockName = "Diwali Celebration"
 )
 
-func main() {
+func ShareBlock() {
 	log.Info("Objective: Create block, share users as read & write, make 1 of them as admin.")
 	_, err := recipes.ValidateDependencies()
 	if err != nil {

@@ -14,18 +14,17 @@ import (
 const Password string = "Welcome1!"
 const (
 	User1Email string = "mike@yopmail.com"
-	User2Email string = "george@yopmail.com"
 )
 
 // Sign up, activate user, sign in, get all keys.
-func main() {
+func CreatePrivateConversation() {
 	log.Info("Objective: Send messages to a private conversation")
 	_, err := recipes.ValidateDependencies()
 	if err != nil {
 		return
 	}
 
-	user, err := recipes.SignIn(golang.DefaultEmail, golang.Password)
+	user, err := recipes.SignIn(golang.ActiveUser, golang.Password)
 	if err != nil {
 		return
 	}
@@ -86,7 +85,7 @@ func getUserProfile() (response.User, response.Profile, error) {
 	log.Info("Get profiles of (target) users to create conversation")
 	recipes.SleepBefore()
 	anotherUser, err := registration.SignInByEmail(request.SignInReqBody{
-		Email:    User2Email,
+		Email:    User1Email,
 		Password: Password,
 	})
 	if err != nil {

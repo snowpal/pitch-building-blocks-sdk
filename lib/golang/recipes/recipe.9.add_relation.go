@@ -15,7 +15,7 @@ const (
 	RelationPodName   = "Cat6"
 )
 
-func main() {
+func AddRelation() {
 	log.Info("Objective: Add and Remove Relations")
 	_, err := recipes.ValidateDependencies()
 	if err != nil {

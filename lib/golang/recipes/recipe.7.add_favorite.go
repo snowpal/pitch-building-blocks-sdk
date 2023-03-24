@@ -14,7 +14,7 @@ const (
 	FavBlockName = "FavoriteBlock"
 )
 
-func main() {
+func AddFavorite() {
 	log.Info("Objective: Add and Remove Favorites")
 	_, err := recipes.ValidateDependencies()
 	if err != nil {

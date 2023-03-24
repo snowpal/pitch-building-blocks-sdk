@@ -20,7 +20,7 @@ const (
 	DueDate            = "2023-03-10T14:19:04.027Z"
 )
 
-func main() {
+func FetchScheduler() {
 	log.Info("Objective: Set Due Date for Block and Pod, and Fetch Scheduler Events")
 	_, err := recipes.ValidateDependencies()
 	if err != nil {
