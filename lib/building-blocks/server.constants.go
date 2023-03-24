@@ -1,13 +1,13 @@
-package golang
+package building_blocks
 
 const (
 	XApiKey      = "60VeKLKBd5aABPy3rBU5baBLcAQEqsVT4O3YwjU4" // "wf8sHELzWp9MGizZME5Zsjk4IntZS0e8mdYMYjjg"
 	XProductCode = "1921hz7e7g4chnw3swhng5i0d"
 )
 
-const GatewayHost = "http://localhost:3030/"
+//const GatewayHost = "http://localhost:3030/"
 
-//const GatewayHost = "https://gateway-dev.snowpal.com/"
+const GatewayHost = "https://gateway-dev.snowpal.com/"
 
 const (
 	RouteAttributesGetDisplayableAttributes        = "app/resource/attributes"
