@@ -119,7 +119,7 @@ func SearchRelationsForPodMatchingSearchToken(
 ) ([]response.SearchResource, error) {
 	var searchResults []response.SearchResource
 	route, err := helpers.GetRoute(
-		building_blocks.RouteRelationsGetRelationsForKeyMatchingSearchToken,
+		building_blocks.RouteRelationsGetRelationsForPodMatchingSearchToken,
 		relationParam.Token,
 		relationParam.CurrentPodId,
 		relationParam.KeyId,

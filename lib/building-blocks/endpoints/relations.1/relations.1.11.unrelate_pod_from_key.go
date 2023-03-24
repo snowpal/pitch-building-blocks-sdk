@@ -27,7 +27,7 @@ func unrelateKeyFromPod(jwtToken string, route string) error {
 
 func UnrelateKeyFromKeyPod(jwtToken string, relationParam request.BlockToPodRelationParam) error {
 	route, err := helpers.GetRoute(
-		building_blocks.RouteRelationsUnrelatePodFromBlock,
+		building_blocks.RouteRelationsUnrelatePodFromKey,
 		relationParam.BlockId,
 		relationParam.TargetPodId,
 		relationParam.TargetKeyId,
@@ -46,7 +46,7 @@ func UnrelateKeyFromKeyPod(jwtToken string, relationParam request.BlockToPodRela
 
 func UnrelateKeyFromBlockPod(jwtToken string, relationParam request.BlockToBlockPodRelationParam) error {
 	route, err := helpers.GetRoute(
-		building_blocks.RouteRelationsUnrelateBlockPodFromBlock,
+		building_blocks.RouteRelationsUnrelateBlockPodFromKey,
 		relationParam.BlockId,
 		relationParam.TargetPodId,
 		relationParam.TargetKeyId,
