@@ -14,10 +14,10 @@ func CopyKeyPod(jwtToken string, podParam request.CopyMovePodParam) error {
 		golang.RouteKeyPodsCopyKeyPod,
 		podParam.PodId,
 		podParam.KeyId,
-		strconv.FormatBool(*podParam.AllTasks),
-		strconv.FormatBool(*podParam.AllChecklists),
+		strconv.FormatBool(podParam.AllTasks),
+		strconv.FormatBool(podParam.AllChecklists),
 		podParam.TargetKeyId,
-		*podParam.TargetBlockId,
+		podParam.TargetBlockId,
 	)
 	if err != nil {
 		fmt.Println(err)

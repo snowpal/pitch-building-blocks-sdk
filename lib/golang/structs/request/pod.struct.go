@@ -60,9 +60,9 @@ type CopyMovePodParam struct {
 	KeyId       string
 	TargetKeyId string
 
-	BlockId       *string
-	TargetBlockId *string
+	BlockId       string
+	TargetBlockId string
 
-	AllTasks      *bool
-	AllChecklists *bool
+	AllTasks      bool
+	AllChecklists bool
 }

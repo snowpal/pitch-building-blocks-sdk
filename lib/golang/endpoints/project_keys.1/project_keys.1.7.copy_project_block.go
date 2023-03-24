@@ -15,8 +15,8 @@ func CopyProjectBlock(jwtToken string, blockParam request.CopyMoveBlockParam) er
 		blockParam.BlockId,
 		blockParam.KeyId,
 		blockParam.TargetKeyId,
-		strconv.FormatBool(*blockParam.AllPods),
-		strconv.FormatBool(*blockParam.AllTasks),
+		strconv.FormatBool(blockParam.AllPods),
+		strconv.FormatBool(blockParam.AllTasks),
 	)
 	if err != nil {
 		fmt.Println(err)

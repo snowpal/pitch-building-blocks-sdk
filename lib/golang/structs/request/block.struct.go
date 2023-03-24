@@ -12,7 +12,7 @@ type GetBlocksParam struct {
 	KeyId            string
 	BatchIndex       int
 	WriteOrHigherAcl bool
-	Filter           *string
+	Filter           string
 }
 
 type CopyMoveBlockParam struct {
@@ -20,8 +20,8 @@ type CopyMoveBlockParam struct {
 	KeyId       string
 	TargetKeyId string
 
-	PodIds        *string
-	AllPods       *bool
-	AllTasks      *bool
-	AllChecklists *bool
+	PodIds        []string
+	AllPods       bool
+	AllTasks      bool
+	AllChecklists bool
 }

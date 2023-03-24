@@ -13,9 +13,9 @@ func MoveBlockPod(jwtToken string, podParam request.CopyMovePodParam) error {
 		golang.RouteBlockPodsMoveBlockPod,
 		podParam.PodId,
 		podParam.KeyId,
-		*podParam.BlockId,
+		podParam.BlockId,
 		podParam.TargetKeyId,
-		*podParam.TargetBlockId,
+		podParam.TargetBlockId,
 	)
 	if err != nil {
 		fmt.Println(err)

@@ -14,7 +14,7 @@ func MoveKeyPod(jwtToken string, podParam request.CopyMovePodParam) error {
 		podParam.PodId,
 		podParam.KeyId,
 		podParam.TargetKeyId,
-		*podParam.TargetBlockId,
+		podParam.TargetBlockId,
 	)
 	if err != nil {
 		fmt.Println(err)

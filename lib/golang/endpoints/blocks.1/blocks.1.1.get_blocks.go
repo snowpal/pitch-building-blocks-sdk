@@ -17,7 +17,7 @@ func GetBlocks(jwtToken string, blockParam request.GetBlocksParam) ([]response.B
 	route, err := helpers.GetRoute(
 		golang.RouteBlocksGetBlocks,
 		blockParam.KeyId,
-		*blockParam.Filter,
+		blockParam.Filter,
 		strconv.Itoa(blockParam.BatchIndex),
 		strconv.FormatBool(blockParam.WriteOrHigherAcl),
 	)
