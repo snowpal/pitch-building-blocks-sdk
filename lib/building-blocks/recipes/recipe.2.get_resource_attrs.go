@@ -9,7 +9,7 @@ import (
 	"fmt"
 )
 
-// sign in, get resource attributes
+// GetResourceAttributes sign in, get resource attributes
 func GetResourceAttributes() {
 	log.Info("Objective: Get resource attributes")
 	_, err := recipes.ValidateDependencies()

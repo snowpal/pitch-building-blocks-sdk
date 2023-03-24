@@ -16,7 +16,7 @@ const (
 	User1Email string = "mike@yopmail.com"
 )
 
-// Sign up, activate user, sign in, get all keys.
+// CreatePrivateConversation Sign up, activate user, sign in, get all keys.
 func CreatePrivateConversation() {
 	log.Info("Objective: Send messages to a private conversation")
 	_, err := recipes.ValidateDependencies()
