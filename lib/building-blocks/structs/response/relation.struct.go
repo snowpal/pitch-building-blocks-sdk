@@ -30,7 +30,7 @@ type Relations struct {
 }
 
 type Relationships struct {
-	Keys   *common.SlimKey   `json:"keys"`
-	Blocks *common.SlimBlock `json:"blocks"`
-	Pods   *common.SlimPod   `json:"pods"`
+	Keys   []common.SlimKey   `json:"keys"`
+	Blocks []common.SlimBlock `json:"blocks"`
+	Pods   []common.SlimPod   `json:"pods"`
 }

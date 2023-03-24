@@ -11,9 +11,9 @@ type ProjectList struct {
 	Name     string `json:"projectListName"`
 	Sequence int    `json:"projectListSequence"`
 
-	Key   common.SlimKey `json:"key"`
-	Block common.SlimPod `json:"block"`
-	Pods  []Pod          `json:"pods"`
+	Key   common.SlimKey   `json:"key"`
+	Block common.SlimBlock `json:"block"`
+	Pods  []Pod            `json:"pods"`
 
 	Creator      common.ResourceModifier `json:"creator"`
 	Modifier     common.ResourceModifier `json:"modifier"`
