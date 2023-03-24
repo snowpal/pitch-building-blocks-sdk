@@ -1,7 +1,7 @@
-package attributes_1
+package user
 
 import (
-	building_blocks "development/go/recipes/lib/building-blocks"
+	"development/go/recipes/lib/building-blocks"
 	"development/go/recipes/lib/building-blocks/helpers"
 	"development/go/recipes/lib/building-blocks/structs/response"
 	"encoding/json"
@@ -10,19 +10,19 @@ import (
 	"net/http"
 )
 
-func GetResourceAttrs(jwtToken string) (response.ResourceAttributes, error) {
-	var resAttributes response.ResourceAttributes
-	route, err := helpers.GetRoute(building_blocks.RouteAttributesGetDisplayableAttributes)
+func GetUserByUuid(jwtToken string, userUuid string) (response.User, error) {
+	resUser := response.User{}
+	route, err := helpers.GetRoute(building_blocks.RouteUserGetUserByUuid, userUuid)
 	if err != nil {
 		fmt.Println(err)
-		return resAttributes, err
+		return resUser, err
 	}
 
 	var req *http.Request
 	req, err = http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
 		fmt.Println(err)
-		return resAttributes, err
+		return resUser, err
 	}
 
 	helpers.AddUserHeaders(jwtToken, req)
@@ -31,22 +31,22 @@ func GetResourceAttrs(jwtToken string) (response.ResourceAttributes, error) {
 	res, err = helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
-		return resAttributes, err
+		return resUser, err
 	}
 
 	defer helpers.CloseBody(res.Body)
 
-	body, _ := io.ReadAll(res.Body)
+	var body []byte
+	body, err = io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return resAttributes, err
+		return resUser, err
 	}
 
-	err = json.Unmarshal(body, &resAttributes)
+	err = json.Unmarshal(body, &resUser)
 	if err != nil {
 		fmt.Println(err)
-		return resAttributes, err
+		return resUser, err
 	}
-
-	return resAttributes, nil
+	return resUser, nil
 }
