@@ -10,7 +10,7 @@ const GatewayHost = "http://localhost:3030/"
 //const GatewayHost = "https://gateway-dev.snowpal.com/"
 
 const (
-	RouteAttributesGetDisplayableAttributesOfKey   = "app/resource/attributes"
+	RouteAttributesGetDisplayableAttributes        = "app/resource/attributes"
 	RouteAttributesUpdateKeyDisplayAttributes      = "keys/%s/attributes"
 	RouteAttributesUpdateBlockDisplayAttributes    = "blocks/%s/attributes?keyId=%s"
 	RouteAttributesUpdateKeyPodDisplayAttributes   = "pods/%s/attributes?keyId=%s"

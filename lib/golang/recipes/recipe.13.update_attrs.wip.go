@@ -3,56 +3,79 @@ package main
 import (
 	"development/go/recipes/lib/golang"
 	attributes "development/go/recipes/lib/golang/endpoints/attributes.1"
-	registration "development/go/recipes/lib/golang/endpoints/registration.1"
+	"development/go/recipes/lib/golang/helpers/recipes"
 	"development/go/recipes/lib/golang/structs/common"
 	"development/go/recipes/lib/golang/structs/request"
 	log "github.com/sirupsen/logrus"
+)
 
-	"fmt"
+const (
+	AttrsKeyName   = "Birds"
+	AttrsBlockName = "Parrot"
 )
 
 // sign in, update key attributes, update block attributes, update pod attributes, update block pod attributes,
 // get resource attributes
 func main() {
-	log.Info("Objective: ")
-	log.Info(".sign in user email: ", golang.DefaultEmail)
-	userSignIn, err := registration.SignInByEmail(request.SignInReqBody{
-		Email:    golang.DefaultEmail,
-		Password: golang.Password,
-	})
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	log.Info(".TODO(): get a key, and use it below")
-	err = attributes.UpdateKeyAttrs(userSignIn.JwtToken, "", request.ResourceAttribute{})
+	log.Info("Objective: Update show/hide of key, block, pod & block pod attributes")
+	_, err := recipes.ValidateDependencies()
 	if err != nil {
 		return
 	}
 
-	log.Info(".TODO(): get a block, and use it below")
-	err = attributes.UpdateBlockAttrs(userSignIn.JwtToken, common.ResourceIdParam{}, request.ResourceAttribute{})
+	user, err := recipes.SignIn(golang.ActiveUser, golang.Password)
 	if err != nil {
 		return
 	}
 
-	log.Info(".TODO(): get a pod, and use it below")
-	err = attributes.UpdatePodAttrs(userSignIn.JwtToken, common.ResourceIdParam{}, request.ResourceAttribute{})
+	log.Info("Get displayable attributes")
+	recipes.SleepBefore()
+	resourceAttrs, _ := attributes.GetResourceAttrs(user.JwtToken)
 	if err != nil {
 		return
 	}
+	log.Info(resourceAttrs)
 
-	log.Info(".TODO(): get a block pod, and use it below")
-	err = attributes.UpdateBlockPodAttrs(userSignIn.JwtToken, common.ResourceIdParam{}, request.ResourceAttribute{})
+	log.Info("Update key attributes")
+	recipes.SleepBefore()
+	key, err := recipes.AddCustomKey(user, AttrsKeyName)
 	if err != nil {
 		return
 	}
-
-	log.Info(".get resource attributes")
-	resourceAttrs, _ := attributes.GetResourceAttrs(userSignIn.JwtToken)
+	err = attributes.UpdateKeyAttrs(
+		user.JwtToken,
+		key.ID,
+		request.ResourceAttributeReqBody{
+			AttributeNames: "tags,rendering_mode",
+			ShowAttribute:  false,
+		},
+	)
 	if err != nil {
 		return
 	}
+	log.Printf(".Attributes for Key %s updated successfully", key.Name)
+	recipes.SleepAfter()
 
-	fmt.Println(resourceAttrs)
+	log.Info("Update block attributes")
+	recipes.SleepBefore()
+	block, err := recipes.AddBlock(user, AttrsBlockName, key)
+	if err != nil {
+		return
+	}
+	err = attributes.UpdateBlockAttrs(
+		user.JwtToken,
+		common.ResourceIdParam{
+			BlockId: block.ID,
+			KeyId:   block.Key.ID,
+		},
+		request.ResourceAttributeReqBody{
+			AttributeNames: "tags,rendering_mode",
+			ShowAttribute:  false,
+		},
+	)
+	if err != nil {
+		return
+	}
+	log.Printf(".Attributes for block %s updated successfully", key.Name)
+	recipes.SleepAfter()
 }

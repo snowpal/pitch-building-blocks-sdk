@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-func UpdateBlockPodAttrs(jwtToken string, podParam common.ResourceIdParam, attribute request.ResourceAttribute) error {
+func UpdateBlockPodAttrs(jwtToken string, podParam common.ResourceIdParam, attribute request.ResourceAttributeReqBody) error {
 	requestBody, err := helpers.GetRequestBody(attribute)
 	if err != nil {
 		fmt.Println(err)

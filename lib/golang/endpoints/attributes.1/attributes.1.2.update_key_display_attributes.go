@@ -9,8 +9,8 @@ import (
 	"strings"
 )
 
-func UpdateKeyAttrs(jwtToken string, keyId string, attribute request.ResourceAttribute) error {
-	requestBody, err := helpers.GetRequestBody(attribute)
+func UpdateKeyAttrs(jwtToken string, keyId string, reqBody request.ResourceAttributeReqBody) error {
+	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)
 		return err

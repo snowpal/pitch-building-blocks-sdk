@@ -12,7 +12,7 @@ import (
 
 func GetResourceAttrs(jwtToken string) (response.ResourceAttributes, error) {
 	var resAttributes response.ResourceAttributes
-	route, err := helpers.GetRoute(golang.RouteAttributesGetDisplayableAttributesOfKey)
+	route, err := helpers.GetRoute(golang.RouteAttributesGetDisplayableAttributes)
 	if err != nil {
 		fmt.Println(err)
 		return resAttributes, err

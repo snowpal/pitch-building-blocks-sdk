@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-func UpdateBlockAttrs(jwtToken string, blockParam common.ResourceIdParam, attribute request.ResourceAttribute) error {
+func UpdateBlockAttrs(jwtToken string, blockParam common.ResourceIdParam, attribute request.ResourceAttributeReqBody) error {
 	requestBody, err := helpers.GetRequestBody(attribute)
 	if err != nil {
 		fmt.Println(err)
