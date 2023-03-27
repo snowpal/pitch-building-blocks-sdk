@@ -26,12 +26,12 @@ type Member struct {
 	Username          string `json:"userName"`
 	FirstName         string `json:"firstName"`
 	FullName          string `json:"fullName"`
-	LastSeenMessageId string `json:"LastSeenMessageId"`
+	LastSeenMessageId int    `json:"LastSeenMessageId"`
 }
 
 type ConversationMessage struct {
 	ID          string `json:"id"`
-	Sequence    string `json:"sequence"`
+	Sequence    int    `json:"sequence"`
 	AddedBy     string `json:"addedBy"`
 	MessageText string `json:"messageText"`
 	MessageTime string `json:"messageTime"`

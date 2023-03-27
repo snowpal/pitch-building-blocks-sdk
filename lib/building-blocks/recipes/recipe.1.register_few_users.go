@@ -32,4 +32,9 @@ func RegisterFewUsers() {
 	if err != nil {
 		return
 	}
+
+	_, err = recipes.RegisterUser(building_blocks.User1Email)
+	if err != nil {
+		return
+	}
 }

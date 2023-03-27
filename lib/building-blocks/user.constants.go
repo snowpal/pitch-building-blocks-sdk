@@ -8,6 +8,7 @@ const (
 	ReadUser     = "apiuser1@gmail.com"
 	WriteUser    = "api_code_user1@yopmail.com"
 	AdminUser    = "apiuser2@gmail.com"
+	User1Email   = "mike@yopmail.com"
 )
 
 const (

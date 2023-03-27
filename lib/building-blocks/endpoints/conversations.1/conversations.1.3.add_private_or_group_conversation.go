@@ -12,8 +12,8 @@ import (
 )
 
 type ConversationReqBody struct {
-	MessageText string   `json:"messageText"`
-	Usernames   []string `json:"userNames"`
+	MessageText string `json:"messageText"`
+	Usernames   string `json:"userNames"`
 }
 
 func AddPrivateOrGroupConversation(jwtToken string, reqBody ConversationReqBody) (response.Conversation, error) {

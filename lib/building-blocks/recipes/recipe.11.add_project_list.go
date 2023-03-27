@@ -52,7 +52,7 @@ func AddProjectList() {
 	if err != nil {
 		return
 	}
-	log.Print(".Both project lists, %s and %s created successfully", projectList1.Name, projectList2.Name)
+	log.Printf(".Both project lists, %s and %s created successfully", projectList1.Name, projectList2.Name)
 	recipes.SleepAfter()
 
 	log.Info("Add a project pod into a project list")

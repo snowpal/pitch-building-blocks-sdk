@@ -29,7 +29,7 @@ func AddAndLinkResources() {
 		return
 	}
 
-	user, err := recipes.SignIn(building_blocks.DefaultEmail, building_blocks.Password)
+	user, err := recipes.SignIn(building_blocks.ActiveUser, building_blocks.Password)
 	if err != nil {
 		return
 	}
@@ -90,13 +90,13 @@ func linkResources(
 	recipes.SleepBefore()
 	err := keyPods.LinkPodToKey(user.JwtToken,
 		common.ResourceIdParam{
-			PodId: newBlockPod.ID,
+			PodId: newPod.ID,
 			KeyId: anotherKey.ID,
 		})
 	if err != nil {
 		return err
 	}
-	log.Printf(".Block Pod, %s is linked successfully to %s Key.", newBlockPod.Name, anotherKey.Name)
+	log.Printf(".Block Pod, %s is linked successfully to %s Key.", newPod.Name, anotherKey.Name)
 	recipes.SleepAfter()
 
 	log.Info("Link block into the other key")
@@ -116,7 +116,7 @@ func linkResources(
 	recipes.SleepBefore()
 	err = block_pods.LinkPodToBlock(user.JwtToken,
 		common.ResourceIdParam{
-			PodId:   newPod.ID,
+			PodId:   newBlockPod.ID,
 			BlockId: anotherBlock.ID,
 			KeyId:   anotherKey.ID,
 		})

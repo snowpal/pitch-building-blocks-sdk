@@ -10,9 +10,9 @@ import (
 )
 
 const (
-	RelationKeyName   = "Animals6"
-	RelationBlockName = "Tiger6"
-	RelationPodName   = "Cat6"
+	RelationKeyName   = "Animals"
+	RelationBlockName = "Tiger"
+	RelationPodName   = "Cat"
 )
 
 func AddRelation() {
@@ -22,19 +22,25 @@ func AddRelation() {
 		return
 	}
 
+	log.Info("Create a key and block & pod into that key")
 	user, err := recipes.SignIn(building_blocks.ActiveUser, building_blocks.Password)
 	if err != nil {
 		return
 	}
 
+	log.Info("Relate the block with key pod")
 	block, pod, err := addRelation(user)
 	if err != nil {
 		return
 	}
+	log.Printf(".Block %s is related with pod %s successfully", block.Name, pod.Name)
+
+	log.Info("Unrelate the block from key pod")
 	err = removeRelation(user, block, pod)
 	if err != nil {
 		return
 	}
+	log.Printf(".Block %s is unrelated from pod %s successfully", block.Name, pod.Name)
 }
 
 func removeRelation(user response.User, block response.Block, pod response.Pod) error {

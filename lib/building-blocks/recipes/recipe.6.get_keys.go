@@ -15,7 +15,7 @@ func GetAllKeys() {
 		return
 	}
 
-	user, err := recipes.SignIn(building_blocks.DefaultEmail, building_blocks.Password)
+	user, err := recipes.SignIn(building_blocks.ActiveUser, building_blocks.Password)
 	if err != nil {
 		return
 	}

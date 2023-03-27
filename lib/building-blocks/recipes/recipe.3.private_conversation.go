@@ -11,11 +11,6 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-const Password string = "Welcome1!"
-const (
-	User1Email string = "mike@yopmail.com"
-)
-
 // CreatePrivateConversation Sign up, activate user, sign in, get all keys.
 func CreatePrivateConversation() {
 	log.Info("Objective: Send messages to a private conversation")
@@ -68,9 +63,7 @@ func createConversation(anotherProfile response.Profile, user response.User) (re
 	recipes.SleepBefore()
 	conversationBody := conversations.ConversationReqBody{
 		MessageText: "hey there!",
-		Usernames: []string{
-			anotherProfile.Username,
-		},
+		Usernames:   anotherProfile.Username,
 	}
 	conversation, err := conversations.AddPrivateOrGroupConversation(user.JwtToken, conversationBody)
 	if err != nil {
@@ -85,8 +78,8 @@ func getUserProfile() (response.User, response.Profile, error) {
 	log.Info("Get profiles of (target) users to create conversation")
 	recipes.SleepBefore()
 	anotherUser, err := registration.SignInByEmail(request.SignInReqBody{
-		Email:    User1Email,
-		Password: Password,
+		Email:    building_blocks.User1Email,
+		Password: building_blocks.Password,
 	})
 	if err != nil {
 		return response.User{}, response.Profile{}, err

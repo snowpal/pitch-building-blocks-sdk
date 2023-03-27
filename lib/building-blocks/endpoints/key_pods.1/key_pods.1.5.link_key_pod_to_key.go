@@ -9,7 +9,7 @@ import (
 )
 
 func LinkPodToKey(jwtToken string, podParam common.ResourceIdParam) error {
-	route, err := helpers.GetRoute(building_blocks.RouteKeyPodsLinkKeyPodToKey, podParam.PodId, podParam.KeyId)
+	route, err := helpers.GetRoute(building_blocks.RouteKeyPodsLinkKeyPodToKey, podParam.KeyId, podParam.PodId)
 	if err != nil {
 		fmt.Println(err)
 		return err
