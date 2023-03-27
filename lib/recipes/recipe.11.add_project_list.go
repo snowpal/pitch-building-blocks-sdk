@@ -1,16 +1,15 @@
 package recipes
 
 import (
-	"development/go/recipes/lib"
-	"development/go/recipes/lib/endpoints/project_keys/project_keys.2.lists"
-	"development/go/recipes/lib/structs/common"
-
-	projectKeys1 "development/go/recipes/lib/endpoints/project_keys/project_keys.1"
-	recipes2 "development/go/recipes/lib/helpers/recipes"
-	request2 "development/go/recipes/lib/structs/request"
-	response2 "development/go/recipes/lib/structs/response"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/helpers/recipes"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/common"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/request"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/response"
 
 	log "github.com/sirupsen/logrus"
+	projectKeys "github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/project_keys/project_keys.1"
+	projectLists "github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/project_keys/project_keys.2.lists"
 )
 
 const (
@@ -23,28 +22,28 @@ const (
 
 func AddProjectList() {
 	log.Info("Objective: Add Project Lists, Project Pods, Move Pod between Lists")
-	_, err := recipes2.ValidateDependencies()
+	_, err := recipes.ValidateDependencies()
 	if err != nil {
 		return
 	}
 
-	user, err := recipes2.SignIn(lib.ActiveUser, lib.Password)
+	user, err := recipes.SignIn(lib.ActiveUser, lib.Password)
 	if err != nil {
 		return
 	}
 
-	projectKey, err := recipes2.AddProjectKey(user, ProjectKeyName)
+	projectKey, err := recipes.AddProjectKey(user, ProjectKeyName)
 	if err != nil {
 		return
 	}
 
-	projectBlock, err := recipes2.AddBlock(user, ProjectBlockName, projectKey)
+	projectBlock, err := recipes.AddBlock(user, ProjectBlockName, projectKey)
 	if err != nil {
 		return
 	}
 
 	log.Info("Add 2 project lists")
-	recipes2.SleepBefore()
+	recipes.SleepBefore()
 	projectList1, err := addProjectList(user, ProjectList1Name, projectBlock)
 	if err != nil {
 		return
@@ -54,33 +53,33 @@ func AddProjectList() {
 		return
 	}
 	log.Printf(".Both project lists, %s and %s created successfully", projectList1.Name, projectList2.Name)
-	recipes2.SleepAfter()
+	recipes.SleepAfter()
 
 	log.Info("Add a project pod into a project list")
-	recipes2.SleepBefore()
+	recipes.SleepBefore()
 	projectPod, err := addProjectPod(user, ProjectPodName, projectList1)
 	if err != nil {
 		return
 	}
 	log.Printf(".Project pod %s created inside %s successfully", projectPod.Name, projectList1.Name)
-	recipes2.SleepAfter()
+	recipes.SleepAfter()
 
 	log.Printf("Move project pod %s between project lists", projectPod.Name)
-	recipes2.SleepBefore()
+	recipes.SleepBefore()
 	err = movePodBetweenLists(user, projectList1, projectList2, projectPod)
 	if err != nil {
 		return
 	}
 	log.Printf(".Project pod %s moved from list %s to list %s successfully", projectPod.Name,
 		projectList1.Name, projectList2.Name)
-	recipes2.SleepAfter()
+	recipes.SleepAfter()
 }
 
-func addProjectPod(user response2.User, podName string, projectList response2.ProjectList) (response2.Pod, error) {
-	newPod, err := projectKeys1.AddProjectPod(
+func addProjectPod(user response.User, podName string, projectList response.ProjectList) (response.Pod, error) {
+	newPod, err := projectKeys.AddProjectPod(
 		user.JwtToken,
-		request2.AddPodReqBody{Name: podName},
-		request2.ProjectListIdParam{
+		request.AddPodReqBody{Name: podName},
+		request.ProjectListIdParam{
 			ProjectListId: projectList.ID,
 			BlockId:       projectList.Block.ID,
 			KeyId:         projectList.Key.ID,
@@ -92,10 +91,10 @@ func addProjectPod(user response2.User, podName string, projectList response2.Pr
 	return newPod, nil
 }
 
-func addProjectList(user response2.User, projectListName string, block response2.Block) (response2.ProjectList, error) {
-	newProjectList, err := projectKeys.AddProjectBlockList(
+func addProjectList(user response.User, projectListName string, block response.Block) (response.ProjectList, error) {
+	newProjectList, err := projectLists.AddProjectBlockList(
 		user.JwtToken,
-		request2.AddProjectListReqBody{Name: projectListName},
+		request.AddProjectListReqBody{Name: projectListName},
 		common.ResourceIdParam{BlockId: block.ID, KeyId: block.Key.ID},
 	)
 	if err != nil {
@@ -105,12 +104,12 @@ func addProjectList(user response2.User, projectListName string, block response2
 }
 
 func movePodBetweenLists(
-	user response2.User,
-	list1 response2.ProjectList,
-	list2 response2.ProjectList,
-	pod response2.Pod,
+	user response.User,
+	list1 response.ProjectList,
+	list2 response.ProjectList,
+	pod response.Pod,
 ) error {
-	err := projectKeys.BulkMovePodsInProjectList(user.JwtToken, request2.CopyMoveProjectListPodsParam{
+	err := projectLists.BulkMovePodsInProjectList(user.JwtToken, request.CopyMoveProjectListPodsParam{
 		ProjectListId:       list1.ID,
 		BlockId:             pod.Block.ID,
 		KeyId:               pod.Key.ID,

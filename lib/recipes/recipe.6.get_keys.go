@@ -1,23 +1,22 @@
 package recipes
 
 import (
-	"development/go/recipes/lib"
-	"development/go/recipes/lib/endpoints/keys/keys.1"
-	"development/go/recipes/lib/structs/response"
-
-	recipes2 "development/go/recipes/lib/helpers/recipes"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/helpers/recipes"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/response"
 
 	log "github.com/sirupsen/logrus"
+	keys "github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/keys/keys.1"
 )
 
 func GetAllKeys() {
 	log.Info("Objective: Sign up, activate user, sign in, get all keys")
-	_, err := recipes2.ValidateDependencies()
+	_, err := recipes.ValidateDependencies()
 	if err != nil {
 		return
 	}
 
-	user, err := recipes2.SignIn(lib.ActiveUser, lib.Password)
+	user, err := recipes.SignIn(lib.ActiveUser, lib.Password)
 	if err != nil {
 		return
 	}

@@ -1,10 +1,11 @@
 package profiles
 
 import (
-	"development/go/recipes/lib"
-	"development/go/recipes/lib/helpers"
 	"fmt"
 	"net/http"
+
+	"github.com/snowpal/pitch-building-blocks-sdk/lib"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/helpers"
 )
 
 func BlocksUserFromSendingMessages(jwtToken string, userId string) error {

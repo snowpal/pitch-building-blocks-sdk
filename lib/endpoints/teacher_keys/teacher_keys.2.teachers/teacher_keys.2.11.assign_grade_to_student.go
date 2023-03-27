@@ -1,30 +1,31 @@
 package teacherKeys
 
 import (
-	"development/go/recipes/lib"
-	helpers2 "development/go/recipes/lib/helpers"
-	request2 "development/go/recipes/lib/structs/request"
-	"development/go/recipes/lib/structs/response"
 	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"strings"
+
+	"github.com/snowpal/pitch-building-blocks-sdk/lib"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/helpers"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/request"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/response"
 )
 
 func AssignBlockGradeToStudent(
 	jwtToken string,
-	reqBody request2.UpdateScaleValueReqBody,
-	classroomParam request2.ClassroomIdParam,
+	reqBody request.UpdateScaleValueReqBody,
+	classroomParam request.ClassroomIdParam,
 ) (response.UpdateBlockScaleValue, error) {
 	resBlockScaleValue := response.UpdateBlockScaleValue{}
-	requestBody, err := helpers2.GetRequestBody(reqBody)
+	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
 		fmt.Println(err)
 		return resBlockScaleValue, err
 	}
 	payload := strings.NewReader(requestBody)
-	route, err := helpers2.GetRoute(
+	route, err := helpers.GetRoute(
 		lib.RouteTeacherKeysAssignGradeToStudent,
 		classroomParam.ResourceIds.BlockId,
 		classroomParam.StudentId,
@@ -42,16 +43,16 @@ func AssignBlockGradeToStudent(
 		return resBlockScaleValue, err
 	}
 
-	helpers2.AddUserHeaders(jwtToken, req)
+	helpers.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	res, err = helpers2.MakeRequest(req)
+	res, err = helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resBlockScaleValue, err
 	}
 
-	defer helpers2.CloseBody(res.Body)
+	defer helpers.CloseBody(res.Body)
 
 	var body []byte
 	body, err = io.ReadAll(res.Body)

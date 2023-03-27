@@ -1,20 +1,20 @@
 package recipes
 
 import (
-	"development/go/recipes/lib"
-	"development/go/recipes/lib/endpoints/blocks/blocks.1"
-	"development/go/recipes/lib/endpoints/collaboration/collaboration.1.blocks"
-	"development/go/recipes/lib/endpoints/keys/keys.1"
-	"development/go/recipes/lib/endpoints/notifications"
-	"development/go/recipes/lib/structs/common"
-	"development/go/recipes/lib/structs/request"
 	"fmt"
 
-	user2 "development/go/recipes/lib/endpoints/user"
-	recipes2 "development/go/recipes/lib/helpers/recipes"
-	response2 "development/go/recipes/lib/structs/response"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/blocks/blocks.1"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/collaboration/collaboration.1.blocks"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/keys/keys.1"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/notifications"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/helpers/recipes"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/common"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/request"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/response"
 
 	log "github.com/sirupsen/logrus"
+	user2 "github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/user"
 )
 
 const (
@@ -25,19 +25,19 @@ const (
 
 func ShareBlock() {
 	log.Info("Objective: Create block, share users as read & write, make 1 of them as admin.")
-	_, err := recipes2.ValidateDependencies()
+	_, err := recipes.ValidateDependencies()
 	if err != nil {
 		return
 	}
 
-	user, err := recipes2.SignIn(lib.ActiveUser, lib.Password)
+	user, err := recipes.SignIn(lib.ActiveUser, lib.Password)
 	if err != nil {
 		return
 	}
 
 	log.Info("Share a block")
-	recipes2.SleepBefore()
-	var block response2.Block
+	recipes.SleepBefore()
+	var block response.Block
 	block, err = shareBlock(user)
 	if err != nil {
 		return
@@ -50,23 +50,23 @@ func ShareBlock() {
 	}
 
 	log.Info("Show notifications as write user")
-	recipes2.SleepBefore()
+	recipes.SleepBefore()
 	err = showNotificationsAsWriteUser(writeUser)
 	if err != nil {
 		return
 	}
 	log.Printf(".Notifications for the recent share displayed successfully")
-	recipes2.SleepAfter()
+	recipes.SleepAfter()
 
 	log.Printf("Update block name as a write user")
-	recipes2.SleepBefore()
-	var resBlock response2.Block
+	recipes.SleepBefore()
+	var resBlock response.Block
 	resBlock, err = updateBlockAsWriteUser(writeUser, block)
 	if err != nil {
 		return
 	}
 	log.Printf(".Write user updated block name to %s successfully", resBlock.Name)
-	recipes2.SleepAfter()
+	recipes.SleepAfter()
 
 	log.Printf("Grant admin access to a user with read access")
 	err = makeReadUserAsAdmin(user, block)
@@ -76,8 +76,8 @@ func ShareBlock() {
 	log.Printf(".Admin access has been granted successfully")
 }
 
-func getWriteUser(user response2.User, block response2.Block) (response2.User, error) {
-	var writeUser response2.User
+func getWriteUser(user response.User, block response.Block) (response.User, error) {
+	var writeUser response.User
 	resBlock, err := collaboration.GetBlockCollaborators(
 		user.JwtToken,
 		common.ResourceIdParam{
@@ -100,35 +100,35 @@ func getWriteUser(user response2.User, block response2.Block) (response2.User, e
 		return writeUser, err
 	}
 
-	writeUser, err = recipes2.SignIn(writeUser.Email, lib.Password)
+	writeUser, err = recipes.SignIn(writeUser.Email, lib.Password)
 	if err != nil {
 		return writeUser, err
 	}
 	return writeUser, nil
 }
 
-func shareBlock(user response2.User) (response2.Block, error) {
-	var block response2.Block
-	key, err := recipes2.AddCustomKey(user, KeyName)
+func shareBlock(user response.User) (response.Block, error) {
+	var block response.Block
+	key, err := recipes.AddCustomKey(user, KeyName)
 	if err != nil {
 		return block, err
 	}
-	block, err = recipes2.AddBlock(user, BlockName, key)
+	block, err = recipes.AddBlock(user, BlockName, key)
 	if err != nil {
 		return block, err
 	}
-	err = recipes2.SearchUserAndShareBlock(user, block, "api_read_user", lib.ReadAcl)
+	err = recipes.SearchUserAndShareBlock(user, block, "api_read_user", lib.ReadAcl)
 	if err != nil {
 		return block, err
 	}
-	err = recipes2.SearchUserAndShareBlock(user, block, "api_write_user", lib.WriteAcl)
+	err = recipes.SearchUserAndShareBlock(user, block, "api_write_user", lib.WriteAcl)
 	if err != nil {
 		return block, err
 	}
 	return block, nil
 }
 
-func showNotificationsAsWriteUser(writeUser response2.User) error {
+func showNotificationsAsWriteUser(writeUser response.User) error {
 	unreadNotifications, err := notifications.GetNotifications(writeUser.JwtToken)
 	if err != nil {
 		return err
@@ -142,13 +142,13 @@ func showNotificationsAsWriteUser(writeUser response2.User) error {
 	return nil
 }
 
-func updateBlockAsWriteUser(writeUser response2.User, block response2.Block) (response2.Block, error) {
+func updateBlockAsWriteUser(writeUser response.User, block response.Block) (response.Block, error) {
 	const (
 		SystemKeyType       = "system"
 		customSystemKeyType = "SharedCustomKey"
 	)
-	systemKeys, err := keys.GetKeysFilteredByType(writeUser.JwtToken, SystemKeyType)
-	var customSystemKey response2.Key
+	systemKeys, _ := keys.GetKeysFilteredByType(writeUser.JwtToken, SystemKeyType)
+	var customSystemKey response.Key
 	for _, systemKey := range systemKeys {
 		if systemKey.Type == customSystemKeyType {
 			customSystemKey = systemKey
@@ -169,7 +169,7 @@ func updateBlockAsWriteUser(writeUser response2.User, block response2.Block) (re
 	return resBlock, nil
 }
 
-func makeReadUserAsAdmin(user response2.User, block response2.Block) error {
+func makeReadUserAsAdmin(user response.User, block response.Block) error {
 	resBlock, err := collaboration.GetBlockCollaborators(
 		user.JwtToken,
 		common.ResourceIdParam{
@@ -180,7 +180,7 @@ func makeReadUserAsAdmin(user response2.User, block response2.Block) error {
 		return err
 	}
 
-	var readUser response2.SharedUser
+	var readUser response.SharedUser
 	for _, sharedUser := range *resBlock.SharedUsers {
 		if sharedUser.Acl == lib.ReadAcl {
 			readUser = sharedUser

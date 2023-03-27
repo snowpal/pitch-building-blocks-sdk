@@ -1,12 +1,13 @@
 package recipes
 
 import (
-	"development/go/recipes/lib"
-	"development/go/recipes/lib/endpoints/attributes"
-	recipes2 "development/go/recipes/lib/helpers/recipes"
-	"development/go/recipes/lib/structs/common"
-	"development/go/recipes/lib/structs/request"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/attributes"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/common"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/request"
+
 	log "github.com/sirupsen/logrus"
+	recipes "github.com/snowpal/pitch-building-blocks-sdk/lib/helpers/recipes"
 )
 
 const (
@@ -18,18 +19,18 @@ const (
 // get resource attributes
 func UpdateAttributes() {
 	log.Info("Objective: Update show/hide of key, block, pod & block pod attributes")
-	_, err := recipes2.ValidateDependencies()
+	_, err := recipes.ValidateDependencies()
 	if err != nil {
 		return
 	}
 
-	user, err := recipes2.SignIn(lib.ActiveUser, lib.Password)
+	user, err := recipes.SignIn(lib.ActiveUser, lib.Password)
 	if err != nil {
 		return
 	}
 
 	log.Info("Get displayable attributes")
-	recipes2.SleepBefore()
+	recipes.SleepBefore()
 	resourceAttrs, _ := attributes.GetResourceAttrs(user.JwtToken)
 	if err != nil {
 		return
@@ -37,8 +38,8 @@ func UpdateAttributes() {
 	log.Info(resourceAttrs)
 
 	log.Info("Update key attributes")
-	recipes2.SleepBefore()
-	key, err := recipes2.AddCustomKey(user, AttrsKeyName)
+	recipes.SleepBefore()
+	key, err := recipes.AddCustomKey(user, AttrsKeyName)
 	if err != nil {
 		return
 	}
@@ -54,11 +55,11 @@ func UpdateAttributes() {
 		return
 	}
 	log.Printf(".Attributes for Key %s updated successfully", key.Name)
-	recipes2.SleepAfter()
+	recipes.SleepAfter()
 
 	log.Info("Update block attributes")
-	recipes2.SleepBefore()
-	block, err := recipes2.AddBlock(user, AttrsBlockName, key)
+	recipes.SleepBefore()
+	block, err := recipes.AddBlock(user, AttrsBlockName, key)
 	if err != nil {
 		return
 	}
@@ -77,5 +78,5 @@ func UpdateAttributes() {
 		return
 	}
 	log.Printf(".Attributes for block %s updated successfully", key.Name)
-	recipes2.SleepAfter()
+	recipes.SleepAfter()
 }

@@ -1,11 +1,12 @@
 package blocks
 
 import (
-	"development/go/recipes/lib"
-	"development/go/recipes/lib/helpers"
-	"development/go/recipes/lib/structs/common"
 	"fmt"
 	"net/http"
+
+	"github.com/snowpal/pitch-building-blocks-sdk/lib"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/helpers"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/common"
 )
 
 func UnarchiveBlock(jwtToken string, blockParam common.ResourceIdParam) error {

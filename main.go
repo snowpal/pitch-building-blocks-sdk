@@ -1,12 +1,12 @@
 package main
 
 import (
-	"development/go/recipes/lib/recipes"
 	log "github.com/sirupsen/logrus"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/recipes"
 )
 
 func main() {
-	recipeID := 10
+	recipeID := 1
 	switch recipeID {
 	case 1:
 		log.Info("Run Recipe1")

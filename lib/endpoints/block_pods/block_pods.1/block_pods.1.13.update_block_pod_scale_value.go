@@ -1,16 +1,17 @@
 package blockPods
 
 import (
-	"development/go/recipes/lib"
-	helpers2 "development/go/recipes/lib/helpers"
-	"development/go/recipes/lib/structs/common"
-	"development/go/recipes/lib/structs/request"
-	"development/go/recipes/lib/structs/response"
 	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"strings"
+
+	"github.com/snowpal/pitch-building-blocks-sdk/lib"
+	helpers2 "github.com/snowpal/pitch-building-blocks-sdk/lib/helpers"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/common"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/request"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/response"
 )
 
 func UpdateBlockPodScaleValue(

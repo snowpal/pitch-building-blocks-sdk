@@ -1,7 +1,7 @@
 package response
 
 import (
-	common2 "development/go/recipes/lib/structs/common"
+	common2 "github.com/snowpal/pitch-building-blocks-sdk/lib/structs/common"
 )
 
 type AllEvents struct {
@@ -48,8 +48,8 @@ type TasksEvent struct {
 }
 
 type TaskEvent struct {
-	ID      string            `json:"id"`
-	Name    string            `json:"taskName"`
+	ID      string             `json:"id"`
+	Name    string             `json:"taskName"`
 	DueDate string             `json:"taskDueDate"`
 	Key     common2.SlimKey    `json:"key"`
 	Block   *common2.SlimBlock `json:"block"`

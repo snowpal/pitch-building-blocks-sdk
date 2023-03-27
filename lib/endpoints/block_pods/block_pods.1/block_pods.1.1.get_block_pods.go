@@ -1,20 +1,22 @@
 package blockPods
 
 import (
-	"development/go/recipes/lib"
-	helpers2 "development/go/recipes/lib/helpers"
-	"development/go/recipes/lib/structs/request"
-	"development/go/recipes/lib/structs/response"
 	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"strconv"
+
+	"github.com/snowpal/pitch-building-blocks-sdk/lib"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/helpers"
+	helpers2 "github.com/snowpal/pitch-building-blocks-sdk/lib/helpers"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/request"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/response"
 )
 
 func GetBlockPods(jwtToken string, podsParam request.GetPodsParam) ([]response.Pod, error) {
 	resPods := response.Pods{}
-	route, err := helpers2.GetRoute(
+	route, err := helpers.GetRoute(
 		lib.RouteBlockPodsGetBlockPods,
 		*podsParam.BlockId,
 		strconv.Itoa(podsParam.BatchIndex),
@@ -35,13 +37,13 @@ func GetBlockPods(jwtToken string, podsParam request.GetPodsParam) ([]response.P
 	helpers2.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	_, err = helpers2.MakeRequest(req)
+	_, err = helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resPods.Pods, err
 	}
 
-	defer helpers2.CloseBody(res.Body)
+	defer helpers.CloseBody(res.Body)
 
 	var body []byte
 	body, err = io.ReadAll(res.Body)
