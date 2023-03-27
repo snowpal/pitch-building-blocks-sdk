@@ -1,6 +1,6 @@
 # pitch-api-gateway-sdk
 
-Polyglot test code for API Gateway Services.
+SDK for a few Snowpal APIs.
 
     "name": "Snowpal: Project Management",
       "name": "Attributes.1",
