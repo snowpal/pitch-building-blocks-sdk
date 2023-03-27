@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	recipeID := 10
+	recipeID := 1
 	switch recipeID {
 	case 1:
 		log.Info("Run Recipe1")
