@@ -1,6 +1,8 @@
 # pitch-building-blocks-sdk
 
-SDK for a few Snowpal APIs.
+> SDK for a few Snowpal APIs.
+
+Check out the recipes to get a sense of some available endpoints.
 
     "name": "Snowpal: Building Blocks",
       "name": "Attributes.1",
