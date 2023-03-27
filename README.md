@@ -1,8 +1,8 @@
-# pitch-api-gateway-sdk
+# pitch-building-blocks-sdk
 
 SDK for a few Snowpal APIs.
 
-    "name": "Snowpal: Project Management",
+    "name": "Snowpal: Building Blocks",
       "name": "Attributes.1",
           "name": "Attributes.1.1: Get displayable attributes of Key, Block and Pod",
           "name": "Attributes.1.2: Update key display attributes",
