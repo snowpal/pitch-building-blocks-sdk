@@ -1,12 +1,13 @@
 package keyPods
 
 import (
-	"development/go/recipes/lib"
-	"development/go/recipes/lib/helpers"
-	"development/go/recipes/lib/structs/request"
 	"fmt"
 	"net/http"
 	"strings"
+
+	"github.com/snowpal/pitch-building-blocks-sdk/lib"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/helpers"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/request"
 )
 
 func BulkArchiveKeyPods(jwtToken string, reqBody request.BulkArchivePodsReqBody, keyId string) error {

@@ -1,7 +1,7 @@
 package response
 
 import (
-	common2 "development/go/recipes/lib/structs/common"
+	common2 "github.com/snowpal/pitch-building-blocks-sdk/lib/structs/common"
 )
 
 type Dashboard struct {
@@ -53,7 +53,7 @@ type DashboardPod struct {
 }
 
 type BlockWithPodType struct {
-	ID      string          `json:"id"`
+	ID      string           `json:"id"`
 	Name    string           `json:"blockName"`
 	Key     *common2.SlimKey `json:"key"`
 	PodType *PodType         `json:"podType"`

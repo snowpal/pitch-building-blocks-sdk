@@ -1,7 +1,7 @@
 package response
 
 import (
-	common2 "development/go/recipes/lib/structs/common"
+	common2 "github.com/snowpal/pitch-building-blocks-sdk/lib/structs/common"
 )
 
 type UserKeys struct {
@@ -18,7 +18,7 @@ type UserKey struct {
 }
 
 type UserBlock struct {
-	ID           string           `json:"id"`
+	ID           string            `json:"id"`
 	Name         string            `json:"keyName"`
 	Pods         []common2.SlimPod `json:"pods"`
 	LastModified string            `json:"lastModified"`
@@ -125,7 +125,7 @@ type TasksStatusKey struct {
 }
 
 type TasksStatusBlock struct {
-	ID           string         `json:"id"`
+	ID           string          `json:"id"`
 	Name         string          `json:"blockName"`
 	TaskStatus   TaskStatus      `json:"taskStatus"`
 	Key          common2.SlimKey `json:"key"`
@@ -166,14 +166,14 @@ type ScaleValues struct {
 }
 
 type BlockGrade struct {
-	ID       string         `json:"id"`
+	ID       string          `json:"id"`
 	Name     string          `json:"blockName"`
 	Key      common2.SlimKey `json:"key"`
 	Students []Student       `json:"students"`
 }
 
 type PodGrade struct {
-	ID       string           `json:"id"`
+	ID       string            `json:"id"`
 	Name     string            `json:"podName"`
 	Key      common2.SlimKey   `json:"key"`
 	Block    common2.SlimBlock `json:"block"`

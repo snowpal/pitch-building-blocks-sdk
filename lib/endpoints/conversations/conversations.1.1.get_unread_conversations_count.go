@@ -1,13 +1,14 @@
 package conversations
 
 import (
-	"development/go/recipes/lib"
-	helpers2 "development/go/recipes/lib/helpers"
-	"development/go/recipes/lib/structs/common"
 	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
+
+	"github.com/snowpal/pitch-building-blocks-sdk/lib"
+	helpers2 "github.com/snowpal/pitch-building-blocks-sdk/lib/helpers"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/common"
 )
 
 func GetUnreadConversationsCount(jwtToken string) (int, error) {

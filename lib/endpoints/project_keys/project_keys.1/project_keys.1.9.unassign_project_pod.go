@@ -1,13 +1,14 @@
 package projectKeys
 
 import (
-	"development/go/recipes/lib"
-	"development/go/recipes/lib/helpers"
-	"development/go/recipes/lib/structs/common"
-	"development/go/recipes/lib/structs/request"
 	"fmt"
 	"net/http"
 	"strings"
+
+	"github.com/snowpal/pitch-building-blocks-sdk/lib"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/helpers"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/common"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/request"
 )
 
 func UnassignProjectPod(

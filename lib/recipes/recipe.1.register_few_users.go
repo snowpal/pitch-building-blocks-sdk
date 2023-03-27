@@ -1,9 +1,9 @@
 package recipes
 
 import (
-	"development/go/recipes/lib"
-	"development/go/recipes/lib/helpers/recipes"
 	log "github.com/sirupsen/logrus"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/helpers/recipes"
 )
 
 func RegisterFewUsers() {

@@ -1,12 +1,13 @@
 package recipes
 
 import (
-	"development/go/recipes/lib"
-	"development/go/recipes/lib/endpoints/relations"
-	recipes2 "development/go/recipes/lib/helpers/recipes"
-	"development/go/recipes/lib/structs/request"
-	response2 "development/go/recipes/lib/structs/response"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/relations"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/request"
+
 	log "github.com/sirupsen/logrus"
+	recipes "github.com/snowpal/pitch-building-blocks-sdk/lib/helpers/recipes"
+	response "github.com/snowpal/pitch-building-blocks-sdk/lib/structs/response"
 )
 
 const (
@@ -17,13 +18,13 @@ const (
 
 func AddRelation() {
 	log.Info("Objective: Add and Remove Relations")
-	_, err := recipes2.ValidateDependencies()
+	_, err := recipes.ValidateDependencies()
 	if err != nil {
 		return
 	}
 
 	log.Info("Create a key and block & pod into that key")
-	user, err := recipes2.SignIn(lib.ActiveUser, lib.Password)
+	user, err := recipes.SignIn(lib.ActiveUser, lib.Password)
 	if err != nil {
 		return
 	}
@@ -43,7 +44,7 @@ func AddRelation() {
 	log.Printf(".Block %s is unrelated from pod %s successfully", block.Name, pod.Name)
 }
 
-func removeRelation(user response2.User, block response2.Block, pod response2.Pod) error {
+func removeRelation(user response.User, block response.Block, pod response.Pod) error {
 	err := relations.UnrelateBlockFromKeyPod(
 		user.JwtToken,
 		request.BlockToPodRelationParam{
@@ -58,20 +59,20 @@ func removeRelation(user response2.User, block response2.Block, pod response2.Po
 	return nil
 }
 
-func addRelation(user response2.User) (response2.Block, response2.Pod, error) {
+func addRelation(user response.User) (response.Block, response.Pod, error) {
 	var (
-		block response2.Block
-		pod   response2.Pod
+		block response.Block
+		pod   response.Pod
 	)
-	key, err := recipes2.AddCustomKey(user, RelationKeyName)
+	key, err := recipes.AddCustomKey(user, RelationKeyName)
 	if err != nil {
 		return block, pod, err
 	}
-	block, err = recipes2.AddBlock(user, RelationBlockName, key)
+	block, err = recipes.AddBlock(user, RelationBlockName, key)
 	if err != nil {
 		return block, pod, err
 	}
-	pod, err = recipes2.AddPod(user, RelationPodName, key)
+	pod, err = recipes.AddPod(user, RelationPodName, key)
 	if err != nil {
 		return block, pod, err
 	}

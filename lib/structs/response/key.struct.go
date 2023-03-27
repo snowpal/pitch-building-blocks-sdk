@@ -1,7 +1,7 @@
 package response
 
 import (
-	"development/go/recipes/lib/structs/common"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/common"
 )
 
 type Keys struct {

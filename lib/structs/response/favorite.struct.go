@@ -1,7 +1,7 @@
 package response
 
 import (
-	"development/go/recipes/lib/structs/common"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/common"
 )
 
 type Favorites struct {
@@ -35,8 +35,8 @@ type FavoriteResource struct {
 	ResourceType string                  `json:"resourceType"`
 	KeyName      *string                 `json:"keyName"`
 	BlockName    *string                 `json:"blockName"`
-	PodName  *string                 `json:"podName"`
-	Key      *FavoriteKey            `json:"key"`
-	Block    *FavoriteBlock          `json:"block"`
-	Modifier common.ResourceModifier `json:"modifier"`
+	PodName      *string                 `json:"podName"`
+	Key          *FavoriteKey            `json:"key"`
+	Block        *FavoriteBlock          `json:"block"`
+	Modifier     common.ResourceModifier `json:"modifier"`
 }

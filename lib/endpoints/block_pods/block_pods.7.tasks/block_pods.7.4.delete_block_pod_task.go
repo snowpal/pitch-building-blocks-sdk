@@ -1,11 +1,12 @@
 package blockPods
 
 import (
-	"development/go/recipes/lib"
-	"development/go/recipes/lib/helpers"
-	"development/go/recipes/lib/structs/request"
 	"fmt"
 	"net/http"
+
+	"github.com/snowpal/pitch-building-blocks-sdk/lib"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/helpers"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/request"
 )
 
 func DeleteBlockPodTask(jwtToken string, taskParam request.TaskIdParam) error {

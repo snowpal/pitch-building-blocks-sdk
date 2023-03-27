@@ -1,11 +1,12 @@
 package recipes
 
 import (
-	"development/go/recipes/lib"
-	"development/go/recipes/lib/endpoints/registration"
-	"development/go/recipes/lib/structs/request"
-	"development/go/recipes/lib/structs/response"
 	"fmt"
+
+	"github.com/snowpal/pitch-building-blocks-sdk/lib"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/registration"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/request"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/response"
 
 	log "github.com/sirupsen/logrus"
 )

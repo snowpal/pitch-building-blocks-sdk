@@ -1,10 +1,11 @@
 package keys
 
 import (
-	"development/go/recipes/lib"
-	"development/go/recipes/lib/helpers"
 	"fmt"
 	"net/http"
+
+	"github.com/snowpal/pitch-building-blocks-sdk/lib"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/helpers"
 )
 
 func UnarchiveKey(jwtToken string, keyId string) error {

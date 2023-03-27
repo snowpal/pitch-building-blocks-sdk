@@ -1,12 +1,13 @@
 package followers
 
 import (
-	"development/go/recipes/lib"
-	helpers2 "development/go/recipes/lib/helpers"
 	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
+
+	"github.com/snowpal/pitch-building-blocks-sdk/lib"
+	helpers2 "github.com/snowpal/pitch-building-blocks-sdk/lib/helpers"
 )
 
 type Followers struct {
