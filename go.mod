@@ -1,4 +1,4 @@
-module development/go/recipes
+module github.com/snowpal/pitch-building-blocks-sdk
 
 go 1.19
 
