@@ -41,7 +41,7 @@ func ValidateDependencies() (response.User, error) {
 	return user, nil
 }
 
-func addKey(user response.User, keyName string, keyType string) (response.Key, error) {
+func AddKey(user response.User, keyName string, keyType string) (response.Key, error) {
 	newKey, err := keys.AddKey(
 		user.JwtToken,
 		request.AddKeyReqBody{
@@ -55,7 +55,7 @@ func addKey(user response.User, keyName string, keyType string) (response.Key, e
 }
 
 func AddCustomKey(user response.User, keyName string) (response.Key, error) {
-	newKey, err := addKey(user, keyName, lib.CustomKeyType)
+	newKey, err := AddKey(user, keyName, lib.KeyTypes[lib.Custom])
 	if err != nil {
 		return newKey, err
 	}
@@ -63,7 +63,7 @@ func AddCustomKey(user response.User, keyName string) (response.Key, error) {
 }
 
 func AddTeacherKey(user response.User, keyName string) (response.Key, error) {
-	newKey, err := addKey(user, keyName, lib.TeacherKeyType)
+	newKey, err := AddKey(user, keyName, lib.KeyTypes[lib.Teacher])
 	if err != nil {
 		return newKey, err
 	}
@@ -71,7 +71,7 @@ func AddTeacherKey(user response.User, keyName string) (response.Key, error) {
 }
 
 func AddProjectKey(user response.User, keyName string) (response.Key, error) {
-	newKey, err := addKey(user, keyName, lib.ProjectKeyType)
+	newKey, err := AddKey(user, keyName, lib.KeyTypes[lib.Project])
 	if err != nil {
 		return newKey, err
 	}

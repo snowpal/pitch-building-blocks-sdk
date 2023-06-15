@@ -2,17 +2,17 @@ package recipes
 
 import "github.com/snowpal/pitch-building-blocks-sdk/lib/structs/response"
 
-func ShareProjectManagementContent(user response.User, anotherUserEmail string, projectKey KeyWithContent) error {
+func ShareProjectManagementContent(user response.User, anotherUserEmail string, projectKey KeyWithResources) error {
 	var err error
 	return err
 }
 
-func ShareClassroomContent(user response.User, anotherUserEmail string, classroomKey KeyWithContent) error {
+func ShareClassroomContent(user response.User, anotherUserEmail string, teacherKey KeyWithResources) error {
 	var err error
 	return err
 }
 
-func ShareCustomManagementContent(user response.User, anotherUserEmail string, customKey KeyWithContent) error {
+func ShareCustomManagementContent(user response.User, anotherUserEmail string, customKey KeyWithResources) error {
 	var err error
 	return err
 }
@@ -24,7 +24,7 @@ func ShareContent(user response.User, anotherUserEmail string, allKeys AllKeys) 
 		return err
 	}
 
-	err = ShareClassroomContent(user, anotherUserEmail, allKeys.ClassroomKey)
+	err = ShareClassroomContent(user, anotherUserEmail, allKeys.TeacherKey)
 	if err != nil {
 		return err
 	}

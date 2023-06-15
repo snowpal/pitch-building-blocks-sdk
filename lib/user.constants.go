@@ -16,12 +16,21 @@ const (
 	AdminAcl = "admin"
 )
 
+type KeyType int
+
 const (
-	CustomKeyType  = "CustomKey"
-	TeacherKeyType = "TeacherKey"
-	StudentKeyType = "StudentKey"
-	ProjectKeyType = "ProjectKey"
+	Custom KeyType = iota
+	Teacher
+	Student
+	Project
 )
+
+var KeyTypes = map[KeyType]string{
+	Custom:  "CustomKey",
+	Teacher: "TeacherKey",
+	Student: "StudentKey",
+	Project: "ProjectKey",
+}
 
 const (
 	AlphabeticScaleType = "Alphabetic"

@@ -1,20 +1,24 @@
 package recipes
 
 import (
+	"fmt"
+
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/helpers/recipes"
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/response"
 )
 
-func GenerateDynamicEmail() string {
-	var email string
-	return email
+func GenerateDynamicEmail(nextNumber int) string {
+	return fmt.Sprintf("apiuser_rec%d_bb", nextNumber)
 }
 
 func RegisterNewUser() (string, error) {
 	var err error
 	var user response.User
-	for registered := true; registered; registered = err != nil {
-		user, err = recipes.RegisterUser(GenerateDynamicEmail())
+	for i := 1; i <= 1000; i++ {
+		user, err = recipes.RegisterUser(GenerateDynamicEmail(i))
+		if err == nil {
+			break
+		}
 	}
 	return user.Email, nil
 }
