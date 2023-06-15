@@ -1,9 +1,14 @@
 package main
 
 import (
-	log "github.com/sirupsen/logrus"
+	"os"
+	"strconv"
+
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/config"
-	"github.com/snowpal/pitch-building-blocks-sdk/lib/recipes"
+
+	log "github.com/sirupsen/logrus"
+	recipes "github.com/snowpal/pitch-building-blocks-sdk/lib/recipes"
+	newRecipes "github.com/snowpal/pitch-building-blocks-sdk/lib/recipes/recipe.14.initialize_user"
 )
 
 func main() {
@@ -12,8 +17,20 @@ func main() {
 		log.Fatal(err.Error())
 		return
 	}
-	
-	recipeID := 1
+
+	var recipeID int
+	recipeIDInEnv := os.Getenv("RECIPE_ID")
+	if len(recipeIDInEnv) == 0 {
+		recipeID = 1
+	} else {
+		recipeID, err = strconv.Atoi(recipeIDInEnv)
+		if err != nil {
+			recipeID = 1
+		}
+	}
+
+	recipeID = 14
+
 	switch recipeID {
 	case 1:
 		log.Info("Run Recipe1")
@@ -67,6 +84,9 @@ func main() {
 		log.Info("Run Recipe13")
 		recipes.UpdateAttributes()
 		break
+	case 14:
+		log.Info("Run Recipe14 - Initialize New User")
+		newRecipes.InitializeNewUser()
 	default:
 		log.Info("pick a specific recipe to run")
 	}

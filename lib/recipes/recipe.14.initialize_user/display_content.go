@@ -1,10 +1,17 @@
 package recipes
 
 import (
-	log "github.com/sirupsen/logrus"
 	"github.com/snowpal/pitch-building-blocks-sdk/lib"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/blocks/blocks.1"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/keys/keys.1"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/notifications"
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/helpers/recipes"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/request"
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/response"
+
+	log "github.com/sirupsen/logrus"
+	blockPods "github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/block_pods/block_pods.1"
+	keyPods "github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/key_pods/key_pods.1"
 )
 
 func displayUser(email string) {
@@ -16,24 +23,58 @@ func displayUser(email string) {
 }
 
 func displayAllKeys(user response.User) {
-	// Fetch all keys
-	// Iterate through keys
-	// Diplay key
-	// Fetch all blocks
-	// Iterate through blocks
-	// Display block
-	// Fetch all block pods
-	// Iterate through block pods
-	// Display block pod
-	// Fetch all key pods
-	// Iterate through key pods
-	// Display key pod
+	keys, err := keys.GetKeys(user.JwtToken, 0)
+	if err != nil {
+		return
+	}
+	for kIndex, key := range keys {
+		log.Info("- %d. %s | %s", kIndex+1, key.Type, key.Name)
+
+		blocks, err := blocks.GetBlocks(user.JwtToken, request.GetBlocksParam{
+			KeyId: key.ID,
+		})
+		if err != nil {
+			return
+		}
+
+		for bIndex, block := range blocks {
+			log.Info("    - %d. %s", bIndex+1, block.Name)
+
+			blockPods, err := blockPods.GetBlockPods(user.JwtToken, request.GetPodsParam{
+				KeyId:   key.ID,
+				BlockId: &block.ID,
+			})
+			if err != nil {
+				return
+			}
+
+			for bpIndex, blockPod := range blockPods {
+				log.Info("        - %d. %s", bpIndex+1, blockPod.Name)
+			}
+		}
+
+		pods, err := keyPods.GetKeyPods(user.JwtToken, request.GetPodsParam{
+			KeyId: key.ID,
+		})
+		if err != nil {
+			return
+		}
+
+		for pIndex, pod := range pods {
+			log.Info("    - %d. %s", pIndex+1, pod.Name)
+		}
+	}
 }
 
-func displayAllNotifications(anotherUser response.User) {
-	// Fetch all notifications
-	// Iterate through notifications
-	// Display notification
+func displayAllNotifications(user response.User) {
+	notifications, err := notifications.GetNotifications(user.JwtToken)
+	if err != nil {
+		return
+	}
+
+	for index, notification := range notifications {
+		log.Info("- %d. %s", index+1, notification.Text)
+	}
 }
 
 func DisplayContent(user response.User, anotherUserEmail string) {

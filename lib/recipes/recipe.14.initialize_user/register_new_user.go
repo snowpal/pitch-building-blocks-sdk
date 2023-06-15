@@ -16,8 +16,11 @@ func RegisterNewUser() (string, error) {
 	var user response.User
 	for i := 1; i <= 1000; i++ {
 		user, err = recipes.RegisterUser(GenerateDynamicEmail(i))
-		if err == nil {
+		if !user.Inactive {
+			println(user.Email)
 			break
+		} else if err != nil {
+			return user.Email, err
 		}
 	}
 	return user.Email, nil
