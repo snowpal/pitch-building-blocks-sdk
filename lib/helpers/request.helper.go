@@ -3,13 +3,14 @@ package helpers
 import (
 	"encoding/json"
 	"errors"
-	"github.com/snowpal/pitch-building-blocks-sdk/lib/config"
 	"net/http"
 	"strings"
 
-	log "github.com/sirupsen/logrus"
 	"github.com/snowpal/pitch-building-blocks-sdk/lib"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/config"
 	"golang.org/x/exp/slices"
+
+	log "github.com/sirupsen/logrus"
 )
 
 func AddUserHeaders(jwtToken string, req *http.Request) {
