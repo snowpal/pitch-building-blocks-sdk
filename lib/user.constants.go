@@ -23,13 +23,21 @@ const (
 	Teacher
 	Student
 	Project
+	SharedCustom
+	SharedTeacher
+	SharedStudent
+	SharedProject
 )
 
 var KeyTypes = map[KeyType]string{
-	Custom:  "CustomKey",
-	Teacher: "TeacherKey",
-	Student: "StudentKey",
-	Project: "ProjectKey",
+	Custom:        "CustomKey",
+	Teacher:       "TeacherKey",
+	Student:       "StudentKey",
+	Project:       "ProjectKey",
+	SharedCustom:  "SharedCustomKey",
+	SharedTeacher: "SharedTeacherKey",
+	SharedStudent: "SharedStudentKey",
+	SharedProject: "SharedProjectKey",
 }
 
 const (

@@ -37,7 +37,7 @@ func GetBlockPods(jwtToken string, podsParam request.GetPodsParam) ([]response.P
 	helpers2.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	_, err = helpers.MakeRequest(req)
+	res, err = helpers.MakeRequest(req)
 	if err != nil {
 		fmt.Println(err)
 		return resPods.Pods, err

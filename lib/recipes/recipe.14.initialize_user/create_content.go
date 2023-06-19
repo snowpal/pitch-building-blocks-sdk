@@ -4,6 +4,8 @@ import (
 	"github.com/snowpal/pitch-building-blocks-sdk/lib"
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/helpers/recipes"
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/response"
+
+	log "github.com/sirupsen/logrus"
 )
 
 var KeyNames = map[lib.KeyType]string{
@@ -21,7 +23,7 @@ var BlockNames = map[lib.KeyType]string{
 var KeyPodName = "Fixed Diposite"
 
 var BlockPodNames = map[lib.KeyType]string{
-	lib.Custom:  "SIP",
+	lib.Custom:  "Systematic Investment Plan",
 	lib.Teacher: "Sequence and Series",
 	lib.Project: "Android App",
 }
@@ -29,12 +31,14 @@ var BlockPodNames = map[lib.KeyType]string{
 func createBlockWithPods(user response.User, keyType lib.KeyType, key response.Key) (BlockWithPods, error) {
 	var blockWithPods BlockWithPods
 
+	log.Info("Creating block inside ", key.Name, " key.")
 	block, err := recipes.AddBlock(user, BlockNames[keyType], key)
 	if err != nil {
 		return blockWithPods, err
 	}
 	blockWithPods.Block = block
 
+	log.Info("Creating block pod inside ", block.Name, " block.")
 	var blockPod response.Pod
 	blockPod, err = recipes.AddPodToBlock(user, BlockPodNames[lib.Custom], block)
 	if err != nil {
@@ -48,6 +52,7 @@ func createBlockWithPods(user response.User, keyType lib.KeyType, key response.K
 func createKeyWithBlocks(user response.User, keyType lib.KeyType) (KeyWithResources, error) {
 	var keyWithResources KeyWithResources
 
+	log.Info("Creating custom key")
 	key, err := recipes.AddKey(user, KeyNames[keyType], lib.KeyTypes[keyType])
 	if err != nil {
 		return keyWithResources, err
@@ -70,6 +75,7 @@ func createCustomKeyWithResources(user response.User) (KeyWithResources, error) 
 		return keyWithResources, err
 	}
 
+	log.Info("Creating key pod inside ", keyWithResources.Key.Name, " key.")
 	var keyPod response.Pod
 	keyPod, err = recipes.AddPod(user, KeyPodName, keyWithResources.Key)
 	if err != nil {
@@ -100,6 +106,7 @@ func CreateContent(user response.User) (AllKeys, error) {
 	var allKeys AllKeys
 	var err error
 
+	log.Info("Creating custom key content")
 	var customKey KeyWithResources
 	customKey, err = createCustomKeyWithResources(user)
 	if err != nil {
@@ -107,6 +114,7 @@ func CreateContent(user response.User) (AllKeys, error) {
 	}
 	allKeys.CustomKey = customKey
 
+	log.Info("Creating teacher key content")
 	var teacherKey KeyWithResources
 	teacherKey, err = createTeacherKeyWithBlocks(user)
 	if err != nil {
@@ -114,6 +122,7 @@ func CreateContent(user response.User) (AllKeys, error) {
 	}
 	allKeys.TeacherKey = teacherKey
 
+	log.Info("Creating project key content")
 	var projectKey KeyWithResources
 	projectKey, err = createProjectKeyWithBlocks(user)
 	if err != nil {
