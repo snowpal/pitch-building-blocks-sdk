@@ -1,4 +1,4 @@
-package recipes
+package setupnewuser
 
 import "github.com/snowpal/pitch-building-blocks-sdk/lib/structs/response"
 

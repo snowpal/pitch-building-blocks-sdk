@@ -1,4 +1,4 @@
-package recipes
+package setupnewuser
 
 import (
 	"github.com/snowpal/pitch-building-blocks-sdk/lib"
@@ -8,6 +8,27 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+func ShareContent(user response.User, anotherUserEmail string, allKeys AllKeys) error {
+	log.Info("Share custom key content with ", anotherUserEmail)
+	err := shareCustomKeyData(user, anotherUserEmail, allKeys.CustomKey)
+	if err != nil {
+		return err
+	}
+
+	log.Info("Share teacher key content with ", anotherUserEmail)
+	err = shareClassroomKeyData(user, anotherUserEmail, allKeys.TeacherKey)
+	if err != nil {
+		return err
+	}
+
+	log.Info("Share project key content with ", anotherUserEmail)
+	err = shareProjectKeyData(user, anotherUserEmail, allKeys.ProjectKey)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func shareBlock(user response.User, anotherUserEmail string, block BlockWithPods) error {
 	err := recipes.SearchUserAndShareBlock(user, block.Block, anotherUserEmail, lib.ReadAcl)
 	if err != nil {
@@ -16,7 +37,7 @@ func shareBlock(user response.User, anotherUserEmail string, block BlockWithPods
 	return nil
 }
 
-func shareCustomBlockAndPod(user response.User, anotherUserEmail string, customKey KeyWithResources) error {
+func shareCustomKeyData(user response.User, anotherUserEmail string, customKey KeyWithResources) error {
 	log.Info("Share block ", customKey.Blocks[0].Block.Name, " for custom key, ", customKey.Key.Name)
 	err := shareBlock(user, anotherUserEmail, customKey.Blocks[0])
 	if err != nil {
@@ -37,7 +58,7 @@ func shareCustomBlockAndPod(user response.User, anotherUserEmail string, customK
 	return nil
 }
 
-func shareClassroomContent(user response.User, anotherUserEmail string, teacherKey KeyWithResources) error {
+func shareClassroomKeyData(user response.User, anotherUserEmail string, teacherKey KeyWithResources) error {
 	log.Info("Share block ", teacherKey.Blocks[0].Block.Name, " for teacher key, ", teacherKey.Key.Name)
 	err := shareBlock(user, anotherUserEmail, teacherKey.Blocks[0])
 	if err != nil {
@@ -46,30 +67,9 @@ func shareClassroomContent(user response.User, anotherUserEmail string, teacherK
 	return nil
 }
 
-func shareProjectManagementContent(user response.User, anotherUserEmail string, projectKey KeyWithResources) error {
+func shareProjectKeyData(user response.User, anotherUserEmail string, projectKey KeyWithResources) error {
 	log.Info("Share block ", projectKey.Blocks[0].Block.Name, " for project key, ", projectKey.Key.Name)
 	err := shareBlock(user, anotherUserEmail, projectKey.Blocks[0])
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func ShareContent(user response.User, anotherUserEmail string, allKeys AllKeys) error {
-	log.Info("Share custom key content with ", anotherUserEmail)
-	err := shareCustomBlockAndPod(user, anotherUserEmail, allKeys.CustomKey)
-	if err != nil {
-		return err
-	}
-
-	log.Info("Share teacher key content with ", anotherUserEmail)
-	err = shareClassroomContent(user, anotherUserEmail, allKeys.TeacherKey)
-	if err != nil {
-		return err
-	}
-
-	log.Info("Share project key content with ", anotherUserEmail)
-	err = shareProjectManagementContent(user, anotherUserEmail, allKeys.ProjectKey)
 	if err != nil {
 		return err
 	}

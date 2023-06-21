@@ -1,4 +1,4 @@
-package recipes
+package setupnewuser
 
 import (
 	"github.com/snowpal/pitch-building-blocks-sdk/lib"
@@ -23,13 +23,13 @@ func displayUser(email string) {
 }
 
 func displayAllKeys(user response.User) {
-	keys, err := keys.GetKeys(user.JwtToken, 0)
+	myKeys, err := keys.GetKeys(user.JwtToken, 0)
 	if err != nil {
 		return
 	}
 
 	log.Info("List of Keys")
-	for kIndex, key := range keys {
+	for kIndex, key := range myKeys {
 		if key.Type == lib.KeyTypes[lib.SharedCustom] ||
 			key.Type == lib.KeyTypes[lib.SharedTeacher] ||
 			key.Type == lib.KeyTypes[lib.SharedStudent] ||
@@ -38,7 +38,7 @@ func displayAllKeys(user response.User) {
 		}
 
 		log.Info(kIndex+1, ". ", key.Name, " | ", key.Type)
-		blocks, err := blocks.GetBlocks(user.JwtToken, request.GetBlocksParam{
+		myBlocks, err := blocks.GetBlocks(user.JwtToken, request.GetBlocksParam{
 			KeyId: key.ID,
 		})
 		if err != nil {
@@ -46,10 +46,10 @@ func displayAllKeys(user response.User) {
 		}
 
 		log.Info("List of Blocks inside ", key.Name)
-		for bIndex, block := range blocks {
+		for bIndex, block := range myBlocks {
 			log.Info(bIndex+1, ". ", block.Name)
 
-			blockPods, err := blockPods.GetBlockPods(user.JwtToken, request.GetPodsParam{
+			myBlockPods, err := blockPods.GetBlockPods(user.JwtToken, request.GetPodsParam{
 				KeyId:   key.ID,
 				BlockId: &block.ID,
 			})
@@ -58,7 +58,7 @@ func displayAllKeys(user response.User) {
 			}
 
 			log.Info("List of Block Pods inside ", block.Name, " and ", key.Name)
-			for bpIndex, blockPod := range blockPods {
+			for bpIndex, blockPod := range myBlockPods {
 				log.Info(bpIndex+1, ". ", blockPod.Name)
 			}
 		}
@@ -82,12 +82,12 @@ func displayAllKeys(user response.User) {
 }
 
 func displayAllNotifications(user response.User) {
-	notifications, err := notifications.GetNotifications(user.JwtToken)
+	myNotifications, err := notifications.GetNotifications(user.JwtToken)
 	if err != nil {
 		return
 	}
 
-	for index, notification := range notifications {
+	for index, notification := range myNotifications {
 		log.Info(index+1, ". ", notification.Text)
 	}
 }

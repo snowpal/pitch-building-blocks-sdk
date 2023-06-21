@@ -1,4 +1,4 @@
-package recipes
+package setupnewuser
 
 import (
 	"github.com/snowpal/pitch-building-blocks-sdk/lib"
@@ -8,7 +8,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func InitializeNewUser() {
+func SetupNewUser() {
 	log.Info("Objective: Initialize new user with a dynamic email address and create content for that user")
 	userEmail, err := RegisterNewUser()
 	if err != nil {

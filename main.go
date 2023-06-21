@@ -8,7 +8,7 @@ import (
 
 	log "github.com/sirupsen/logrus"
 	recipes "github.com/snowpal/pitch-building-blocks-sdk/lib/recipes"
-	newRecipes "github.com/snowpal/pitch-building-blocks-sdk/lib/recipes/recipe.14.initialize_user"
+	newRecipes "github.com/snowpal/pitch-building-blocks-sdk/lib/recipes/recipe.14.setup_new_user"
 )
 
 func main() {
@@ -83,8 +83,8 @@ func main() {
 		recipes.UpdateAttributes()
 		break
 	case 14:
-		log.Info("Run Recipe14 - Initialize New User")
-		newRecipes.InitializeNewUser()
+		log.Info("Run Recipe14 - Set up New User")
+		newRecipes.SetupNewUser()
 	default:
 		log.Info("pick a specific recipe to run")
 	}
