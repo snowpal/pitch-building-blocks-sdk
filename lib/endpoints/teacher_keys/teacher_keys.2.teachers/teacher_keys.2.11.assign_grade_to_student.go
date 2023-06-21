@@ -2,7 +2,6 @@ package teacherKeys
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"strings"
@@ -21,7 +20,6 @@ func AssignBlockGradeToStudent(
 	resBlockScaleValue := response.UpdateBlockScaleValue{}
 	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
-		fmt.Println(err)
 		return resBlockScaleValue, err
 	}
 	payload := strings.NewReader(requestBody)
@@ -32,14 +30,12 @@ func AssignBlockGradeToStudent(
 		classroomParam.ResourceIds.KeyId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return resBlockScaleValue, err
 	}
 
 	var req *http.Request
 	req, err = http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
-		fmt.Println(err)
 		return resBlockScaleValue, err
 	}
 
@@ -48,7 +44,6 @@ func AssignBlockGradeToStudent(
 	var res *http.Response
 	res, err = helpers.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resBlockScaleValue, err
 	}
 
@@ -57,13 +52,11 @@ func AssignBlockGradeToStudent(
 	var body []byte
 	body, err = io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resBlockScaleValue, err
 	}
 
 	err = json.Unmarshal(body, &resBlockScaleValue)
 	if err != nil {
-		fmt.Println(err)
 		return resBlockScaleValue, err
 	}
 	return resBlockScaleValue, nil

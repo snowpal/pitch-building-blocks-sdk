@@ -2,7 +2,6 @@ package keys
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"strings"
@@ -17,18 +16,15 @@ func AddKey(jwtToken string, reqBody request.AddKeyReqBody) (response.Key, error
 	resKey := response.Key{}
 	requestBody, err := helpers2.GetRequestBody(reqBody)
 	if err != nil {
-		fmt.Println(err)
 		return resKey, err
 	}
 	payload := strings.NewReader(requestBody)
 	route, err := helpers2.GetRoute(lib.RouteKeysAddKey)
 	if err != nil {
-		fmt.Println(err)
 		return resKey, err
 	}
 	req, err := http.NewRequest(http.MethodPost, route, payload)
 	if err != nil {
-		fmt.Println(err)
 		return resKey, err
 	}
 
@@ -36,7 +32,6 @@ func AddKey(jwtToken string, reqBody request.AddKeyReqBody) (response.Key, error
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resKey, err
 	}
 
@@ -44,13 +39,11 @@ func AddKey(jwtToken string, reqBody request.AddKeyReqBody) (response.Key, error
 
 	body, _ := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resKey, err
 	}
 
 	err = json.Unmarshal(body, &resKey)
 	if err != nil {
-		fmt.Println(err)
 		return resKey, err
 	}
 	return resKey, nil

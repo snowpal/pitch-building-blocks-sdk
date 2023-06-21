@@ -2,7 +2,6 @@ package version
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -15,14 +14,12 @@ func GetLatestVersion() (response.Version, error) {
 	resVersion := response.Version{}
 	route, err := helpers2.GetRoute(lib.RouteVersionGetLatestVersion)
 	if err != nil {
-		fmt.Println(err)
 		return resVersion, err
 	}
 
 	var req *http.Request
 	req, err = http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resVersion, err
 	}
 
@@ -31,7 +28,6 @@ func GetLatestVersion() (response.Version, error) {
 	var res *http.Response
 	res, err = helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resVersion, err
 	}
 
@@ -40,13 +36,11 @@ func GetLatestVersion() (response.Version, error) {
 	var body []byte
 	body, err = io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resVersion, err
 	}
 
 	err = json.Unmarshal(body, &resVersion)
 	if err != nil {
-		fmt.Println(err)
 		return resVersion, err
 	}
 	return resVersion, nil

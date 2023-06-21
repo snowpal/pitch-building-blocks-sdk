@@ -1,7 +1,6 @@
 package keyPods
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -13,7 +12,6 @@ import (
 func AssignKeyPodTask(jwtToken string, reqBody request.AssignTaskReqBody, taskParam request.TaskIdParam) error {
 	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	payload := strings.NewReader(requestBody)
@@ -25,7 +23,6 @@ func AssignKeyPodTask(jwtToken string, reqBody request.AssignTaskReqBody, taskPa
 	)
 	req, err := http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
@@ -33,7 +30,6 @@ func AssignKeyPodTask(jwtToken string, reqBody request.AssignTaskReqBody, taskPa
 
 	_, err = helpers.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	return nil

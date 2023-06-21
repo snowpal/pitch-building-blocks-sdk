@@ -2,7 +2,6 @@ package blockPods
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"strings"
@@ -21,7 +20,6 @@ func AddBlockPodTask(
 	resTask := response.Task{}
 	requestBody, err := helpers2.GetRequestBody(reqBody)
 	if err != nil {
-		fmt.Println(err)
 		return resTask, err
 	}
 	payload := strings.NewReader(requestBody)
@@ -33,7 +31,6 @@ func AddBlockPodTask(
 	)
 	req, err := http.NewRequest(http.MethodPost, route, payload)
 	if err != nil {
-		fmt.Println(err)
 		return resTask, err
 	}
 
@@ -41,7 +38,6 @@ func AddBlockPodTask(
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resTask, err
 	}
 
@@ -49,13 +45,11 @@ func AddBlockPodTask(
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resTask, err
 	}
 
 	err = json.Unmarshal(body, &resTask)
 	if err != nil {
-		fmt.Println(err)
 		return resTask, err
 	}
 	return resTask, nil

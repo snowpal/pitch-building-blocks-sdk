@@ -2,7 +2,6 @@ package projectKeys
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"strings"
@@ -21,7 +20,6 @@ func AddProjectPod(
 	resProjectPod := response.Pod{}
 	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
-		fmt.Println(err)
 		return resProjectPod, err
 	}
 	payload := strings.NewReader(requestBody)
@@ -34,14 +32,12 @@ func AddProjectPod(
 		projectListParam.ProjectListId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return resProjectPod, err
 	}
 
 	var req *http.Request
 	req, err = http.NewRequest(http.MethodPost, route, payload)
 	if err != nil {
-		fmt.Println(err)
 		return resProjectPod, err
 	}
 
@@ -50,7 +46,6 @@ func AddProjectPod(
 	var res *http.Response
 	res, err = helpers.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resProjectPod, err
 	}
 
@@ -59,13 +54,11 @@ func AddProjectPod(
 	var body []byte
 	body, err = io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resProjectPod, err
 	}
 
 	err = json.Unmarshal(body, &resProjectPod)
 	if err != nil {
-		fmt.Println(err)
 		return resProjectPod, err
 	}
 	return resProjectPod, nil

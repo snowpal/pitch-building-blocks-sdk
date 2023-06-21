@@ -2,7 +2,6 @@ package keys
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"strings"
@@ -21,7 +20,6 @@ func UpdateKeyNote(
 	resNote := response.Note{}
 	requestBody, err := helpers2.GetRequestBody(reqBody)
 	if err != nil {
-		fmt.Println(err)
 		return resNote, err
 	}
 	payload := strings.NewReader(requestBody)
@@ -32,7 +30,6 @@ func UpdateKeyNote(
 	)
 	req, err := http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
-		fmt.Println(err)
 		return resNote, err
 	}
 
@@ -40,7 +37,6 @@ func UpdateKeyNote(
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resNote, err
 	}
 
@@ -48,13 +44,11 @@ func UpdateKeyNote(
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resNote, err
 	}
 
 	err = json.Unmarshal(body, &resNote)
 	if err != nil {
-		fmt.Println(err)
 		return resNote, err
 	}
 	return resNote, nil

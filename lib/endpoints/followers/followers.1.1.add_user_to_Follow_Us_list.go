@@ -1,7 +1,6 @@
 package followers
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -18,20 +17,17 @@ type FollowerReqBody struct {
 func AddUserToFollowUsList(jwtToken string, reqBody FollowerReqBody) error {
 	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	payload := strings.NewReader(requestBody)
 	route, err := helpers.GetRoute(lib.RouteFollowersAddUserToFollowUsList)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
 	var req *http.Request
 	req, err = http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
@@ -39,7 +35,6 @@ func AddUserToFollowUsList(jwtToken string, reqBody FollowerReqBody) error {
 
 	_, err = helpers.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	return nil

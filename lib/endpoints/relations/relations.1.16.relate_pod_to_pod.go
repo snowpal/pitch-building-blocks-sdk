@@ -1,7 +1,6 @@
 package relations
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/snowpal/pitch-building-blocks-sdk/lib"
@@ -12,7 +11,6 @@ import (
 func relatePodToPod(jwtToken string, route string) error {
 	req, err := http.NewRequest(http.MethodPatch, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
@@ -20,7 +18,6 @@ func relatePodToPod(jwtToken string, route string) error {
 
 	_, err = helpers.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	return nil
@@ -35,12 +32,10 @@ func RelateKeyPodToKeyPod(jwtToken string, relationParam request.PodToPodRelatio
 		relationParam.TargetKeyId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	err = relatePodToPod(jwtToken, route)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	return nil
@@ -56,12 +51,10 @@ func RelateKeyPodToBlockPod(jwtToken string, relationParam request.PodToBlockPod
 		relationParam.TargetBlockId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	err = relatePodToPod(jwtToken, route)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	return nil
@@ -78,12 +71,10 @@ func RelateBlockPodToBlockPod(jwtToken string, relationParam request.BlockPodToB
 		relationParam.TargetBlockId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	err = relatePodToPod(jwtToken, route)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	return nil

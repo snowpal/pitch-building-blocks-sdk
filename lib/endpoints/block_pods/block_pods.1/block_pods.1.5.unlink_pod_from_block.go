@@ -1,7 +1,6 @@
 package blockPods
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/snowpal/pitch-building-blocks-sdk/lib"
@@ -12,14 +11,12 @@ import (
 func UnlinkPodFromBlock(jwtToken string, podParam common.ResourceIdParam) error {
 	route, err := helpers.GetRoute(lib.RouteBlockPodsUnlinkPodFromBlock, podParam.BlockId, podParam.PodId, podParam.KeyId)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
 	var req *http.Request
 	req, err = http.NewRequest(http.MethodPatch, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
@@ -27,7 +24,6 @@ func UnlinkPodFromBlock(jwtToken string, podParam common.ResourceIdParam) error 
 
 	_, err = helpers.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	return nil

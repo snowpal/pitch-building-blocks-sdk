@@ -2,7 +2,6 @@ package keys
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -16,12 +15,10 @@ func GetKeysLinkedToPod(jwtToken string, keyParam common.ResourceIdParam) ([]res
 	resKeys := response.Keys{}
 	route, err := helpers2.GetRoute(lib.RouteKeysGetKeysLinkedToPod, keyParam.PodId, keyParam.KeyId)
 	if err != nil {
-		fmt.Println(err)
 		return resKeys.Keys, err
 	}
 	req, err := http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resKeys.Keys, err
 	}
 
@@ -29,7 +26,6 @@ func GetKeysLinkedToPod(jwtToken string, keyParam common.ResourceIdParam) ([]res
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resKeys.Keys, err
 	}
 
@@ -37,13 +33,11 @@ func GetKeysLinkedToPod(jwtToken string, keyParam common.ResourceIdParam) ([]res
 
 	body, _ := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resKeys.Keys, err
 	}
 
 	err = json.Unmarshal(body, &resKeys)
 	if err != nil {
-		fmt.Println(err)
 		return resKeys.Keys, err
 	}
 	return resKeys.Keys, nil

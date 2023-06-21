@@ -2,7 +2,6 @@ package keys
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"strings"
@@ -21,7 +20,6 @@ func ReorderKeyChecklistItems(
 	resChecklistItems := response.ChecklistItems{}
 	requestBody, err := helpers2.GetRequestBody(reqBody)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklistItems.ChecklistItems, err
 	}
 	payload := strings.NewReader(requestBody)
@@ -31,13 +29,11 @@ func ReorderKeyChecklistItems(
 		checklistParam.KeyId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklistItems.ChecklistItems, err
 	}
 
 	req, err := http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklistItems.ChecklistItems, err
 	}
 
@@ -45,7 +41,6 @@ func ReorderKeyChecklistItems(
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklistItems.ChecklistItems, err
 	}
 
@@ -53,13 +48,11 @@ func ReorderKeyChecklistItems(
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklistItems.ChecklistItems, err
 	}
 
 	err = json.Unmarshal(body, &resChecklistItems)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklistItems.ChecklistItems, err
 	}
 	return resChecklistItems.ChecklistItems, nil

@@ -2,7 +2,6 @@ package block_types
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"strconv"
@@ -16,12 +15,10 @@ func GetBlockTypes(jwtToken string, includeCounts bool) ([]response.BlockType, e
 	resBlockTypes := response.BlockTypes{}
 	route, err := helpers2.GetRoute(lib.RouteBlockTypesGetBlockTypes, strconv.FormatBool(includeCounts))
 	if err != nil {
-		fmt.Println(err)
 		return resBlockTypes.BlockTypes, err
 	}
 	req, err := http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resBlockTypes.BlockTypes, err
 	}
 
@@ -29,7 +26,6 @@ func GetBlockTypes(jwtToken string, includeCounts bool) ([]response.BlockType, e
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resBlockTypes.BlockTypes, err
 	}
 
@@ -37,13 +33,11 @@ func GetBlockTypes(jwtToken string, includeCounts bool) ([]response.BlockType, e
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resBlockTypes.BlockTypes, err
 	}
 
 	err = json.Unmarshal(body, &resBlockTypes)
 	if err != nil {
-		fmt.Println(err)
 		return resBlockTypes.BlockTypes, err
 	}
 	return resBlockTypes.BlockTypes, nil

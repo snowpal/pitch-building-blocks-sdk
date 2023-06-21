@@ -2,7 +2,6 @@ package blocks
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -20,20 +19,17 @@ func GetBlocksLinkedToPods(jwtToken string, blockParam common.ResourceIdParam) (
 		blockParam.KeyId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return resBlocks.Blocks, err
 	}
 
 	req, _ := http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resBlocks.Blocks, err
 	}
 
 	helpers2.AddUserHeaders(jwtToken, req)
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resBlocks.Blocks, err
 	}
 
@@ -41,13 +37,11 @@ func GetBlocksLinkedToPods(jwtToken string, blockParam common.ResourceIdParam) (
 
 	body, _ := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resBlocks.Blocks, err
 	}
 
 	err = json.Unmarshal(body, &resBlocks)
 	if err != nil {
-		fmt.Println(err)
 		return resBlocks.Blocks, err
 	}
 	return resBlocks.Blocks, nil

@@ -2,7 +2,6 @@ package collaboration
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -22,7 +21,6 @@ func UnshareBlockWithCollaborator(jwtToken string, blockAclParam common.AclParam
 	)
 	req, err := http.NewRequest(http.MethodPatch, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resBlock, err
 	}
 
@@ -30,7 +28,6 @@ func UnshareBlockWithCollaborator(jwtToken string, blockAclParam common.AclParam
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resBlock, err
 	}
 
@@ -38,13 +35,11 @@ func UnshareBlockWithCollaborator(jwtToken string, blockAclParam common.AclParam
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resBlock, err
 	}
 
 	err = json.Unmarshal(body, &resBlock)
 	if err != nil {
-		fmt.Println(err)
 		return resBlock, err
 	}
 	return resBlock, nil

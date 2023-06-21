@@ -2,7 +2,6 @@ package projectKeys
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -24,14 +23,12 @@ func GetProjectList(
 		projectListParam.KeyId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return resProjectList, err
 	}
 
 	var req *http.Request
 	req, err = http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resProjectList, err
 	}
 
@@ -40,7 +37,6 @@ func GetProjectList(
 	var res *http.Response
 	res, err = helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resProjectList, err
 	}
 
@@ -49,13 +45,11 @@ func GetProjectList(
 	var body []byte
 	body, err = io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resProjectList, err
 	}
 
 	err = json.Unmarshal(body, &resProjectList)
 	if err != nil {
-		fmt.Println(err)
 		return resProjectList, err
 	}
 	return resProjectList, nil

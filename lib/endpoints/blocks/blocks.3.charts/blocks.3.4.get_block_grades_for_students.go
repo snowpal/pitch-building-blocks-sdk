@@ -2,7 +2,6 @@ package blocks
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -25,14 +24,12 @@ func GetBlockGradesForStudents(jwtToken string, gradeParam common.ResourceIdPara
 		gradeParam.KeyId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return resBlockGrades, err
 	}
 
 	var req *http.Request
 	req, err = http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resBlockGrades, err
 	}
 
@@ -41,7 +38,6 @@ func GetBlockGradesForStudents(jwtToken string, gradeParam common.ResourceIdPara
 	var res *http.Response
 	res, err = helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resBlockGrades, err
 	}
 
@@ -50,13 +46,11 @@ func GetBlockGradesForStudents(jwtToken string, gradeParam common.ResourceIdPara
 	var body []byte
 	body, err = io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resBlockGrades, err
 	}
 
 	err = json.Unmarshal(body, &resBlockGrades)
 	if err != nil {
-		fmt.Println(err)
 		return resBlockGrades, err
 	}
 	return resBlockGrades, nil

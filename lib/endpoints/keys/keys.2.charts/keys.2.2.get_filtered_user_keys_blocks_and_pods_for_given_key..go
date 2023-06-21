@@ -2,7 +2,6 @@ package keys
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -15,14 +14,12 @@ func GetFilteredUserKeysBlocksAndPodsForGivenKey(jwtToken string, keyId string) 
 	resFilteredUserKey := response.FilteredKey{}
 	route, err := helpers2.GetRoute(lib.RouteKeysGetFilteredUserKeysBlocksAndPodsForGivenKey, keyId)
 	if err != nil {
-		fmt.Println(err)
 		return resFilteredUserKey, err
 	}
 
 	var req *http.Request
 	req, err = http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resFilteredUserKey, err
 	}
 
@@ -31,7 +28,6 @@ func GetFilteredUserKeysBlocksAndPodsForGivenKey(jwtToken string, keyId string) 
 	var res *http.Response
 	res, err = helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resFilteredUserKey, err
 	}
 
@@ -40,13 +36,11 @@ func GetFilteredUserKeysBlocksAndPodsForGivenKey(jwtToken string, keyId string) 
 	var body []byte
 	body, err = io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resFilteredUserKey, err
 	}
 
 	err = json.Unmarshal(body, &resFilteredUserKey)
 	if err != nil {
-		fmt.Println(err)
 		return resFilteredUserKey, err
 	}
 	return resFilteredUserKey, nil

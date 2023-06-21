@@ -2,7 +2,6 @@ package blockPods
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -29,13 +28,11 @@ func GetBlockPodGradesForStudents(jwtToken string, podParam common2.ResourceIdPa
 		podParam.BlockId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return resBlockPodGrades, err
 	}
 
 	req, err := http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resBlockPodGrades, err
 	}
 
@@ -43,7 +40,6 @@ func GetBlockPodGradesForStudents(jwtToken string, podParam common2.ResourceIdPa
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resBlockPodGrades, err
 	}
 
@@ -51,13 +47,11 @@ func GetBlockPodGradesForStudents(jwtToken string, podParam common2.ResourceIdPa
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resBlockPodGrades, err
 	}
 
 	err = json.Unmarshal(body, &resBlockPodGrades)
 	if err != nil {
-		fmt.Println(err)
 		return resBlockPodGrades, err
 	}
 	return resBlockPodGrades, nil
