@@ -1,7 +1,6 @@
 package keyPods
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/snowpal/pitch-building-blocks-sdk/lib"
@@ -17,13 +16,11 @@ func DeleteKeyPodAttachment(jwtToken string, attachmentParam request.AttachmentP
 		*attachmentParam.PodId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
 	req, err := http.NewRequest(http.MethodDelete, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
@@ -31,7 +28,6 @@ func DeleteKeyPodAttachment(jwtToken string, attachmentParam request.AttachmentP
 
 	_, err = helpers.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	return nil

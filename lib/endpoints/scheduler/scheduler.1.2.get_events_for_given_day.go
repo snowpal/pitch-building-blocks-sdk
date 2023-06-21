@@ -2,7 +2,6 @@ package scheduler
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -16,12 +15,10 @@ func GetEventsForGivenDay(jwtToken string, dateParam request.EventDateParam) (re
 	resAllEvents := response.AllEvents{}
 	route, err := helpers2.GetRoute(lib.RouteSchedulerGetEventsForGivenDay, dateParam.StartDate)
 	if err != nil {
-		fmt.Println(err)
 		return resAllEvents, err
 	}
 	req, err := http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resAllEvents, err
 	}
 
@@ -29,7 +26,6 @@ func GetEventsForGivenDay(jwtToken string, dateParam request.EventDateParam) (re
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resAllEvents, err
 	}
 
@@ -37,13 +33,11 @@ func GetEventsForGivenDay(jwtToken string, dateParam request.EventDateParam) (re
 
 	body, _ := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resAllEvents, err
 	}
 
 	err = json.Unmarshal(body, &resAllEvents)
 	if err != nil {
-		fmt.Println(err)
 		return resAllEvents, err
 	}
 	return resAllEvents, nil

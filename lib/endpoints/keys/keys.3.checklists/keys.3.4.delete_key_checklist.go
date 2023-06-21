@@ -1,7 +1,6 @@
 package keys
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/snowpal/pitch-building-blocks-sdk/lib"
@@ -16,13 +15,11 @@ func DeleteKeyChecklist(jwtToken string, checklistParam request.ChecklistIdParam
 		checklistParam.KeyId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
 	req, err := http.NewRequest(http.MethodDelete, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
@@ -30,7 +27,6 @@ func DeleteKeyChecklist(jwtToken string, checklistParam request.ChecklistIdParam
 
 	_, err = helpers.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	return nil

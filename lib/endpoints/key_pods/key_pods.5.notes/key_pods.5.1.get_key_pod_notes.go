@@ -2,7 +2,6 @@ package keyPods
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -20,13 +19,11 @@ func GetKeyPodNotes(jwtToken string, noteParam request.NoteIdParam) ([]response.
 		noteParam.KeyId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return resNotes.Notes, err
 	}
 
 	req, err := http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resNotes.Notes, err
 	}
 
@@ -34,7 +31,6 @@ func GetKeyPodNotes(jwtToken string, noteParam request.NoteIdParam) ([]response.
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resNotes.Notes, err
 	}
 
@@ -42,13 +38,11 @@ func GetKeyPodNotes(jwtToken string, noteParam request.NoteIdParam) ([]response.
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resNotes.Notes, err
 	}
 
 	err = json.Unmarshal(body, &resNotes)
 	if err != nil {
-		fmt.Println(err)
 		return resNotes.Notes, err
 	}
 	return resNotes.Notes, nil

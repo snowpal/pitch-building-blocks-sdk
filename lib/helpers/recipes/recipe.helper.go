@@ -1,12 +1,10 @@
 package recipes
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/snowpal/pitch-building-blocks-sdk/lib"
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/blocks/blocks.1"
-	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/collaboration/collaboration.1.blocks"
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/keys/keys.1"
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/common"
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/request"
@@ -32,8 +30,6 @@ func SleepAfter() {
 // To verify if it was actually run, we do this "random" check.
 func ValidateDependencies() (response.User, error) {
 	user, err := SignIn(lib.DefaultEmail, lib.Password)
-	fmt.Println(user)
-	fmt.Println(err)
 	if err != nil {
 		return user, err
 	}
@@ -41,7 +37,7 @@ func ValidateDependencies() (response.User, error) {
 	return user, nil
 }
 
-func addKey(user response.User, keyName string, keyType string) (response.Key, error) {
+func AddKey(user response.User, keyName string, keyType string) (response.Key, error) {
 	newKey, err := keys.AddKey(
 		user.JwtToken,
 		request.AddKeyReqBody{
@@ -55,7 +51,7 @@ func addKey(user response.User, keyName string, keyType string) (response.Key, e
 }
 
 func AddCustomKey(user response.User, keyName string) (response.Key, error) {
-	newKey, err := addKey(user, keyName, lib.CustomKeyType)
+	newKey, err := AddKey(user, keyName, lib.KeyTypes[lib.Custom])
 	if err != nil {
 		return newKey, err
 	}
@@ -63,7 +59,7 @@ func AddCustomKey(user response.User, keyName string) (response.Key, error) {
 }
 
 func AddTeacherKey(user response.User, keyName string) (response.Key, error) {
-	newKey, err := addKey(user, keyName, lib.TeacherKeyType)
+	newKey, err := AddKey(user, keyName, lib.KeyTypes[lib.Teacher])
 	if err != nil {
 		return newKey, err
 	}
@@ -71,7 +67,7 @@ func AddTeacherKey(user response.User, keyName string) (response.Key, error) {
 }
 
 func AddProjectKey(user response.User, keyName string) (response.Key, error) {
-	newKey, err := addKey(user, keyName, lib.ProjectKeyType)
+	newKey, err := AddKey(user, keyName, lib.KeyTypes[lib.Project])
 	if err != nil {
 		return newKey, err
 	}
@@ -109,35 +105,4 @@ func AddPodToBlock(user response.User, podName string, block response.Block) (re
 		return newPod, err
 	}
 	return newPod, nil
-}
-
-func SearchUserAndShareBlock(user response.User, block response.Block, searchToken string, acl string) error {
-	blockIdParam := common.ResourceIdParam{
-		BlockId: block.ID,
-		KeyId:   block.Key.ID,
-	}
-
-	searchedUsers, err := collaboration.GetUsersThisBlockCanBeSharedWith(
-		user.JwtToken,
-		common.SearchUsersParam{
-			SearchToken: searchToken,
-			ResourceIds: blockIdParam,
-		})
-	if err != nil {
-		return err
-	}
-
-	// For the purpose of this recipe, it does not matter which user from the list we end up picking, hence we go with
-	// the first one.
-	_, err = collaboration.ShareBlockWithCollaborator(
-		user.JwtToken,
-		request.BlockAclReqBody{Acl: acl},
-		common.AclParam{
-			UserId:      searchedUsers[0].ID,
-			ResourceIds: blockIdParam,
-		})
-	if err != nil {
-		return err
-	}
-	return nil
 }

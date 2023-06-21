@@ -2,7 +2,6 @@ package blocks
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"strconv"
@@ -29,7 +28,6 @@ func AddBlockBasedOnTemplate(
 	resBlock := response.Block{}
 	requestBody, err := helpers2.GetRequestBody(reqBody)
 	if err != nil {
-		fmt.Println(err)
 		return resBlock, err
 	}
 	payload := strings.NewReader(requestBody)
@@ -42,12 +40,10 @@ func AddBlockBasedOnTemplate(
 		strconv.FormatBool(blockParam.ExcludeTasks),
 	)
 	if err != nil {
-		fmt.Println(err)
 		return resBlock, err
 	}
 	req, err := http.NewRequest(http.MethodPost, route, payload)
 	if err != nil {
-		fmt.Println(err)
 		return resBlock, err
 	}
 
@@ -55,7 +51,6 @@ func AddBlockBasedOnTemplate(
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resBlock, err
 	}
 
@@ -63,13 +58,11 @@ func AddBlockBasedOnTemplate(
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resBlock, err
 	}
 
 	err = json.Unmarshal(body, &resBlock)
 	if err != nil {
-		fmt.Println(err)
 		return resBlock, err
 	}
 	return resBlock, nil

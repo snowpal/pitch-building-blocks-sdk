@@ -2,7 +2,6 @@ package blockPods
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"strings"
@@ -21,7 +20,6 @@ func AddBlockPodAttachment(
 	resAttachments := response.Attachments{}
 	requestBody, err := helpers2.GetRequestBody(reqBody)
 	if err != nil {
-		fmt.Println(err)
 		return resAttachments.Attachments, err
 	}
 	payload := strings.NewReader(requestBody)
@@ -32,13 +30,11 @@ func AddBlockPodAttachment(
 		*attachmentParam.BlockId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return resAttachments.Attachments, err
 	}
 
 	req, err := http.NewRequest(http.MethodPost, route, payload)
 	if err != nil {
-		fmt.Println(err)
 		return resAttachments.Attachments, err
 	}
 
@@ -46,7 +42,6 @@ func AddBlockPodAttachment(
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resAttachments.Attachments, err
 	}
 
@@ -54,13 +49,11 @@ func AddBlockPodAttachment(
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resAttachments.Attachments, err
 	}
 
 	err = json.Unmarshal(body, &resAttachments)
 	if err != nil {
-		fmt.Println(err)
 		return resAttachments.Attachments, err
 	}
 	return resAttachments.Attachments, nil

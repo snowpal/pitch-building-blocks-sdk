@@ -2,7 +2,6 @@ package blocks
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"strconv"
@@ -27,14 +26,12 @@ func CopyBlock(jwtToken string, blockParam request.CopyMoveBlockParam) (response
 		blockParam.TargetKeyId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return resBlock, err
 	}
 
 	var req *http.Request
 	req, err = http.NewRequest(http.MethodPost, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resBlock, err
 	}
 
@@ -42,7 +39,6 @@ func CopyBlock(jwtToken string, blockParam request.CopyMoveBlockParam) (response
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resBlock, err
 	}
 
@@ -50,13 +46,11 @@ func CopyBlock(jwtToken string, blockParam request.CopyMoveBlockParam) (response
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resBlock, err
 	}
 
 	err = json.Unmarshal(body, &resBlock)
 	if err != nil {
-		fmt.Println(err)
 		return resBlock, err
 	}
 	return resBlock, nil

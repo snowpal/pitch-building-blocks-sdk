@@ -1,7 +1,6 @@
 package blockPods
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -17,7 +16,6 @@ func RenameBlockPodAttachment(
 ) error {
 	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	payload := strings.NewReader(requestBody)
@@ -29,13 +27,11 @@ func RenameBlockPodAttachment(
 		*attachmentParam.PodId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
 	req, err := http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
@@ -43,7 +39,6 @@ func RenameBlockPodAttachment(
 
 	_, err = helpers.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	return nil

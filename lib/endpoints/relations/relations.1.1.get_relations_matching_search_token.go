@@ -2,7 +2,6 @@ package relations
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -39,7 +38,6 @@ func searchRelationsMatchingSearchToken(jwtToken string, route string) ([]respon
 	resSearchResources := response.SearchResources{}
 	req, err := http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resSearchResources.Results, err
 	}
 
@@ -48,7 +46,6 @@ func searchRelationsMatchingSearchToken(jwtToken string, route string) ([]respon
 	var res *http.Response
 	res, err = helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resSearchResources.Results, err
 	}
 
@@ -57,13 +54,11 @@ func searchRelationsMatchingSearchToken(jwtToken string, route string) ([]respon
 	var body []byte
 	body, err = io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resSearchResources.Results, err
 	}
 
 	err = json.Unmarshal(body, &resSearchResources)
 	if err != nil {
-		fmt.Println(err)
 		return resSearchResources.Results, err
 	}
 	return resSearchResources.Results, nil
@@ -80,12 +75,10 @@ func SearchRelationsForKeyMatchingSearchToken(
 		relationParam.CurrentKeyId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return searchResults, err
 	}
 	searchResults, err = searchRelationsMatchingSearchToken(jwtToken, route)
 	if err != nil {
-		fmt.Println(err)
 		return searchResults, err
 	}
 	return searchResults, nil
@@ -103,12 +96,10 @@ func SearchRelationsForBlockMatchingSearchToken(
 		relationParam.KeyId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return searchResults, err
 	}
 	searchResults, err = searchRelationsMatchingSearchToken(jwtToken, route)
 	if err != nil {
-		fmt.Println(err)
 		return searchResults, err
 	}
 	return searchResults, nil
@@ -126,12 +117,10 @@ func SearchRelationsForPodMatchingSearchToken(
 		relationParam.KeyId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return searchResults, err
 	}
 	searchResults, err = searchRelationsMatchingSearchToken(jwtToken, route)
 	if err != nil {
-		fmt.Println(err)
 		return searchResults, err
 	}
 	return searchResults, nil
@@ -150,12 +139,10 @@ func SearchRelationsForBlockPodMatchingSearchToken(
 		relationParam.BlockId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return searchResults, err
 	}
 	searchResults, err = searchRelationsMatchingSearchToken(jwtToken, route)
 	if err != nil {
-		fmt.Println(err)
 		return searchResults, err
 	}
 	return searchResults, nil

@@ -2,7 +2,6 @@ package teacherKeys
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -21,13 +20,11 @@ func GetStudentProfile(jwtToken string, classroomParam request.ClassroomIdParam)
 		classroomParam.ResourceIds.KeyId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return resStudent, err
 	}
 
 	req, err := http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resStudent, err
 	}
 
@@ -35,7 +32,6 @@ func GetStudentProfile(jwtToken string, classroomParam request.ClassroomIdParam)
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resStudent, err
 	}
 
@@ -43,13 +39,11 @@ func GetStudentProfile(jwtToken string, classroomParam request.ClassroomIdParam)
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resStudent, err
 	}
 
 	err = json.Unmarshal(body, &resStudent)
 	if err != nil {
-		fmt.Println(err)
 		return resStudent, err
 	}
 	return resStudent, nil

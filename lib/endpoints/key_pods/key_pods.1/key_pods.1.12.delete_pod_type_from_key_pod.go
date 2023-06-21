@@ -1,7 +1,6 @@
 package keyPods
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/snowpal/pitch-building-blocks-sdk/lib"
@@ -16,14 +15,12 @@ func DeletePodTypeFromKeyPod(jwtToken string, podParam common.ResourceIdParam) e
 		podParam.KeyId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
 	var req *http.Request
 	req, err = http.NewRequest(http.MethodPatch, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
@@ -31,7 +28,6 @@ func DeletePodTypeFromKeyPod(jwtToken string, podParam common.ResourceIdParam) e
 
 	_, err = helpers.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	return nil

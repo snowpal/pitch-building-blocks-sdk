@@ -2,7 +2,6 @@ package keys
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"strings"
@@ -21,7 +20,6 @@ func ReorderKeyTasks(
 	resTasks := response.Tasks{}
 	requestBody, err := helpers2.GetRequestBody(reqBody)
 	if err != nil {
-		fmt.Println(err)
 		return resTasks.Tasks, err
 	}
 	payload := strings.NewReader(requestBody)
@@ -31,7 +29,6 @@ func ReorderKeyTasks(
 	)
 	req, err := http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
-		fmt.Println(err)
 		return resTasks.Tasks, err
 	}
 
@@ -39,7 +36,6 @@ func ReorderKeyTasks(
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resTasks.Tasks, err
 	}
 
@@ -47,13 +43,11 @@ func ReorderKeyTasks(
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resTasks.Tasks, err
 	}
 
 	err = json.Unmarshal(body, &resTasks)
 	if err != nil {
-		fmt.Println(err)
 		return resTasks.Tasks, err
 	}
 	return resTasks.Tasks, nil

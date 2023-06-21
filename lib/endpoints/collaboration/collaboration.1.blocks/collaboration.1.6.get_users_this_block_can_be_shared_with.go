@@ -2,7 +2,6 @@ package collaboration
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -24,13 +23,11 @@ func GetUsersThisBlockCanBeSharedWith(
 		blockAclParam.SearchToken,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return resUsers.SearchUsers, err
 	}
 
 	req, err := http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resUsers.SearchUsers, err
 	}
 
@@ -38,7 +35,6 @@ func GetUsersThisBlockCanBeSharedWith(
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resUsers.SearchUsers, err
 	}
 
@@ -46,13 +42,11 @@ func GetUsersThisBlockCanBeSharedWith(
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resUsers.SearchUsers, err
 	}
 
 	err = json.Unmarshal(body, &resUsers)
 	if err != nil {
-		fmt.Println(err)
 		return resUsers.SearchUsers, err
 	}
 	return resUsers.SearchUsers, nil

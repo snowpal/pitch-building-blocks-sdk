@@ -2,7 +2,6 @@ package keys
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -19,13 +18,11 @@ func GetKeyChecklists(jwtToken string, checklistParam request.ChecklistIdParam) 
 		checklistParam.KeyId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklists.Checklists, err
 	}
 
 	req, err := http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklists.Checklists, err
 	}
 
@@ -33,7 +30,6 @@ func GetKeyChecklists(jwtToken string, checklistParam request.ChecklistIdParam) 
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklists.Checklists, err
 	}
 
@@ -41,13 +37,11 @@ func GetKeyChecklists(jwtToken string, checklistParam request.ChecklistIdParam) 
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklists.Checklists, err
 	}
 
 	err = json.Unmarshal(body, &resChecklists)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklists.Checklists, err
 	}
 	return resChecklists.Checklists, nil

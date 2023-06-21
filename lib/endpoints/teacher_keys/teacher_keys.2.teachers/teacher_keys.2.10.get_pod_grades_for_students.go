@@ -2,7 +2,6 @@ package teacherKeys
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -24,13 +23,11 @@ func GetPodGradesForStudents(
 		podParam.BlockId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return resStudentGradesForPod, err
 	}
 
 	req, err := http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resStudentGradesForPod, err
 	}
 
@@ -38,7 +35,6 @@ func GetPodGradesForStudents(
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resStudentGradesForPod, err
 	}
 
@@ -46,13 +42,11 @@ func GetPodGradesForStudents(
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resStudentGradesForPod, err
 	}
 
 	err = json.Unmarshal(body, &resStudentGradesForPod)
 	if err != nil {
-		fmt.Println(err)
 		return resStudentGradesForPod, err
 	}
 	return resStudentGradesForPod, nil

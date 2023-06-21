@@ -2,7 +2,6 @@ package scales
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"strconv"
@@ -26,7 +25,6 @@ func GetScales(jwtToken string, scalesParam GetScalesParam) ([]response.Scale, e
 	)
 	req, err := http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resScales.Scales, err
 	}
 
@@ -34,7 +32,6 @@ func GetScales(jwtToken string, scalesParam GetScalesParam) ([]response.Scale, e
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resScales.Scales, err
 	}
 
@@ -42,13 +39,11 @@ func GetScales(jwtToken string, scalesParam GetScalesParam) ([]response.Scale, e
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resScales.Scales, err
 	}
 
 	err = json.Unmarshal(body, &resScales)
 	if err != nil {
-		fmt.Println(err)
 		return resScales.Scales, err
 	}
 	return resScales.Scales, nil

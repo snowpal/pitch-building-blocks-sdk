@@ -1,7 +1,6 @@
 package relations
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/snowpal/pitch-building-blocks-sdk/lib"
@@ -12,7 +11,6 @@ import (
 func relateBlockToPod(jwtToken string, route string) error {
 	req, err := http.NewRequest(http.MethodPatch, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
@@ -20,7 +18,6 @@ func relateBlockToPod(jwtToken string, route string) error {
 
 	_, err = helpers.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	return nil
@@ -34,7 +31,6 @@ func RelateBlockToKeyPod(jwtToken string, relationParam request.BlockToPodRelati
 		relationParam.TargetKeyId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	err = relateBlockToPod(jwtToken, route)
@@ -53,12 +49,10 @@ func RelateBlockToBlockPod(jwtToken string, relationParam request.BlockToBlockPo
 		relationParam.TargetBlockId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	err = relateBlockToPod(jwtToken, route)

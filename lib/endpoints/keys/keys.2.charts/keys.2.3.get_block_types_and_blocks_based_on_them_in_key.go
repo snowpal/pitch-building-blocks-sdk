@@ -2,7 +2,6 @@ package keys
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -15,14 +14,12 @@ func GetBlockTypesAndBlocksBasedOnThemInKey(jwtToken string, keyId string) (resp
 	resBlockTypesKey := response.BlockTypesKey{}
 	route, err := helpers2.GetRoute(lib.RouteKeysGetBlockTypesAndBlocksBasedOnThemInKey, keyId)
 	if err != nil {
-		fmt.Println(err)
 		return resBlockTypesKey, err
 	}
 
 	var req *http.Request
 	req, err = http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resBlockTypesKey, err
 	}
 
@@ -31,7 +28,6 @@ func GetBlockTypesAndBlocksBasedOnThemInKey(jwtToken string, keyId string) (resp
 	var res *http.Response
 	res, err = helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resBlockTypesKey, err
 	}
 
@@ -40,13 +36,11 @@ func GetBlockTypesAndBlocksBasedOnThemInKey(jwtToken string, keyId string) (resp
 	var body []byte
 	body, err = io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resBlockTypesKey, err
 	}
 
 	err = json.Unmarshal(body, &resBlockTypesKey)
 	if err != nil {
-		fmt.Println(err)
 		return resBlockTypesKey, err
 	}
 	return resBlockTypesKey, nil

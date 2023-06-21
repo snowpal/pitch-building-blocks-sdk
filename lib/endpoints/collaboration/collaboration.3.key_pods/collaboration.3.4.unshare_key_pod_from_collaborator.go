@@ -2,7 +2,6 @@ package collaboration
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -22,7 +21,6 @@ func UnshareKeyPodWithCollaborator(jwtToken string, podAclParam common.AclParam)
 	)
 	req, err := http.NewRequest(http.MethodPatch, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resPod, err
 	}
 
@@ -30,7 +28,6 @@ func UnshareKeyPodWithCollaborator(jwtToken string, podAclParam common.AclParam)
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resPod, err
 	}
 
@@ -38,13 +35,11 @@ func UnshareKeyPodWithCollaborator(jwtToken string, podAclParam common.AclParam)
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resPod, err
 	}
 
 	err = json.Unmarshal(body, &resPod)
 	if err != nil {
-		fmt.Println(err)
 		return resPod, err
 	}
 	return resPod, nil

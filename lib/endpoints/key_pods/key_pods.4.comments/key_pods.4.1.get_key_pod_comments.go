@@ -2,7 +2,6 @@ package keyPods
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -20,13 +19,11 @@ func GetKeyPodComments(jwtToken string, commentParam request.CommentIdParam) ([]
 		commentParam.KeyId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return resComments.Comments, err
 	}
 
 	req, err := http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resComments.Comments, err
 	}
 
@@ -34,7 +31,6 @@ func GetKeyPodComments(jwtToken string, commentParam request.CommentIdParam) ([]
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resComments.Comments, err
 	}
 
@@ -42,13 +38,11 @@ func GetKeyPodComments(jwtToken string, commentParam request.CommentIdParam) ([]
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resComments.Comments, err
 	}
 
 	err = json.Unmarshal(body, &resComments)
 	if err != nil {
-		fmt.Println(err)
 		return resComments.Comments, err
 	}
 	return resComments.Comments, nil
