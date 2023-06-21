@@ -29,8 +29,6 @@ func main() {
 		}
 	}
 
-	recipeID = 14
-
 	switch recipeID {
 	case 1:
 		log.Info("Run Recipe1")

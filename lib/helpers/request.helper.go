@@ -9,8 +9,6 @@ import (
 	"github.com/snowpal/pitch-building-blocks-sdk/lib"
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/config"
 	"golang.org/x/exp/slices"
-
-	log "github.com/sirupsen/logrus"
 )
 
 func AddUserHeaders(jwtToken string, req *http.Request) {
@@ -50,8 +48,6 @@ func MakeRequest(req *http.Request) (*http.Response, error) {
 	res, err := client.Do(req)
 	successCodes := []int{200, 201, 202, 204}
 	if err != nil || !slices.Contains(successCodes, res.StatusCode) {
-		log.Error(err)
-		log.Info("...res.StatusCode:", res.StatusCode)
 		return res, errors.New("API Request Failed")
 	}
 	return res, nil

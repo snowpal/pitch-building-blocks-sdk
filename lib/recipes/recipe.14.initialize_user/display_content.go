@@ -27,6 +27,7 @@ func displayAllKeys(user response.User) {
 	if err != nil {
 		return
 	}
+
 	log.Info("List of Keys")
 	for kIndex, key := range keys {
 		if key.Type == lib.KeyTypes[lib.SharedCustom] ||
@@ -62,7 +63,7 @@ func displayAllKeys(user response.User) {
 			}
 		}
 
-		if key.Type == lib.KeyTypes[lib.Custom] {
+		if key.Type != lib.KeyTypes[lib.Custom] {
 			continue
 		}
 
