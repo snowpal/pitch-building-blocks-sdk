@@ -15,10 +15,10 @@ func RegisterNewUser() (string, error) {
 	var user response.User
 	for i := 1; ; i += 1 {
 		email := fmt.Sprintf("apiuser_rec%d_bb@yopmail.com", i)
-		log.Info("Register new user with ", email)
+		log.Info(fmt.Sprintf("Register new user with %s", email))
 		user, err = recipes.RegisterUser(email)
 		if err != nil {
-			log.Info(email, " is already registered.")
+			log.Info(fmt.Sprintf("%s is already registered.", email))
 		} else {
 			return user.Email, nil
 		}

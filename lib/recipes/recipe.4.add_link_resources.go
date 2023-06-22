@@ -8,6 +8,7 @@ import (
 	blockPods "github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/block_pods/block_pods.1"
 	blocks "github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/blocks/blocks.1"
 	keyPods "github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/key_pods/key_pods.1"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/keys/keys.1"
 	recipes "github.com/snowpal/pitch-building-blocks-sdk/lib/helpers/recipes"
 	response "github.com/snowpal/pitch-building-blocks-sdk/lib/structs/response"
 
@@ -39,7 +40,12 @@ func AddAndLinkResources() {
 	var newKey response.Key
 	log.Info("Add a new custom key")
 	recipes.SleepBefore()
-	newKey, err = recipes.AddCustomKey(user, Key1Name)
+	newKey, err = keys.AddKey(
+		user.JwtToken,
+		request.AddKeyReqBody{
+			Name: Key1Name,
+			Type: lib.KeyTypes[lib.Custom],
+		})
 	if err != nil {
 		return
 	}
@@ -59,7 +65,12 @@ func AddAndLinkResources() {
 	log.Info("Add another key")
 	recipes.SleepBefore()
 	var anotherKey response.Key
-	anotherKey, err = recipes.AddCustomKey(user, AnotherKeyName)
+	anotherKey, err = keys.AddKey(
+		user.JwtToken,
+		request.AddKeyReqBody{
+			Name: AnotherKeyName,
+			Type: lib.KeyTypes[lib.Custom],
+		})
 	if err != nil {
 		return
 	}
@@ -67,7 +78,10 @@ func AddAndLinkResources() {
 	log.Info("Add block")
 	recipes.SleepBefore()
 	var anotherBlock response.Block
-	anotherBlock, err = recipes.AddBlock(user, AnotherBlockName, newKey)
+	anotherBlock, err = blocks.AddBlock(
+		user.JwtToken,
+		request.AddBlockReqBody{Name: AnotherBlockName},
+		newKey.ID)
 	if err != nil {
 		return
 	}
@@ -152,7 +166,10 @@ func addBlocksAndPods(user response.User, newKey response.Key) (response.Pod, re
 	log.Info("Add a new block")
 	recipes.SleepBefore()
 	var newBlock response.Block
-	newBlock, err = recipes.AddBlock(user, Block1Name, newKey)
+	newBlock, err = blocks.AddBlock(
+		user.JwtToken,
+		request.AddBlockReqBody{Name: Block1Name},
+		newKey.ID)
 	if err != nil {
 		return pod, block, pod, err
 	}

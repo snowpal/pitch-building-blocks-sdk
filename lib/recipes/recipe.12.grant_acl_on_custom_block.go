@@ -3,6 +3,7 @@ package recipes
 import (
 	"github.com/snowpal/pitch-building-blocks-sdk/lib"
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/blocks/blocks.1"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/keys/keys.1"
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/request"
 
 	recipes "github.com/snowpal/pitch-building-blocks-sdk/lib/helpers/recipes"
@@ -28,14 +29,22 @@ func GrantAclOnCustomBlock() {
 		return
 	}
 
-	key, err := recipes.AddCustomKey(user, CopyKeyName)
+	key, err := keys.AddKey(
+		user.JwtToken,
+		request.AddKeyReqBody{
+			Name: CopyKeyName,
+			Type: lib.KeyTypes[lib.Custom],
+		})
 	if err != nil {
 		return
 	}
 
 	log.Info("Add custom block")
 	recipes.SleepBefore()
-	block, err := recipes.AddBlock(user, CopyBlockName, key)
+	block, err := blocks.AddBlock(
+		user.JwtToken,
+		request.AddBlockReqBody{Name: CopyBlockName},
+		key.ID)
 	if err != nil {
 		return
 	}

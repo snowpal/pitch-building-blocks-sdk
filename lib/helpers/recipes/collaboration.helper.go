@@ -1,10 +1,11 @@
 package recipes
 
 import (
+	"strings"
+
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/common"
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/request"
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/response"
-	"strings"
 
 	blockCollaboration "github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/collaboration/collaboration.1.blocks"
 	blockPodCollaboration "github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/collaboration/collaboration.2.block_pods"

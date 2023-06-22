@@ -2,6 +2,8 @@ package recipes
 
 import (
 	"github.com/snowpal/pitch-building-blocks-sdk/lib"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/blocks/blocks.1"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/keys/keys.1"
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/scales"
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/helpers/recipes"
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/common"
@@ -34,19 +36,31 @@ func PublishStudentGrade() {
 	}
 
 	var key response.Key
-	key, err = recipes.AddTeacherKey(user, TeacherKeyName)
+	key, err = keys.AddKey(
+		user.JwtToken,
+		request.AddKeyReqBody{
+			Name: TeacherKeyName,
+			Type: lib.KeyTypes[lib.Teacher],
+		})
 	if err != nil {
 		return
 	}
 
 	var block response.Block
-	block, err = recipes.AddBlock(user, TeacherBlockName, key)
+	block, err = blocks.AddBlock(
+		user.JwtToken,
+		request.AddBlockReqBody{Name: TeacherBlockName},
+		key.ID)
 	if err != nil {
 		return
 	}
 
 	var pod response.Pod
-	pod, err = recipes.AddPodToBlock(user, TeacherPodName, block)
+	pod, err = blockPods.AddBlockPod(
+		user.JwtToken,
+		request.AddPodReqBody{Name: TeacherPodName},
+		common.ResourceIdParam{BlockId: block.ID, KeyId: key.ID},
+	)
 	if err != nil {
 		return
 	}

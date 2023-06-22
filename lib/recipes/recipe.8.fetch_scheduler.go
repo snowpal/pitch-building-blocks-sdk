@@ -2,6 +2,7 @@ package recipes
 
 import (
 	"github.com/snowpal/pitch-building-blocks-sdk/lib"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/keys/keys.1"
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/scheduler"
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/helpers/recipes"
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/common"
@@ -34,7 +35,12 @@ func FetchScheduler() {
 	}
 
 	var key response.Key
-	key, _ = recipes.AddCustomKey(user, SchedulerKeyName)
+	key, _ = keys.AddKey(
+		user.JwtToken,
+		request.AddKeyReqBody{
+			Name: SchedulerKeyName,
+			Type: lib.KeyTypes[lib.Custom],
+		})
 	log.Info("Set due date for block")
 	err = setBlockDueDate(user, key)
 	if err != nil {
@@ -58,7 +64,10 @@ func FetchScheduler() {
 }
 
 func setBlockDueDate(user response.User, key response.Key) error {
-	block, err := recipes.AddBlock(user, SchedulerBlockName, key)
+	block, err := blocks.AddBlock(
+		user.JwtToken,
+		request.AddBlockReqBody{Name: SchedulerBlockName},
+		key.ID)
 	if err != nil {
 		return err
 	}
@@ -74,7 +83,11 @@ func setBlockDueDate(user response.User, key response.Key) error {
 }
 
 func setPodDueDate(user response.User, key response.Key) error {
-	pod, err := recipes.AddPod(user, SchedulerPodName, key)
+	pod, err := keyPods.AddKeyPod(
+		user.JwtToken,
+		request.AddPodReqBody{Name: SchedulerPodName},
+		key.ID,
+	)
 	if err != nil {
 		return err
 	}
