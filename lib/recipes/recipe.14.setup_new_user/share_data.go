@@ -32,20 +32,23 @@ func ShareData(user response.User, anotherUserEmail string, allKeys AllKeys) err
 }
 
 func shareCustomKeyData(user response.User, anotherUserEmail string, customKey KeyWithResources) error {
-	log.Info(fmt.Sprintf("Share block %s for custom key, %s", customKey.firstBlock().Block.Name, customKey.Key.Name))
-	err := recipes.SearchUserAndShareBlock(user, customKey.firstBlock().Block, anotherUserEmail, lib.ReadAcl)
+	block := customKey.Blocks[0].Block
+	log.Info(fmt.Sprintf("Share block %s for custom key, %s", block.Name, customKey.Key.Name))
+	err := recipes.SearchUserAndShareBlock(user, block, anotherUserEmail, lib.ReadAcl)
 	if err != nil {
 		return err
 	}
 
-	log.Info(fmt.Sprintf("Share block pod %s for custom key, %s  and for %s block", customKey.firstBlockPod().Name, customKey.Key.Name, customKey.firstBlock().Block.Name))
-	err = recipes.SearchUserAndShareBlockPod(user, customKey.firstBlockPod(), anotherUserEmail, lib.WriteAcl)
+	blockPod := customKey.Blocks[0].BlockPods[0]
+	log.Info(fmt.Sprintf("Share block pod %s for custom key, %s  and for %s block", blockPod.Name, customKey.Key.Name, block.Name))
+	err = recipes.SearchUserAndShareBlockPod(user, blockPod, anotherUserEmail, lib.WriteAcl)
 	if err != nil {
 		return err
 	}
 
-	log.Info(fmt.Sprintf("Share key pod %s for custom key, %s", customKey.firstPod().Name, customKey.Key.Name))
-	err = recipes.SearchUserAndSharePod(user, customKey.firstPod(), anotherUserEmail, lib.ReadAcl)
+	pod := customKey.Pods[0]
+	log.Info(fmt.Sprintf("Share key pod %s for custom key, %s", pod.Name, customKey.Key.Name))
+	err = recipes.SearchUserAndSharePod(user, pod, anotherUserEmail, lib.ReadAcl)
 	if err != nil {
 		return err
 	}
@@ -53,8 +56,9 @@ func shareCustomKeyData(user response.User, anotherUserEmail string, customKey K
 }
 
 func shareClassroomKeyData(user response.User, anotherUserEmail string, teacherKey KeyWithResources) error {
-	log.Info(fmt.Sprintf("Share block %s for teacher key, %s", teacherKey.firstBlock().Block.Name, teacherKey.Key.Name))
-	err := recipes.SearchUserAndShareBlock(user, teacherKey.firstBlock().Block, anotherUserEmail, lib.ReadAcl)
+	teacherBlock := teacherKey.Blocks[0].Block
+	log.Info(fmt.Sprintf("Share block %s for teacher key, %s", teacherBlock.Name, teacherKey.Key.Name))
+	err := recipes.SearchUserAndShareBlock(user, teacherBlock, anotherUserEmail, lib.ReadAcl)
 	if err != nil {
 		return err
 	}
@@ -62,8 +66,9 @@ func shareClassroomKeyData(user response.User, anotherUserEmail string, teacherK
 }
 
 func shareProjectKeyData(user response.User, anotherUserEmail string, projectKey KeyWithResources) error {
-	log.Info(fmt.Sprintf("Share block %s for project key, %s", projectKey.firstBlock().Block.Name, projectKey.Key.Name))
-	err := recipes.SearchUserAndShareBlock(user, projectKey.firstBlock().Block, anotherUserEmail, lib.ReadAcl)
+	projectBlock := projectKey.Blocks[0].Block
+	log.Info(fmt.Sprintf("Share block %s for project key, %s", projectBlock.Name, projectKey.Key.Name))
+	err := recipes.SearchUserAndShareBlock(user, projectBlock, anotherUserEmail, lib.ReadAcl)
 	if err != nil {
 		return err
 	}
