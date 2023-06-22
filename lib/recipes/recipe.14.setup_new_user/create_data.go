@@ -2,10 +2,15 @@ package setupnewuser
 
 import (
 	"github.com/snowpal/pitch-building-blocks-sdk/lib"
-	"github.com/snowpal/pitch-building-blocks-sdk/lib/helpers/recipes"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/blocks/blocks.1"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/keys/keys.1"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/common"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/request"
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/response"
 
 	log "github.com/sirupsen/logrus"
+	blockPods "github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/block_pods/block_pods.1"
+	keyPods "github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/key_pods/key_pods.1"
 )
 
 var KeyNames = map[lib.KeyType]string{
@@ -28,7 +33,7 @@ var BlockPodNames = map[lib.KeyType]string{
 	lib.Project: "Android App",
 }
 
-func CreateContent(user response.User) (AllKeys, error) {
+func CreateData(user response.User) (AllKeys, error) {
 	var allKeys AllKeys
 	var err error
 
@@ -63,7 +68,10 @@ func createBlockWithPods(user response.User, keyType lib.KeyType, key response.K
 	var blockWithPods BlockWithPods
 
 	log.Info("Creating block inside ", key.Name, " key.")
-	block, err := recipes.AddBlock(user, BlockNames[keyType], key)
+	block, err := blocks.AddBlock(
+		user.JwtToken,
+		request.AddBlockReqBody{Name: BlockNames[keyType]},
+		key.ID)
 	if err != nil {
 		return blockWithPods, err
 	}
@@ -71,7 +79,10 @@ func createBlockWithPods(user response.User, keyType lib.KeyType, key response.K
 
 	log.Info("Creating block pod inside ", block.Name, " block.")
 	var blockPod response.Pod
-	blockPod, err = recipes.AddPodToBlock(user, BlockPodNames[lib.Custom], block)
+	blockPod, err = blockPods.AddBlockPod(
+		user.JwtToken,
+		request.AddPodReqBody{Name: BlockPodNames[lib.Custom]},
+		common.ResourceIdParam{BlockId: block.ID, KeyId: key.ID})
 	if err != nil {
 		return blockWithPods, err
 	}
@@ -84,7 +95,12 @@ func createKeyWithBlocks(user response.User, keyType lib.KeyType) (KeyWithResour
 	var keyWithResources KeyWithResources
 
 	log.Info("Creating custom key")
-	key, err := recipes.AddKey(user, KeyNames[keyType], lib.KeyTypes[keyType])
+	key, err := keys.AddKey(
+		user.JwtToken,
+		request.AddKeyReqBody{
+			Name: KeyNames[keyType],
+			Type: lib.KeyTypes[keyType],
+		})
 	if err != nil {
 		return keyWithResources, err
 	}
@@ -108,7 +124,11 @@ func createCustomKeyWithBlocksAndPods(user response.User) (KeyWithResources, err
 
 	log.Info("Creating key pod inside ", keyWithResources.Key.Name, " key.")
 	var keyPod response.Pod
-	keyPod, err = recipes.AddPod(user, KeyPodName, keyWithResources.Key)
+	keyPod, err = keyPods.AddKeyPod(
+		user.JwtToken,
+		request.AddPodReqBody{Name: KeyPodName},
+		keyWithResources.Key.ID,
+	)
 	if err != nil {
 		return keyWithResources, err
 	}

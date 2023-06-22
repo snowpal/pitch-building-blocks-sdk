@@ -109,11 +109,19 @@ func getWriteUser(user response.User, block response.Block) (response.User, erro
 
 func shareBlock(user response.User) (response.Block, error) {
 	var block response.Block
-	key, err := recipes.AddCustomKey(user, KeyName)
+	key, err := keys.AddKey(
+		user.JwtToken,
+		request.AddKeyReqBody{
+			Name: KeyName,
+			Type: lib.KeyTypes[lib.Custom],
+		})
 	if err != nil {
 		return block, err
 	}
-	block, err = recipes.AddBlock(user, BlockName, key)
+	block, err = blocks.AddBlock(
+		user.JwtToken,
+		request.AddBlockReqBody{Name: BlockName},
+		key.ID)
 	if err != nil {
 		return block, err
 	}

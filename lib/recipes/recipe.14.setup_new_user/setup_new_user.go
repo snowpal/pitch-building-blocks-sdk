@@ -23,7 +23,7 @@ func SetupNewUser() {
 
 	log.Info("Creating content for ", user.Email)
 	var allKeys AllKeys
-	allKeys, err = CreateContent(user)
+	allKeys, err = CreateData(user)
 	if err != nil {
 		return
 	}
@@ -36,10 +36,10 @@ func SetupNewUser() {
 	}
 
 	log.Info("Share content with ", anotherUserEmail)
-	err = ShareContent(user, anotherUserEmail, allKeys)
+	err = ShareData(user, anotherUserEmail, allKeys)
 	if err != nil {
 		return
 	}
 
-	DisplayContent(user, anotherUserEmail)
+	DisplayData(user, anotherUserEmail)
 }

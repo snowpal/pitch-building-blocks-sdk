@@ -92,7 +92,7 @@ func displayAllNotifications(user response.User) {
 	}
 }
 
-func DisplayContent(user response.User, anotherUserEmail string) {
+func DisplayData(user response.User, anotherUserEmail string) {
 	log.Info("## Registered Users")
 	displayUser(user.Email)
 	displayUser(anotherUserEmail)
