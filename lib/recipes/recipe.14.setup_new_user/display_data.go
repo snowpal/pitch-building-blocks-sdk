@@ -1,6 +1,8 @@
 package setupnewuser
 
 import (
+	"fmt"
+
 	"github.com/snowpal/pitch-building-blocks-sdk/lib"
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/blocks/blocks.1"
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/keys/keys.1"
@@ -19,17 +21,17 @@ func displayUser(email string) {
 	if err != nil {
 		return
 	}
-	log.Info("- ", email, " | ", user.JwtToken)
+	log.Info(fmt.Sprintf("- %s | %s", email, user.JwtToken))
 }
 
 func displayAllKeys(user response.User) {
-	myKeys, err := keys.GetKeys(user.JwtToken, 0)
+	allKeys, err := keys.GetKeys(user.JwtToken, 0)
 	if err != nil {
 		return
 	}
 
 	log.Info("List of Keys")
-	for kIndex, key := range myKeys {
+	for kIndex, key := range allKeys {
 		if key.Type == lib.KeyTypes[lib.SharedCustom] ||
 			key.Type == lib.KeyTypes[lib.SharedTeacher] ||
 			key.Type == lib.KeyTypes[lib.SharedStudent] ||
@@ -37,19 +39,22 @@ func displayAllKeys(user response.User) {
 			continue
 		}
 
-		log.Info(kIndex+1, ". ", key.Name, " | ", key.Type)
-		myBlocks, err := blocks.GetBlocks(user.JwtToken, request.GetBlocksParam{
+		log.Info(fmt.Sprintf("%d. %s | %s", kIndex+1, key.Name, key.Type))
+
+		var allBlocks []response.Block
+		allBlocks, err = blocks.GetBlocks(user.JwtToken, request.GetBlocksParam{
 			KeyId: key.ID,
 		})
 		if err != nil {
 			return
 		}
 
-		log.Info("List of Blocks inside ", key.Name)
-		for bIndex, block := range myBlocks {
-			log.Info(bIndex+1, ". ", block.Name)
+		log.Info(fmt.Sprintf("List of Blocks inside %s", key.Name))
+		for bIndex, block := range allBlocks {
+			log.Info(fmt.Sprintf("%d. %s", bIndex+1, block.Name))
 
-			myBlockPods, err := blockPods.GetBlockPods(user.JwtToken, request.GetPodsParam{
+			var allBlockPods []response.Pod
+			allBlockPods, err = blockPods.GetBlockPods(user.JwtToken, request.GetPodsParam{
 				KeyId:   key.ID,
 				BlockId: &block.ID,
 			})
@@ -57,9 +62,9 @@ func displayAllKeys(user response.User) {
 				return
 			}
 
-			log.Info("List of Block Pods inside ", block.Name, " and ", key.Name)
-			for bpIndex, blockPod := range myBlockPods {
-				log.Info(bpIndex+1, ". ", blockPod.Name)
+			log.Info(fmt.Sprintf("List of Block Pods inside %s and %s", block.Name, key.Name))
+			for bpIndex, blockPod := range allBlockPods {
+				log.Info(fmt.Sprintf("%d. %s", bpIndex+1, blockPod.Name))
 			}
 		}
 
@@ -67,28 +72,29 @@ func displayAllKeys(user response.User) {
 			continue
 		}
 
-		pods, err := keyPods.GetKeyPods(user.JwtToken, request.GetPodsParam{
+		var allPods []response.Pod
+		allPods, err = keyPods.GetKeyPods(user.JwtToken, request.GetPodsParam{
 			KeyId: key.ID,
 		})
 		if err != nil {
 			return
 		}
 
-		log.Info("List of Key Pods inside ", key.Name)
-		for pIndex, pod := range pods {
-			log.Info(pIndex+1, ". ", pod.Name)
+		log.Info(fmt.Sprintf("List of Key Pods inside %s", key.Name))
+		for pIndex, pod := range allPods {
+			log.Info(fmt.Sprintf("%d. %s", pIndex+1, pod.Name))
 		}
 	}
 }
 
 func displayAllNotifications(user response.User) {
-	myNotifications, err := notifications.GetNotifications(user.JwtToken)
+	allNotifications, err := notifications.GetNotifications(user.JwtToken)
 	if err != nil {
 		return
 	}
 
-	for index, notification := range myNotifications {
-		log.Info(index+1, ". ", notification.Text)
+	for index, notification := range allNotifications {
+		log.Info(fmt.Sprintf("%d. %s", index+1, notification.Text))
 	}
 }
 
@@ -97,7 +103,7 @@ func DisplayData(user response.User, anotherUserEmail string) {
 	displayUser(user.Email)
 	displayUser(anotherUserEmail)
 
-	log.Info("## Resources Created for user: ", user.Email)
+	log.Info(fmt.Sprintf("## Resources Created for user: %s", user.Email))
 	displayAllKeys(user)
 
 	anotherUser, err := recipes.SignIn(anotherUserEmail, lib.Password)
@@ -105,6 +111,6 @@ func DisplayData(user response.User, anotherUserEmail string) {
 		return
 	}
 
-	log.Info("## Notifications for shared content as user: ", anotherUserEmail)
+	log.Info(fmt.Sprintf("## Notifications for shared content as user: %s", anotherUserEmail))
 	displayAllNotifications(anotherUser)
 }

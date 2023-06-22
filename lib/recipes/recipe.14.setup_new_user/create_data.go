@@ -1,6 +1,8 @@
 package setupnewuser
 
 import (
+	"fmt"
+
 	"github.com/snowpal/pitch-building-blocks-sdk/lib"
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/blocks/blocks.1"
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/keys/keys.1"
@@ -67,7 +69,7 @@ func CreateData(user response.User) (AllKeys, error) {
 func createBlockWithPods(user response.User, keyType lib.KeyType, key response.Key) (BlockWithPods, error) {
 	var blockWithPods BlockWithPods
 
-	log.Info("Creating block inside ", key.Name, " key.")
+	log.Info(fmt.Sprintf("Creating block inside %s key.", key.Name))
 	block, err := blocks.AddBlock(
 		user.JwtToken,
 		request.AddBlockReqBody{Name: BlockNames[keyType]},
@@ -77,7 +79,7 @@ func createBlockWithPods(user response.User, keyType lib.KeyType, key response.K
 	}
 	blockWithPods.Block = block
 
-	log.Info("Creating block pod inside ", block.Name, " block.")
+	log.Info(fmt.Sprintf("Creating block pod inside %s block.", block.Name))
 	var blockPod response.Pod
 	blockPod, err = blockPods.AddBlockPod(
 		user.JwtToken,
@@ -105,7 +107,8 @@ func createKeyWithBlocks(user response.User, keyType lib.KeyType) (KeyWithResour
 		return keyWithResources, err
 	}
 
-	blockWithPods, err := createBlockWithPods(user, keyType, key)
+	var blockWithPods BlockWithPods
+	blockWithPods, err = createBlockWithPods(user, keyType, key)
 	if err != nil {
 		return keyWithResources, err
 	}
@@ -122,7 +125,7 @@ func createCustomKeyWithBlocksAndPods(user response.User) (KeyWithResources, err
 		return keyWithResources, err
 	}
 
-	log.Info("Creating key pod inside ", keyWithResources.Key.Name, " key.")
+	log.Info(fmt.Sprintf("Creating key pod inside %s key.", keyWithResources.Key.Name))
 	var keyPod response.Pod
 	keyPod, err = keyPods.AddKeyPod(
 		user.JwtToken,
