@@ -2,7 +2,6 @@ package blockPods
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"strings"
@@ -22,7 +21,6 @@ func UpdateBlockPodScaleValue(
 	resPodScaleValue := response.UpdatePodScaleValue{}
 	requestBody, err := helpers2.GetRequestBody(reqBody)
 	if err != nil {
-		fmt.Println(err)
 		return resPodScaleValue, err
 	}
 	payload := strings.NewReader(requestBody)
@@ -33,14 +31,12 @@ func UpdateBlockPodScaleValue(
 		podParam.BlockId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return resPodScaleValue, err
 	}
 
 	var req *http.Request
 	req, err = http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
-		fmt.Println(err)
 		return resPodScaleValue, err
 	}
 
@@ -49,7 +45,6 @@ func UpdateBlockPodScaleValue(
 	var res *http.Response
 	res, err = helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resPodScaleValue, err
 	}
 
@@ -58,13 +53,11 @@ func UpdateBlockPodScaleValue(
 	var body []byte
 	body, err = io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resPodScaleValue, err
 	}
 
 	err = json.Unmarshal(body, &resPodScaleValue)
 	if err != nil {
-		fmt.Println(err)
 		return resPodScaleValue, err
 	}
 	return resPodScaleValue, nil

@@ -2,7 +2,6 @@ package podTypes
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"strings"
@@ -17,19 +16,16 @@ func AddPodType(jwtToken string, reqBody request.PodTypeReqBody) (response.PodTy
 	resPodType := response.PodType{}
 	requestBody, err := helpers2.GetRequestBody(reqBody)
 	if err != nil {
-		fmt.Println(err)
 		return resPodType, err
 	}
 	payload := strings.NewReader(requestBody)
 	route, err := helpers2.GetRoute(lib.RoutePodTypesAddPodType)
 	if err != nil {
-		fmt.Println(err)
 		return resPodType, err
 	}
 
 	req, err := http.NewRequest(http.MethodPost, route, payload)
 	if err != nil {
-		fmt.Println(err)
 		return resPodType, err
 	}
 
@@ -37,7 +33,6 @@ func AddPodType(jwtToken string, reqBody request.PodTypeReqBody) (response.PodTy
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resPodType, err
 	}
 
@@ -45,13 +40,11 @@ func AddPodType(jwtToken string, reqBody request.PodTypeReqBody) (response.PodTy
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resPodType, err
 	}
 
 	err = json.Unmarshal(body, &resPodType)
 	if err != nil {
-		fmt.Println(err)
 		return resPodType, err
 	}
 	return resPodType, nil

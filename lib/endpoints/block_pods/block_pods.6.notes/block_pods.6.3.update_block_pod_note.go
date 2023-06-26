@@ -2,7 +2,6 @@ package blockPods
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"strings"
@@ -21,7 +20,6 @@ func UpdateBlockPodNote(
 	resNote := response.Note{}
 	requestBody, err := helpers2.GetRequestBody(reqBody)
 	if err != nil {
-		fmt.Println(err)
 		return resNote, err
 	}
 	payload := strings.NewReader(requestBody)
@@ -34,7 +32,6 @@ func UpdateBlockPodNote(
 	)
 	req, err := http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
-		fmt.Println(err)
 		return resNote, err
 	}
 
@@ -42,7 +39,6 @@ func UpdateBlockPodNote(
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resNote, err
 	}
 
@@ -50,13 +46,11 @@ func UpdateBlockPodNote(
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resNote, err
 	}
 
 	err = json.Unmarshal(body, &resNote)
 	if err != nil {
-		fmt.Println(err)
 		return resNote, err
 	}
 	return resNote, nil

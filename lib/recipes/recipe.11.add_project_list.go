@@ -8,6 +8,8 @@ import (
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/response"
 
 	log "github.com/sirupsen/logrus"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/blocks/blocks.1"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/keys/keys.1"
 	projectKeys "github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/project_keys/project_keys.1"
 	projectLists "github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/project_keys/project_keys.2.lists"
 )
@@ -32,12 +34,20 @@ func AddProjectList() {
 		return
 	}
 
-	projectKey, err := recipes.AddProjectKey(user, ProjectKeyName)
+	projectKey, err := keys.AddKey(
+		user.JwtToken,
+		request.AddKeyReqBody{
+			Name: ProjectKeyName,
+			Type: lib.KeyTypes[lib.Project],
+		})
 	if err != nil {
 		return
 	}
 
-	projectBlock, err := recipes.AddBlock(user, ProjectBlockName, projectKey)
+	projectBlock, err := blocks.AddBlock(
+		user.JwtToken,
+		request.AddBlockReqBody{Name: ProjectBlockName},
+		projectKey.ID)
 	if err != nil {
 		return
 	}

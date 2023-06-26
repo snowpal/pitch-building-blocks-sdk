@@ -44,7 +44,7 @@ func ShareBlock() {
 	}
 
 	writeUser, err := getWriteUser(user, block)
-	fmt.Println(user.JwtToken)
+	log.Printf(user.JwtToken)
 	if err != nil {
 		return
 	}
@@ -55,7 +55,7 @@ func ShareBlock() {
 	if err != nil {
 		return
 	}
-	log.Printf(".Notifications for the recent share displayed successfully")
+	log.Info(".Notifications for the recent share displayed successfully")
 	recipes.SleepAfter()
 
 	log.Printf("Update block name as a write user")
@@ -65,7 +65,7 @@ func ShareBlock() {
 	if err != nil {
 		return
 	}
-	log.Printf(".Write user updated block name to %s successfully", resBlock.Name)
+	log.Info(".Write user updated block name to %s successfully", resBlock.Name)
 	recipes.SleepAfter()
 
 	log.Printf("Grant admin access to a user with read access")
@@ -73,7 +73,7 @@ func ShareBlock() {
 	if err != nil {
 		return
 	}
-	log.Printf(".Admin access has been granted successfully")
+	log.Info(".Admin access has been granted successfully")
 }
 
 func getWriteUser(user response.User, block response.Block) (response.User, error) {
@@ -109,11 +109,19 @@ func getWriteUser(user response.User, block response.Block) (response.User, erro
 
 func shareBlock(user response.User) (response.Block, error) {
 	var block response.Block
-	key, err := recipes.AddCustomKey(user, KeyName)
+	key, err := keys.AddKey(
+		user.JwtToken,
+		request.AddKeyReqBody{
+			Name: KeyName,
+			Type: lib.KeyTypes[lib.Custom],
+		})
 	if err != nil {
 		return block, err
 	}
-	block, err = recipes.AddBlock(user, BlockName, key)
+	block, err = blocks.AddBlock(
+		user.JwtToken,
+		request.AddBlockReqBody{Name: BlockName},
+		key.ID)
 	if err != nil {
 		return block, err
 	}

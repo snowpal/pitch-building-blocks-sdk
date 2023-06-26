@@ -2,7 +2,6 @@ package keyPods
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"strings"
@@ -21,7 +20,6 @@ func RenameKeyPodChecklist(
 	resChecklist := response.Checklist{}
 	requestBody, err := helpers2.GetRequestBody(reqBody)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklist, err
 	}
 	payload := strings.NewReader(requestBody)
@@ -32,12 +30,10 @@ func RenameKeyPodChecklist(
 		checklistParam.KeyId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklist, err
 	}
 	req, err := http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklist, err
 	}
 
@@ -45,7 +41,6 @@ func RenameKeyPodChecklist(
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklist, err
 	}
 
@@ -53,13 +48,11 @@ func RenameKeyPodChecklist(
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklist, err
 	}
 
 	err = json.Unmarshal(body, &resChecklist)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklist, err
 	}
 	return resChecklist, nil

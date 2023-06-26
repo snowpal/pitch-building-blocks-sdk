@@ -2,7 +2,6 @@ package collaboration
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"strings"
@@ -22,7 +21,6 @@ func ShareBlockPodWithCollaborator(
 	resPod := response.Pod{}
 	requestBody, err := helpers2.GetRequestBody(reqBody)
 	if err != nil {
-		fmt.Println(err)
 		return resPod, err
 	}
 	payload := strings.NewReader(requestBody)
@@ -35,7 +33,6 @@ func ShareBlockPodWithCollaborator(
 	)
 	req, err := http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
-		fmt.Println(err)
 		return resPod, err
 	}
 
@@ -43,7 +40,6 @@ func ShareBlockPodWithCollaborator(
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resPod, err
 	}
 
@@ -51,13 +47,11 @@ func ShareBlockPodWithCollaborator(
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resPod, err
 	}
 
 	err = json.Unmarshal(body, &resPod)
 	if err != nil {
-		fmt.Println(err)
 		return resPod, err
 	}
 	return resPod, nil

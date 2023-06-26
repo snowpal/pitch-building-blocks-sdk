@@ -2,7 +2,6 @@ package registration
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"strings"
@@ -17,19 +16,16 @@ func RegisterNewUserByEmail(reqBody request.SignupReqBody) (response.User, error
 	resUserRegistration := response.UserRegistration{}
 	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
-		fmt.Println(err)
 		return resUserRegistration.User, err
 	}
 	payload := strings.NewReader(requestBody)
 	route, err := helpers.GetRoute(lib.RouteRegistrationRegisterNewUserByEmail)
 	if err != nil {
-		fmt.Println(err)
 		return resUserRegistration.User, err
 	}
 
 	req, err := http.NewRequest(http.MethodPost, route, payload)
 	if err != nil {
-		fmt.Println(err)
 		return resUserRegistration.User, err
 	}
 
@@ -37,7 +33,6 @@ func RegisterNewUserByEmail(reqBody request.SignupReqBody) (response.User, error
 
 	res, err := helpers.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resUserRegistration.User, err
 	}
 
@@ -45,13 +40,11 @@ func RegisterNewUserByEmail(reqBody request.SignupReqBody) (response.User, error
 
 	body, _ := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resUserRegistration.User, err
 	}
 
 	err = json.Unmarshal(body, &resUserRegistration)
 	if err != nil {
-		fmt.Println(err)
 		return resUserRegistration.User, err
 	}
 	return resUserRegistration.User, nil

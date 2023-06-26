@@ -2,7 +2,6 @@ package blocks
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -20,14 +19,12 @@ func GetTaskStatusForBlock(jwtToken string, taskParam common.ResourceIdParam) (r
 		taskParam.BlockId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return resBlockTasksStatus, err
 	}
 
 	var req *http.Request
 	req, err = http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resBlockTasksStatus, err
 	}
 
@@ -36,7 +33,6 @@ func GetTaskStatusForBlock(jwtToken string, taskParam common.ResourceIdParam) (r
 	var res *http.Response
 	res, err = helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resBlockTasksStatus, err
 	}
 
@@ -45,13 +41,11 @@ func GetTaskStatusForBlock(jwtToken string, taskParam common.ResourceIdParam) (r
 	var body []byte
 	body, err = io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resBlockTasksStatus, err
 	}
 
 	err = json.Unmarshal(body, &resBlockTasksStatus)
 	if err != nil {
-		fmt.Println(err)
 		return resBlockTasksStatus, err
 	}
 	return resBlockTasksStatus, nil

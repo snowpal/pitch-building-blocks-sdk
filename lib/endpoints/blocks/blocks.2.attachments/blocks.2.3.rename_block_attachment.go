@@ -1,7 +1,6 @@
 package blocks
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -17,7 +16,6 @@ func RenameBlockAttachment(
 ) error {
 	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	payload := strings.NewReader(requestBody)
@@ -28,13 +26,11 @@ func RenameBlockAttachment(
 		*attachmentParam.BlockId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
 	req, err := http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
@@ -42,7 +38,6 @@ func RenameBlockAttachment(
 
 	_, err = helpers.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	return nil

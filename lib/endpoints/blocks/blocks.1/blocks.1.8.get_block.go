@@ -2,7 +2,6 @@ package blocks
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -16,13 +15,11 @@ func GetBlock(jwtToken string, blockParam common.ResourceIdParam) (response.Bloc
 	resBlock := response.Block{}
 	route, err := helpers2.GetRoute(lib.RouteBlocksGetBlock, blockParam.BlockId, blockParam.KeyId)
 	if err != nil {
-		fmt.Println(err)
 		return resBlock, err
 	}
 
 	req, err := http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resBlock, err
 	}
 
@@ -30,7 +27,6 @@ func GetBlock(jwtToken string, blockParam common.ResourceIdParam) (response.Bloc
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resBlock, err
 	}
 
@@ -38,13 +34,11 @@ func GetBlock(jwtToken string, blockParam common.ResourceIdParam) (response.Bloc
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resBlock, err
 	}
 
 	err = json.Unmarshal(body, &resBlock)
 	if err != nil {
-		fmt.Println(err)
 		return resBlock, err
 	}
 	return resBlock, nil

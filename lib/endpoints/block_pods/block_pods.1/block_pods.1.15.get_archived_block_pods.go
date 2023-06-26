@@ -2,7 +2,6 @@ package blockPods
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"strconv"
@@ -22,23 +21,20 @@ func GetArchivedBlockPods(jwtToken string, podsParam request.GetPodsParam) ([]re
 		*podsParam.BlockId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return resPods.Pods, err
 	}
 
 	var req *http.Request
 	req, err = http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resPods.Pods, err
 	}
 
 	helpers2.AddUserHeaders(jwtToken, req)
 
 	var res *http.Response
-	_, err = helpers2.MakeRequest(req)
+	res, err = helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resPods.Pods, err
 	}
 
@@ -47,13 +43,11 @@ func GetArchivedBlockPods(jwtToken string, podsParam request.GetPodsParam) ([]re
 	var body []byte
 	body, err = io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resPods.Pods, err
 	}
 
 	err = json.Unmarshal(body, &resPods)
 	if err != nil {
-		fmt.Println(err)
 		return resPods.Pods, err
 	}
 	return resPods.Pods, nil

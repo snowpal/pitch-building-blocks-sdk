@@ -1,7 +1,6 @@
 package blockPods
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -14,7 +13,6 @@ import (
 func BulkArchiveBlockPods(jwtToken string, reqBody request.BulkArchivePodsReqBody, podParam common.ResourceIdParam) error {
 	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	payload := strings.NewReader(requestBody)
@@ -22,14 +20,12 @@ func BulkArchiveBlockPods(jwtToken string, reqBody request.BulkArchivePodsReqBod
 	var route string
 	route, err = helpers.GetRoute(lib.RouteBlockPodsBulkArchiveBlockPods, podParam.KeyId, podParam.BlockId)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
 	var req *http.Request
 	req, err = http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
@@ -37,7 +33,6 @@ func BulkArchiveBlockPods(jwtToken string, reqBody request.BulkArchivePodsReqBod
 
 	_, err = helpers.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	return nil

@@ -1,7 +1,6 @@
 package keyPods
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -13,7 +12,6 @@ import (
 func BulkArchiveKeyPods(jwtToken string, reqBody request.BulkArchivePodsReqBody, keyId string) error {
 	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	payload := strings.NewReader(requestBody)
@@ -21,14 +19,12 @@ func BulkArchiveKeyPods(jwtToken string, reqBody request.BulkArchivePodsReqBody,
 	var route string
 	route, err = helpers.GetRoute(lib.RouteKeyPodsBulkArchiveKeyPods, keyId)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
 	var req *http.Request
 	req, err = http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
@@ -36,7 +32,6 @@ func BulkArchiveKeyPods(jwtToken string, reqBody request.BulkArchivePodsReqBody,
 
 	_, err = helpers.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	return nil

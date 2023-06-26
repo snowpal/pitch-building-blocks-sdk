@@ -2,10 +2,13 @@ package recipes
 
 import (
 	"github.com/snowpal/pitch-building-blocks-sdk/lib"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/blocks/blocks.1"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/keys/keys.1"
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/relations"
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/request"
 
 	log "github.com/sirupsen/logrus"
+	keyPods "github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/key_pods/key_pods.1"
 	recipes "github.com/snowpal/pitch-building-blocks-sdk/lib/helpers/recipes"
 	response "github.com/snowpal/pitch-building-blocks-sdk/lib/structs/response"
 )
@@ -64,15 +67,27 @@ func addRelation(user response.User) (response.Block, response.Pod, error) {
 		block response.Block
 		pod   response.Pod
 	)
-	key, err := recipes.AddCustomKey(user, RelationKeyName)
+	key, err := keys.AddKey(
+		user.JwtToken,
+		request.AddKeyReqBody{
+			Name: RelationKeyName,
+			Type: lib.KeyTypes[lib.Custom],
+		})
 	if err != nil {
 		return block, pod, err
 	}
-	block, err = recipes.AddBlock(user, RelationBlockName, key)
+	block, err = blocks.AddBlock(
+		user.JwtToken,
+		request.AddBlockReqBody{Name: RelationBlockName},
+		key.ID)
 	if err != nil {
 		return block, pod, err
 	}
-	pod, err = recipes.AddPod(user, RelationPodName, key)
+	pod, err = keyPods.AddKeyPod(
+		user.JwtToken,
+		request.AddPodReqBody{Name: RelationPodName},
+		key.ID,
+	)
 	if err != nil {
 		return block, pod, err
 	}

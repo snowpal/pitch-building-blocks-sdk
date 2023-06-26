@@ -2,7 +2,6 @@ package blocks
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -20,14 +19,12 @@ func GetLinkedBlockPods(jwtToken string, blockParam common.ResourceIdParam) (res
 		blockParam.BlockId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return resLinkedPods, err
 	}
 
 	var req *http.Request
 	req, err = http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resLinkedPods, err
 	}
 
@@ -36,7 +33,6 @@ func GetLinkedBlockPods(jwtToken string, blockParam common.ResourceIdParam) (res
 	var res *http.Response
 	res, err = helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resLinkedPods, err
 	}
 
@@ -45,13 +41,11 @@ func GetLinkedBlockPods(jwtToken string, blockParam common.ResourceIdParam) (res
 	var body []byte
 	body, err = io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resLinkedPods, err
 	}
 
 	err = json.Unmarshal(body, &resLinkedPods)
 	if err != nil {
-		fmt.Println(err)
 		return resLinkedPods, err
 	}
 	return resLinkedPods, nil

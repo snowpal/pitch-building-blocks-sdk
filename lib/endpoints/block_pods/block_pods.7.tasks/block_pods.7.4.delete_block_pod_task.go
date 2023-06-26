@@ -1,7 +1,6 @@
 package blockPods
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/snowpal/pitch-building-blocks-sdk/lib"
@@ -19,7 +18,6 @@ func DeleteBlockPodTask(jwtToken string, taskParam request.TaskIdParam) error {
 	)
 	req, err := http.NewRequest(http.MethodDelete, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
@@ -27,7 +25,6 @@ func DeleteBlockPodTask(jwtToken string, taskParam request.TaskIdParam) error {
 
 	_, err = helpers.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	return nil

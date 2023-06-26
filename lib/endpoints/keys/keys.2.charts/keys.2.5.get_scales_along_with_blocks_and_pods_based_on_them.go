@@ -2,7 +2,6 @@ package keys
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -15,14 +14,12 @@ func GetScalesAlongWithBlocksAndPodsBasedOnThem(jwtToken string, keyId string) (
 	resScalesKey := response.ScalesKey{}
 	route, err := helpers2.GetRoute(lib.RouteKeysGetScalesAlongWithBlocksAndPodsBasedOnThem, keyId)
 	if err != nil {
-		fmt.Println(err)
 		return resScalesKey, err
 	}
 
 	var req *http.Request
 	req, err = http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resScalesKey, err
 	}
 
@@ -31,7 +28,6 @@ func GetScalesAlongWithBlocksAndPodsBasedOnThem(jwtToken string, keyId string) (
 	var res *http.Response
 	res, err = helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resScalesKey, err
 	}
 
@@ -40,13 +36,11 @@ func GetScalesAlongWithBlocksAndPodsBasedOnThem(jwtToken string, keyId string) (
 	var body []byte
 	body, err = io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resScalesKey, err
 	}
 
 	err = json.Unmarshal(body, &resScalesKey)
 	if err != nil {
-		fmt.Println(err)
 		return resScalesKey, err
 	}
 	return resScalesKey, nil

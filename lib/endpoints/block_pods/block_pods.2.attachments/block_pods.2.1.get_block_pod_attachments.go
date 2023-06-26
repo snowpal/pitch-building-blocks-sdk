@@ -2,7 +2,6 @@ package blockPods
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -21,20 +20,17 @@ func GetBlockPodAttachments(jwtToken string, attachmentParam request.AttachmentP
 		*attachmentParam.BlockId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return resAttachments.Attachments, err
 	}
 
 	req, err := http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resAttachments.Attachments, err
 	}
 	helpers2.AddUserHeaders(jwtToken, req)
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resAttachments.Attachments, err
 	}
 
@@ -42,13 +38,11 @@ func GetBlockPodAttachments(jwtToken string, attachmentParam request.AttachmentP
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resAttachments.Attachments, err
 	}
 
 	err = json.Unmarshal(body, &resAttachments)
 	if err != nil {
-		fmt.Println(err)
 		return resAttachments.Attachments, err
 	}
 	return resAttachments.Attachments, nil

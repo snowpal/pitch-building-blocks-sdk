@@ -2,7 +2,6 @@ package keyPods
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"strings"
@@ -21,7 +20,6 @@ func UpdateKeyPodComment(
 	resComment := response.Comment{}
 	requestBody, err := helpers2.GetRequestBody(reqBody)
 	if err != nil {
-		fmt.Println(err)
 		return resComment, err
 	}
 	payload := strings.NewReader(requestBody)
@@ -33,7 +31,6 @@ func UpdateKeyPodComment(
 	)
 	req, err := http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
-		fmt.Println(err)
 		return resComment, err
 	}
 
@@ -41,7 +38,6 @@ func UpdateKeyPodComment(
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resComment, err
 	}
 
@@ -49,13 +45,11 @@ func UpdateKeyPodComment(
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resComment, err
 	}
 
 	err = json.Unmarshal(body, &resComment)
 	if err != nil {
-		fmt.Println(err)
 		return resComment, err
 	}
 	return resComment, nil

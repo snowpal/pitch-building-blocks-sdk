@@ -1,7 +1,6 @@
 package projectKeys
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -22,14 +21,12 @@ func MovePodsInProjectList(jwtToken string, projectListParam request.CopyMovePro
 		strconv.FormatBool(projectListParam.AllPods),
 	)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
 	var req *http.Request
 	req, err = http.NewRequest(http.MethodPatch, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
@@ -37,7 +34,6 @@ func MovePodsInProjectList(jwtToken string, projectListParam request.CopyMovePro
 
 	_, err = helpers.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	return nil

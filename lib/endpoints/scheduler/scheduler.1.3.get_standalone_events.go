@@ -2,7 +2,6 @@ package scheduler
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -15,12 +14,10 @@ func GetStandaloneEvents(jwtToken string) ([]response.SchedulerEvent, error) {
 	resAllEvents := response.AllEvents{}
 	route, err := helpers2.GetRoute(lib.RouteSchedulerGetStandaloneEvents)
 	if err != nil {
-		fmt.Println(err)
 		return resAllEvents.SchedulerEvents, err
 	}
 	req, err := http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resAllEvents.SchedulerEvents, err
 	}
 
@@ -28,7 +25,6 @@ func GetStandaloneEvents(jwtToken string) ([]response.SchedulerEvent, error) {
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resAllEvents.SchedulerEvents, err
 	}
 
@@ -36,13 +32,11 @@ func GetStandaloneEvents(jwtToken string) ([]response.SchedulerEvent, error) {
 
 	body, _ := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resAllEvents.SchedulerEvents, err
 	}
 
 	err = json.Unmarshal(body, &resAllEvents)
 	if err != nil {
-		fmt.Println(err)
 		return resAllEvents.SchedulerEvents, err
 	}
 	return resAllEvents.SchedulerEvents, nil

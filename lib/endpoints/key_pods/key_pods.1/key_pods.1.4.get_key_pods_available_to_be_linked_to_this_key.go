@@ -2,7 +2,6 @@ package keyPods
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -15,14 +14,12 @@ func GetPodsAvailableToBeLinked(jwtToken string, keyId string) ([]response.Pod, 
 	resPods := response.Pods{}
 	route, err := helpers2.GetRoute(lib.RouteKeyPodsGetKeyPodsAvailableToBeLinkedToThisKey, keyId)
 	if err != nil {
-		fmt.Println(err)
 		return resPods.Pods, err
 	}
 
 	var req *http.Request
 	req, err = http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resPods.Pods, err
 	}
 
@@ -31,7 +28,6 @@ func GetPodsAvailableToBeLinked(jwtToken string, keyId string) ([]response.Pod, 
 	var res *http.Response
 	res, err = helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resPods.Pods, err
 	}
 
@@ -40,13 +36,11 @@ func GetPodsAvailableToBeLinked(jwtToken string, keyId string) ([]response.Pod, 
 	var body []byte
 	body, err = io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resPods.Pods, err
 	}
 
 	err = json.Unmarshal(body, &resPods)
 	if err != nil {
-		fmt.Println(err)
 		return resPods.Pods, err
 	}
 	return resPods.Pods, nil

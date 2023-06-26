@@ -1,7 +1,6 @@
 package attributes
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -14,7 +13,6 @@ import (
 func UpdatePodAttrs(jwtToken string, podParam common.ResourceIdParam, attribute request.ResourceAttributeReqBody) error {
 	requestBody, err := helpers.GetRequestBody(attribute)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	payload := strings.NewReader(requestBody)
@@ -26,14 +24,12 @@ func UpdatePodAttrs(jwtToken string, podParam common.ResourceIdParam, attribute 
 		podParam.KeyId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
 	var req *http.Request
 	req, err = http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
@@ -41,7 +37,6 @@ func UpdatePodAttrs(jwtToken string, podParam common.ResourceIdParam, attribute 
 
 	_, err = helpers.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	return nil

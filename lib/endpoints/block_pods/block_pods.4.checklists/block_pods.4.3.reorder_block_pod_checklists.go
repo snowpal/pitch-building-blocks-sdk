@@ -2,7 +2,6 @@ package blockPods
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"strings"
@@ -21,7 +20,6 @@ func ReorderBlockPodChecklists(
 	resChecklists := response.Checklists{}
 	requestBody, err := helpers2.GetRequestBody(reqBody)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklists.Checklists, err
 	}
 	payload := strings.NewReader(requestBody)
@@ -32,13 +30,11 @@ func ReorderBlockPodChecklists(
 		*checklistParam.BlockId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklists.Checklists, err
 	}
 
 	req, err := http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklists.Checklists, err
 	}
 
@@ -46,7 +42,6 @@ func ReorderBlockPodChecklists(
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklists.Checklists, err
 	}
 
@@ -54,13 +49,11 @@ func ReorderBlockPodChecklists(
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklists.Checklists, err
 	}
 
 	err = json.Unmarshal(body, &resChecklists)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklists.Checklists, err
 	}
 	return resChecklists.Checklists, nil

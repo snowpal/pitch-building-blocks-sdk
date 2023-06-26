@@ -2,7 +2,6 @@ package keys
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -20,14 +19,12 @@ func GetKeyPodAndBlockScaleValues(jwtToken string, scaleParam request.ScaleIdPar
 		scaleParam.ScaleId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return resScaleValues, err
 	}
 
 	var req *http.Request
 	req, err = http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resScaleValues, err
 	}
 
@@ -36,7 +33,6 @@ func GetKeyPodAndBlockScaleValues(jwtToken string, scaleParam request.ScaleIdPar
 	var res *http.Response
 	res, err = helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resScaleValues, err
 	}
 
@@ -45,13 +41,11 @@ func GetKeyPodAndBlockScaleValues(jwtToken string, scaleParam request.ScaleIdPar
 	var body []byte
 	body, err = io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resScaleValues, err
 	}
 
 	err = json.Unmarshal(body, &resScaleValues)
 	if err != nil {
-		fmt.Println(err)
 		return resScaleValues, err
 	}
 	return resScaleValues, nil

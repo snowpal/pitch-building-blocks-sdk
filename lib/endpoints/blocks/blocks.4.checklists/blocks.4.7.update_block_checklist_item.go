@@ -2,7 +2,6 @@ package blocks
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"strings"
@@ -21,7 +20,6 @@ func UpdateBlockChecklistItem(
 	resChecklistItem := response.ChecklistItem{}
 	requestBody, err := helpers2.GetRequestBody(reqBody)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklistItem, err
 	}
 	payload := strings.NewReader(requestBody)
@@ -33,13 +31,11 @@ func UpdateBlockChecklistItem(
 		checklistParam.KeyId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklistItem, err
 	}
 
 	req, err := http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklistItem, err
 	}
 
@@ -47,7 +43,6 @@ func UpdateBlockChecklistItem(
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklistItem, err
 	}
 
@@ -55,13 +50,11 @@ func UpdateBlockChecklistItem(
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklistItem, err
 	}
 
 	err = json.Unmarshal(body, &resChecklistItem)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklistItem, err
 	}
 	return resChecklistItem, nil

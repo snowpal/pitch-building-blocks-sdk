@@ -1,7 +1,6 @@
 package notifications
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -16,19 +15,16 @@ type MarkAsReadInBulkReqBody struct {
 func MarkNotificationsAsReadInBulk(jwtToken string, reqBody MarkAsReadInBulkReqBody) error {
 	requestBody, err := helpers.GetRequestBody(reqBody)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	payload := strings.NewReader(requestBody)
 	route, err := helpers.GetRoute(lib.RouteNotificationsMarkNotificationsAsReadInBulk)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
 	req, err := http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
@@ -36,7 +32,6 @@ func MarkNotificationsAsReadInBulk(jwtToken string, reqBody MarkAsReadInBulkReqB
 
 	_, err = helpers.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	return nil
