@@ -2,7 +2,6 @@ package projectKeys
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"strings"
@@ -28,7 +27,6 @@ func ReorderProjectPods(
 	resProjectPods := response.Pods{}
 	requestBody, err := helpers2.GetRequestBody(reqBody)
 	if err != nil {
-		fmt.Println(err)
 		return resProjectPods.Pods, err
 	}
 	payload := strings.NewReader(requestBody)
@@ -38,12 +36,10 @@ func ReorderProjectPods(
 		podParam.KeyId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return resProjectPods.Pods, err
 	}
 	req, err := http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
-		fmt.Println(err)
 		return resProjectPods.Pods, err
 	}
 
@@ -51,7 +47,6 @@ func ReorderProjectPods(
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resProjectPods.Pods, err
 	}
 
@@ -59,13 +54,11 @@ func ReorderProjectPods(
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resProjectPods.Pods, err
 	}
 
 	err = json.Unmarshal(body, &resProjectPods)
 	if err != nil {
-		fmt.Println(err)
 		return resProjectPods.Pods, err
 	}
 	return resProjectPods.Pods, nil

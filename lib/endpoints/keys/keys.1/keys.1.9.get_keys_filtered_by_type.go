@@ -2,7 +2,6 @@ package keys
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -15,12 +14,10 @@ func GetKeysFilteredByType(jwtToken string, keyType string) ([]response.Key, err
 	resKeys := response.Keys{}
 	route, err := helpers2.GetRoute(lib.RouteKeysGetKeysFilteredByType, keyType)
 	if err != nil {
-		fmt.Println(err)
 		return resKeys.Keys, err
 	}
 	req, err := http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resKeys.Keys, err
 	}
 
@@ -28,7 +25,6 @@ func GetKeysFilteredByType(jwtToken string, keyType string) ([]response.Key, err
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resKeys.Keys, err
 	}
 
@@ -36,13 +32,11 @@ func GetKeysFilteredByType(jwtToken string, keyType string) ([]response.Key, err
 
 	body, _ := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resKeys.Keys, err
 	}
 
 	err = json.Unmarshal(body, &resKeys)
 	if err != nil {
-		fmt.Println(err)
 		return resKeys.Keys, err
 	}
 	return resKeys.Keys, nil

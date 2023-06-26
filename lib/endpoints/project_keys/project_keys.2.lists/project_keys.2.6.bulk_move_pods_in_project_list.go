@@ -1,7 +1,6 @@
 package projectKeys
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -22,14 +21,12 @@ func BulkMovePodsInProjectList(jwtToken string, projectListParam request.CopyMov
 		strings.Join(projectListParam.PodIds, ","),
 	)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
 	var req *http.Request
 	req, err = http.NewRequest(http.MethodPatch, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
@@ -37,7 +34,6 @@ func BulkMovePodsInProjectList(jwtToken string, projectListParam request.CopyMov
 
 	_, err = helpers.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	return nil

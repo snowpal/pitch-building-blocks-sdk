@@ -2,7 +2,6 @@ package keys
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -15,14 +14,12 @@ func GetPodsBasedOnPodTypesInKey(jwtToken string, keyId string) (response.PodTyp
 	resPodTypesKey := response.PodTypesKey{}
 	route, err := helpers2.GetRoute(lib.RouteKeysGetPodsBasedOnPodTypesInKey, keyId)
 	if err != nil {
-		fmt.Println(err)
 		return resPodTypesKey, err
 	}
 
 	var req *http.Request
 	req, err = http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resPodTypesKey, err
 	}
 
@@ -31,7 +28,6 @@ func GetPodsBasedOnPodTypesInKey(jwtToken string, keyId string) (response.PodTyp
 	var res *http.Response
 	res, err = helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resPodTypesKey, err
 	}
 
@@ -40,13 +36,11 @@ func GetPodsBasedOnPodTypesInKey(jwtToken string, keyId string) (response.PodTyp
 	var body []byte
 	body, err = io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resPodTypesKey, err
 	}
 
 	err = json.Unmarshal(body, &resPodTypesKey)
 	if err != nil {
-		fmt.Println(err)
 		return resPodTypesKey, err
 	}
 	return resPodTypesKey, nil

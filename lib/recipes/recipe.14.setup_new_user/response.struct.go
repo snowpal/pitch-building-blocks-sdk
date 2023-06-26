@@ -1,20 +1,20 @@
-package recipes
+package setupnewuser
 
 import "github.com/snowpal/pitch-building-blocks-sdk/lib/structs/response"
 
-type KeyWithContent struct {
+type KeyWithResources struct {
 	Key    response.Key
-	Blocks []BlockWithContent
+	Blocks []BlockWithPods
 	Pods   []response.Pod
 }
 
-type BlockWithContent struct {
+type BlockWithPods struct {
 	Block     response.Block
 	BlockPods []response.Pod
 }
 
 type AllKeys struct {
-	CustomKey    KeyWithContent
-	ClassroomKey KeyWithContent
-	ProjectKey   KeyWithContent
+	CustomKey  KeyWithResources
+	TeacherKey KeyWithResources
+	ProjectKey KeyWithResources
 }

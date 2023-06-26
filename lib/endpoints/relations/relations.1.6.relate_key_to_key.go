@@ -1,7 +1,6 @@
 package relations
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/snowpal/pitch-building-blocks-sdk/lib"
@@ -16,13 +15,11 @@ func RelateKeyToKey(jwtToken string, relationParam request.KeyToKeyRelationParam
 		relationParam.TargetKeyId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
 	req, err := http.NewRequest(http.MethodPatch, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
@@ -30,7 +27,6 @@ func RelateKeyToKey(jwtToken string, relationParam request.KeyToKeyRelationParam
 
 	_, err = helpers.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	return nil

@@ -2,7 +2,6 @@ package projectKeys
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"strings"
@@ -25,7 +24,6 @@ func ReorderProjectLists(
 	resProjectLists := response.ProjectLists{}
 	requestBody, err := helpers2.GetRequestBody(reqBody)
 	if err != nil {
-		fmt.Println(err)
 		return resProjectLists.ProjectLists, err
 	}
 	payload := strings.NewReader(requestBody)
@@ -35,13 +33,11 @@ func ReorderProjectLists(
 		projectListParam.KeyId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return resProjectLists.ProjectLists, err
 	}
 
 	req, err := http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
-		fmt.Println(err)
 		return resProjectLists.ProjectLists, err
 	}
 
@@ -49,7 +45,6 @@ func ReorderProjectLists(
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resProjectLists.ProjectLists, err
 	}
 
@@ -57,13 +52,11 @@ func ReorderProjectLists(
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resProjectLists.ProjectLists, err
 	}
 
 	err = json.Unmarshal(body, &resProjectLists)
 	if err != nil {
-		fmt.Println(err)
 		return resProjectLists.ProjectLists, err
 	}
 	return resProjectLists.ProjectLists, nil

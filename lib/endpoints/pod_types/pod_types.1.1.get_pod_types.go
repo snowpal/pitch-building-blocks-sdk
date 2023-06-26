@@ -2,7 +2,6 @@ package podTypes
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"strconv"
@@ -16,12 +15,10 @@ func GetPodTypes(jwtToken string, includeCounts bool) ([]response.PodType, error
 	resPodTypes := response.PodTypes{}
 	route, err := helpers2.GetRoute(lib.RoutePodTypesGetPodTypes, strconv.FormatBool(includeCounts))
 	if err != nil {
-		fmt.Println(err)
 		return resPodTypes.PodTypes, err
 	}
 	req, err := http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resPodTypes.PodTypes, err
 	}
 
@@ -29,7 +26,6 @@ func GetPodTypes(jwtToken string, includeCounts bool) ([]response.PodType, error
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resPodTypes.PodTypes, err
 	}
 
@@ -37,13 +33,11 @@ func GetPodTypes(jwtToken string, includeCounts bool) ([]response.PodType, error
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resPodTypes.PodTypes, err
 	}
 
 	err = json.Unmarshal(body, &resPodTypes)
 	if err != nil {
-		fmt.Println(err)
 		return resPodTypes.PodTypes, err
 	}
 	return resPodTypes.PodTypes, nil

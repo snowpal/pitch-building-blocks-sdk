@@ -2,7 +2,6 @@ package teacherKeys
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -25,13 +24,11 @@ func GetStudentAttachmentSubmissionsAsTeacher(
 		submissionParam.ResourceIds.BlockId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return resAttachments.Attachments, err
 	}
 
 	req, err := http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resAttachments.Attachments, err
 	}
 
@@ -39,7 +36,6 @@ func GetStudentAttachmentSubmissionsAsTeacher(
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resAttachments.Attachments, err
 	}
 
@@ -47,13 +43,11 @@ func GetStudentAttachmentSubmissionsAsTeacher(
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resAttachments.Attachments, err
 	}
 
 	err = json.Unmarshal(body, &resAttachments)
 	if err != nil {
-		fmt.Println(err)
 		return resAttachments.Attachments, err
 	}
 	return resAttachments.Attachments, nil

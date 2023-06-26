@@ -2,7 +2,6 @@ package teacherKeys
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -16,13 +15,11 @@ func GetStudentsInABlock(jwtToken string, blockParam common.ResourceIdParam) ([]
 	resStudents := response.Students{}
 	route, err := helpers2.GetRoute(lib.RouteTeacherKeysGetStudentsInABlock, blockParam.BlockId, blockParam.KeyId)
 	if err != nil {
-		fmt.Println(err)
 		return resStudents.Students, err
 	}
 
 	req, err := http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resStudents.Students, err
 	}
 
@@ -30,7 +27,6 @@ func GetStudentsInABlock(jwtToken string, blockParam common.ResourceIdParam) ([]
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resStudents.Students, err
 	}
 
@@ -38,13 +34,11 @@ func GetStudentsInABlock(jwtToken string, blockParam common.ResourceIdParam) ([]
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resStudents.Students, err
 	}
 
 	err = json.Unmarshal(body, &resStudents)
 	if err != nil {
-		fmt.Println(err)
 		return resStudents.Students, err
 	}
 	return resStudents.Students, nil

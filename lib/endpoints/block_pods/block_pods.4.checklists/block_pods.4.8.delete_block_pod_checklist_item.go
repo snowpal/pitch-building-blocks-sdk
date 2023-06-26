@@ -1,7 +1,6 @@
 package blockPods
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/snowpal/pitch-building-blocks-sdk/lib"
@@ -19,13 +18,11 @@ func DeleteBlockPodChecklistItem(jwtToken string, checklistParam request.Checkli
 		*checklistParam.BlockId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
 	req, err := http.NewRequest(http.MethodDelete, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
@@ -33,7 +30,6 @@ func DeleteBlockPodChecklistItem(jwtToken string, checklistParam request.Checkli
 
 	_, err = helpers.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	return nil

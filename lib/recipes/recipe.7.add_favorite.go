@@ -2,8 +2,11 @@ package recipes
 
 import (
 	"github.com/snowpal/pitch-building-blocks-sdk/lib"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/blocks/blocks.1"
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/favorites"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/keys/keys.1"
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/common"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/request"
 
 	log "github.com/sirupsen/logrus"
 	recipes "github.com/snowpal/pitch-building-blocks-sdk/lib/helpers/recipes"
@@ -52,11 +55,19 @@ func removeFavorite(user response.User, favorite response.AddFavorite) error {
 
 func addFavorite(user response.User) (response.AddFavorite, error) {
 	var favorite response.AddFavorite
-	key, err := recipes.AddCustomKey(user, FavKeyName)
+	key, err := keys.AddKey(
+		user.JwtToken,
+		request.AddKeyReqBody{
+			Name: FavKeyName,
+			Type: lib.KeyTypes[lib.Custom],
+		})
 	if err != nil {
 		return favorite, err
 	}
-	block, err := recipes.AddBlock(user, FavBlockName, key)
+	block, err := blocks.AddBlock(
+		user.JwtToken,
+		request.AddBlockReqBody{Name: FavBlockName},
+		key.ID)
 	if err != nil {
 		return favorite, err
 	}

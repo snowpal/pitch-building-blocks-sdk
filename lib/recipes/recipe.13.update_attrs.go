@@ -3,6 +3,8 @@ package recipes
 import (
 	"github.com/snowpal/pitch-building-blocks-sdk/lib"
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/attributes"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/blocks/blocks.1"
+	"github.com/snowpal/pitch-building-blocks-sdk/lib/endpoints/keys/keys.1"
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/common"
 	"github.com/snowpal/pitch-building-blocks-sdk/lib/structs/request"
 
@@ -39,7 +41,12 @@ func UpdateAttributes() {
 
 	log.Info("Update key attributes")
 	recipes.SleepBefore()
-	key, err := recipes.AddCustomKey(user, AttrsKeyName)
+	key, err := keys.AddKey(
+		user.JwtToken,
+		request.AddKeyReqBody{
+			Name: AttrsKeyName,
+			Type: lib.KeyTypes[lib.Custom],
+		})
 	if err != nil {
 		return
 	}
@@ -59,7 +66,10 @@ func UpdateAttributes() {
 
 	log.Info("Update block attributes")
 	recipes.SleepBefore()
-	block, err := recipes.AddBlock(user, AttrsBlockName, key)
+	block, err := blocks.AddBlock(
+		user.JwtToken,
+		request.AddBlockReqBody{Name: AttrsBlockName},
+		key.ID)
 	if err != nil {
 		return
 	}

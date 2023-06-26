@@ -2,7 +2,6 @@ package keyPods
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"strings"
@@ -21,7 +20,6 @@ func UpdateKeyPodNote(
 	resNote := response.Note{}
 	requestBody, err := helpers2.GetRequestBody(reqBody)
 	if err != nil {
-		fmt.Println(err)
 		return resNote, err
 	}
 	payload := strings.NewReader(requestBody)
@@ -33,7 +31,6 @@ func UpdateKeyPodNote(
 	)
 	req, err := http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
-		fmt.Println(err)
 		return resNote, err
 	}
 
@@ -41,7 +38,6 @@ func UpdateKeyPodNote(
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resNote, err
 	}
 
@@ -49,13 +45,11 @@ func UpdateKeyPodNote(
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resNote, err
 	}
 
 	err = json.Unmarshal(body, &resNote)
 	if err != nil {
-		fmt.Println(err)
 		return resNote, err
 	}
 	return resNote, nil

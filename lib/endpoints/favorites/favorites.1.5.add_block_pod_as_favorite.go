@@ -2,7 +2,6 @@ package favorites
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -21,14 +20,12 @@ func AddBlockPodAsFavorite(jwtToken string, favoriteParam common.ResourceIdParam
 		favoriteParam.BlockId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return resFavorite, err
 	}
 
 	var req *http.Request
 	req, err = http.NewRequest(http.MethodPost, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resFavorite, err
 	}
 
@@ -37,7 +34,6 @@ func AddBlockPodAsFavorite(jwtToken string, favoriteParam common.ResourceIdParam
 	var res *http.Response
 	res, err = helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resFavorite, err
 	}
 
@@ -46,13 +42,11 @@ func AddBlockPodAsFavorite(jwtToken string, favoriteParam common.ResourceIdParam
 	var body []byte
 	body, err = io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resFavorite, err
 	}
 
 	err = json.Unmarshal(body, &resFavorite)
 	if err != nil {
-		fmt.Println(err)
 		return resFavorite, err
 	}
 	return resFavorite, nil

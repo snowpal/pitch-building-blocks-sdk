@@ -2,7 +2,6 @@ package keyPods
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -20,13 +19,11 @@ func GetKeyPodTasks(jwtToken string, taskParam request.TaskIdParam) ([]response.
 		taskParam.KeyId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return resTasks.Tasks, err
 	}
 
 	req, err := http.NewRequest(http.MethodGet, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return resTasks.Tasks, err
 	}
 
@@ -34,7 +31,6 @@ func GetKeyPodTasks(jwtToken string, taskParam request.TaskIdParam) ([]response.
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resTasks.Tasks, err
 	}
 
@@ -42,13 +38,11 @@ func GetKeyPodTasks(jwtToken string, taskParam request.TaskIdParam) ([]response.
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resTasks.Tasks, err
 	}
 
 	err = json.Unmarshal(body, &resTasks)
 	if err != nil {
-		fmt.Println(err)
 		return resTasks.Tasks, err
 	}
 	return resTasks.Tasks, nil

@@ -2,7 +2,6 @@ package keys
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"strings"
@@ -21,7 +20,6 @@ func UpdateKeyChecklistItem(
 	resChecklistItem := response.ChecklistItem{}
 	requestBody, err := helpers2.GetRequestBody(reqBody)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklistItem, err
 	}
 	payload := strings.NewReader(requestBody)
@@ -32,13 +30,11 @@ func UpdateKeyChecklistItem(
 		checklistParam.KeyId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklistItem, err
 	}
 
 	req, err := http.NewRequest(http.MethodPatch, route, payload)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklistItem, err
 	}
 
@@ -46,7 +42,6 @@ func UpdateKeyChecklistItem(
 
 	res, err := helpers2.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklistItem, err
 	}
 
@@ -54,13 +49,11 @@ func UpdateKeyChecklistItem(
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklistItem, err
 	}
 
 	err = json.Unmarshal(body, &resChecklistItem)
 	if err != nil {
-		fmt.Println(err)
 		return resChecklistItem, err
 	}
 	return resChecklistItem, nil

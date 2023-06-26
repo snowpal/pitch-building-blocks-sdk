@@ -1,7 +1,6 @@
 package relations
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/snowpal/pitch-building-blocks-sdk/lib"
@@ -12,7 +11,6 @@ import (
 func unrelatePodFromPod(jwtToken string, route string) error {
 	req, err := http.NewRequest(http.MethodPatch, route, nil)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
@@ -20,7 +18,6 @@ func unrelatePodFromPod(jwtToken string, route string) error {
 
 	_, err = helpers.MakeRequest(req)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	return nil
@@ -35,12 +32,10 @@ func UnrelateKeyPodFromKeyPod(jwtToken string, relationParam request.PodToPodRel
 		relationParam.TargetKeyId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	err = unrelatePodFromPod(jwtToken, route)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	return nil
@@ -56,12 +51,10 @@ func UnrelateKeyPodFromBlockPod(jwtToken string, relationParam request.PodToBloc
 		relationParam.TargetBlockId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	err = unrelatePodFromPod(jwtToken, route)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	return nil
@@ -78,12 +71,10 @@ func UnrelateBlockPodFromBlockPod(jwtToken string, relationParam request.BlockPo
 		relationParam.TargetBlockId,
 	)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	err = unrelatePodFromPod(jwtToken, route)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	return nil

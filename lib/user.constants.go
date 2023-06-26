@@ -16,12 +16,29 @@ const (
 	AdminAcl = "admin"
 )
 
+type KeyType int
+
 const (
-	CustomKeyType  = "CustomKey"
-	TeacherKeyType = "TeacherKey"
-	StudentKeyType = "StudentKey"
-	ProjectKeyType = "ProjectKey"
+	Custom KeyType = iota
+	Teacher
+	Student
+	Project
+	SharedCustom
+	SharedTeacher
+	SharedStudent
+	SharedProject
 )
+
+var KeyTypes = map[KeyType]string{
+	Custom:        "CustomKey",
+	Teacher:       "TeacherKey",
+	Student:       "StudentKey",
+	Project:       "ProjectKey",
+	SharedCustom:  "SharedCustomKey",
+	SharedTeacher: "SharedTeacherKey",
+	SharedStudent: "SharedStudentKey",
+	SharedProject: "SharedProjectKey",
+}
 
 const (
 	AlphabeticScaleType = "Alphabetic"
